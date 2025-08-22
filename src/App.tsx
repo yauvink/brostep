@@ -18,6 +18,8 @@ function AppContent() {
 
   return (
     <div className="App">
+      <span style={{ position: 'fixed', top: '20px', left: '20px', zIndex: 999, color: 'red' }}>v 0.1</span>
+
       <header className="App-header">
         <h1>Welcome to Brostep</h1>
 
