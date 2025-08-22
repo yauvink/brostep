@@ -51,6 +51,19 @@
   font-size: 1rem;
 }
 
+.telegram-info span {
+  display: block;
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #333;
+  margin-top: 1rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
 .tech-stack {
   text-align: left;
   background: #f8f9fa;

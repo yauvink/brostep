@@ -1,9 +1,20 @@
 import './App.css';
+import { AppProvider } from './providers/AppProvider';
 import { TelegramProvider } from './providers/TelegramProvider/TelegramProvider';
 import { useTelegram } from './providers/TelegramProvider/useTelegram';
+import { useApp } from './providers/AppProvider';
 
 function AppContent() {
   const { webApp } = useTelegram();
+  const { isAppLoading } = useApp();
+
+  if (isAppLoading) {
+    return (
+      <div className="loading-screen">
+        <span className="loader"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="App">
@@ -26,9 +37,11 @@ function AppContent() {
 
 function App() {
   return (
-    <TelegramProvider>
-      <AppContent />
-    </TelegramProvider>
+    <AppProvider>
+      <TelegramProvider>
+        <AppContent />
+      </TelegramProvider>
+    </AppProvider>
   );
 }
 

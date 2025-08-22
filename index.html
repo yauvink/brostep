@@ -21,53 +21,96 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
 
+    .loading-screen {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .loader {
-      position: relative;
-      width: 62px;
-      height: 62px;
-      background: linear-gradient(to right, #FFF 20%, #0000 21%);
-      background-repeat: repeat-x;
-      background-size: 36px 8px;
-      background-position: 9px bottom;
-      animation: moveX 0.5s linear infinite;
+      transform: rotateZ(45deg);
+      perspective: 1000px;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      color: #fff;
     }
 
-    .loader::before {
+    .loader:before,
+    .loader:after {
       content: '';
+      display: block;
       position: absolute;
-      width: 40px;
-      height: 40px;
-      border-radius: 2px;
-      background-color: #fff;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      animation: rotate 0.5s linear infinite;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      border-radius: 50%;
+      transform: rotateX(70deg);
+      animation: 1s spin linear infinite;
     }
 
-    @keyframes moveX {
-
-      0%,
-      25% {
-        background-position: 10px bottom
-      }
-
-      75%,
-      100% {
-        background-position: -30px bottom;
-      }
+    .loader:after {
+      color: #114488;
+      transform: rotateY(70deg);
+      animation-delay: .4s;
     }
 
     @keyframes rotate {
-
-      0%,
-      25% {
-        transform: translate(-50%, -50%) rotate(0deg)
+      0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
       }
 
-      75%,
       100% {
-        transform: translate(-55%, -55%) rotate(90deg)
+        transform: translate(-50%, -50%) rotateZ(360deg);
+      }
+    }
+
+    @keyframes rotateccw {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) rotate(-360deg);
+      }
+    }
+
+    @keyframes spin {
+
+      0%,
+      100% {
+        box-shadow: .2em 0px 0 0px currentcolor;
+      }
+
+      12% {
+        box-shadow: .2em .2em 0 0 currentcolor;
+      }
+
+      25% {
+        box-shadow: 0 .2em 0 0px currentcolor;
+      }
+
+      37% {
+        box-shadow: -.2em .2em 0 0 currentcolor;
+      }
+
+      50% {
+        box-shadow: -.2em 0 0 0 currentcolor;
+      }
+
+      62% {
+        box-shadow: -.2em -.2em 0 0 currentcolor;
+      }
+
+      75% {
+        box-shadow: 0px -.2em 0 0 currentcolor;
+      }
+
+      87% {
+        box-shadow: .2em -.2em 0 0 currentcolor;
       }
     }
   </style>
@@ -75,7 +118,9 @@
 
 <body>
   <div id="root">
-    <span class="loader"></span>
+    <div class="loading-screen">
+      <span class="loader"></span>
+    </div>
   </div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
