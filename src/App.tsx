@@ -3,10 +3,19 @@ import { AppProvider } from './providers/AppProvider';
 import { TelegramProvider } from './providers/TelegramProvider/TelegramProvider';
 import { useTelegram } from './providers/TelegramProvider/useTelegram';
 import { useApp } from './providers/AppProvider';
+import { useMemo } from 'react';
 
 function AppContent() {
   const { webApp } = useTelegram();
   const { isAppLoading } = useApp();
+const data = useMemo(()=>{
+  if(webApp?.initDataUnsafe?.user){
+    return {
+      ...webApp.initDataUnsafe.user,
+      photo_url: ''
+    }
+  }
+},[webApp])
 
   if (isAppLoading) {
     return (
@@ -15,6 +24,7 @@ function AppContent() {
       </div>
     );
   }
+
 
   return (
     <div className="App">
@@ -28,8 +38,8 @@ function AppContent() {
             <h2>Telegram WebApp Info:</h2>
             <p>Platform: {webApp.platform}</p>
             <p>Version: {webApp.version}</p>
-            <p>User: {webApp.initDataUnsafe?.user?.first_name || 'Unknown'}</p>
-            <span>{JSON.stringify(webApp.initDataUnsafe?.user, null, 2)}</span>
+            <img src={webApp?.initDataUnsafe?.user?.photo_url} width={100}></img>
+            <span>{JSON.stringify(data, null, 2)}</span>
           </div>
         )}
       </header>
