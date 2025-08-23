@@ -72,10 +72,12 @@ function Roulette() {
               width: '100px',
               position: 'absolute',
               zIndex: 10,
+              backgroundColor: 'red',
+              fontWeight: 900,
             }}
             variant="contained"
           >
-            roll
+            do not touch
           </Button>
 
           <Box

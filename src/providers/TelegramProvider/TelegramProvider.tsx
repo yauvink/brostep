@@ -27,7 +27,7 @@ const userMock1: WebAppUser = {
   id: 3231231,
   language_code: 'en',
   last_name: 'Vink',
-  photo_url: '',
+  photo_url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Favatar-placeholder.iran.liara.run%2F&psig=AOvVaw3Yf8R3ZSRajErrMXh9DA4X&ust=1756070986697000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJDmiK_woY8DFQAAAAAdAAAAABAE',
   username: 'yauvink',
 };
 const userMock2: WebAppUser = {

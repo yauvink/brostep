@@ -3,14 +3,19 @@ import React, { createContext, useState, useEffect, type ReactNode, useCallback 
 interface GameUser {
   socketId: string;
   points: number;
+  is_online: boolean;
+  first_name: string;
+  last_name: string;
+  photo_url: string | null;
   connectedAt: string;
+  lastActivity: string;
 }
 
 interface GameState {
-  totalUsers: number;
-  lastUpdate: string;
-  yourPoints: number;
   users: GameUser[];
+  lastUpdate: string;
+  totalUsers: number;
+  onlineUsers: number;
 }
 
 interface GameContextType {
@@ -34,7 +39,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [log, setLog] = useState<string[]>([]);
-
+console.log('gameState', gameState);
   const maxReconnectAttempts = 5;
 
   const addLog = useCallback((message: string) => {
@@ -103,7 +108,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
     socketInstance.on('joined_game_room', (data: any) => {
       addLog(`🎮 Joined game room: ${data.message}`);
-      setCurrentPoints(data.yourPoints);
+      if (data.yourPoints !== undefined) {
+        setCurrentPoints(data.yourPoints);
+      }
     });
 
     socketInstance.on('game_state_update', (data: any) => {
