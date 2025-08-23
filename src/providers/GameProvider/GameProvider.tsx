@@ -27,9 +27,8 @@ interface GameContextType {
   gameState: GameState | null;
   currentPoints: number;
   currentUser: GameUser | null;
-  updatePoints: (points: number) => void;
-  log: string[];
-  reconnect: () => void;
+  log: { message: string; timestamp: number }[];
+  touchButton: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -46,9 +45,9 @@ interface AuthErrorData {
   message: string;
 }
 
-interface WelcomeData {
-  message: string;
-}
+// interface WelcomeData {
+//   message: string;
+// }
 
 interface JoinedGameRoomData {
   message: string;
@@ -76,13 +75,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [currentUser, setCurrentUser] = useState<GameUser | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
-  const [log, setLog] = useState<string[]>([]);
+  const [log, setLog] = useState<{ message: string; timestamp: number }[]>([]);
   console.log('gameState', gameState);
   const maxReconnectAttempts = 5;
 
   const addLog = useCallback((message: string) => {
-    const timestamp = new Date().toLocaleTimeString();
-    const logEntry = `[${timestamp}] ${message}`;
+    const timestamp = Date.now();
+    const logEntry = { message, timestamp };
     setLog((prev) => [...prev, logEntry]);
   }, []);
 
@@ -167,9 +166,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         }
       });
 
-      socketInstance.on('welcome', (data: WelcomeData) => {
-        addLog(`👋 Welcome: ${data.message}`);
-      });
+      // socketInstance.on('welcome', (data: WelcomeData) => {
+      //   addLog(`👋 Welcome: ${data.message}`);
+      // });
 
       socketInstance.on('authenticated', (data: AuthenticatedData) => {
         setIsAuthenticated(true);
@@ -192,7 +191,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       });
 
       socketInstance.on('game_state_update', (data: GameStateUpdateData) => {
-        addLog(`📊 Game state updated - ${data.totalUsers} total users, ${data.onlineUsers} online`);
+        // addLog(`📊 Game state updated - ${data.totalUsers} total users, ${data.onlineUsers} online`);
         setGameState(data);
       });
 
@@ -217,26 +216,18 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     [addLog, reconnectAttempts, maxReconnectAttempts, connect, authenticate, telegramUser]
   );
 
-  const reconnect = useCallback(() => {
-    addLog('🔄 Manual reconnection requested...');
-    connect();
-  }, [connect, addLog]);
+  const touchButton = useCallback(() => {
+    if (!telegramUser || !socket || !socket.connected || !isAuthenticated) {
+      addLog('❌ Cannot touch');
+      return;
+    }
 
-  const updatePoints = useCallback(
-    (points: number) => {
-      if (!socket || !socket.connected || !isAuthenticated) {
-        addLog('❌ Cannot update points: not authenticated');
-        return;
-      }
-
-      if (points >= 0) {
-        setCurrentPoints(points);
-        socket.emit('update_points', { points });
-        addLog(`📈 Updating points to: ${points}`);
-      }
-    },
-    [socket, isAuthenticated, addLog]
-  );
+    // if (points >= 0) {
+    //   setCurrentPoints(points);
+    socket.emit('touch_button', { telegram_id: telegramUser.id });
+    //   addLog(`📈 Updating points to: ${points}`);
+    // }
+  }, [telegramUser, socket, isAuthenticated, addLog]);
 
   // Auto-connect on mount
   useEffect(() => {
@@ -266,9 +257,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     gameState,
     currentPoints,
     currentUser,
-    updatePoints,
     log,
-    reconnect,
+    touchButton,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

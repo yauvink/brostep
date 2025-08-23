@@ -6,7 +6,7 @@ import ConnectionOverlay from './ConnectionOverlay';
 import { useMemo } from 'react';
 
 function Roulette() {
-  const { log, gameState } = useGame();
+  const { log, gameState, touchButton } = useGame();
 
   const usersWithPositions = useMemo(() => {
     return gameState?.users.map((user, i, arr) => {
@@ -70,6 +70,7 @@ function Roulette() {
           }}
         >
           <Button
+            onClick={touchButton}
             sx={{
               borderRadius: '50%',
               height: '100px',
@@ -144,14 +145,14 @@ function Roulette() {
           // alignItems
         }}
       >
-        {log.reverse().map((item: string, index: number) => (
+        {log.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).map((item, index) => (
           <Typography
             key={index}
             sx={{
               textAlign: 'left',
             }}
           >
-            {item}
+            {new Date(item.timestamp).toLocaleString().split(',')[1]}: {item.message}
           </Typography>
         ))}
       </Paper>

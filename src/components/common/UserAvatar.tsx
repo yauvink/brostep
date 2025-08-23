@@ -54,6 +54,22 @@ function UserAvatar({ user }: { user: GameUser }) {
           height: '20px',
         }}
       ></Box>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '0px',
+          left: '0px',
+          backgroundColor: 'white',
+          padding: '0 2px',
+          borderRadius: '5px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {user.points}
+      </Box>
     </Box>
   );
 }
