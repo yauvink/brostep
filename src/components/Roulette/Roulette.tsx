@@ -2,21 +2,10 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import StraightIcon from '@mui/icons-material/Straight';
 import UserAvatar from '../common/UserAvatar';
 import { useGame } from '../../providers/GameProvider';
+import ConnectionOverlay from './ConnectionOverlay';
 
 function Roulette() {
-  const { log, isConnected, isAuthenticated, currentUser, currentPoints } = useGame();
-
-  const getStatusMessage = () => {
-    if (!isConnected) {
-      return 'Connecting you to the game...';
-    }
-    if (!isAuthenticated) {
-      return 'Authenticating...';
-    }
-    return `Connected as ${currentUser?.first_name} ${currentUser?.last_name} (${currentPoints} points)`;
-  };
-
-  const showOverlay = !isConnected || !isAuthenticated;
+  const { log } = useGame();
 
   return (
     <Box
@@ -31,28 +20,8 @@ function Roulette() {
         position: 'relative',
       }}
     >
-      {showOverlay && (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            zIndex: 10000,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px',
-            gap: '20px',
-          }}
-        >
-          <span className="loader"></span>
-          <Typography>{getStatusMessage()}</Typography>
-        </Box>
-      )}
+      <ConnectionOverlay />
+
       <Box
         sx={{
           flexGrow: 1,

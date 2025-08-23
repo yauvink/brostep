@@ -77,13 +77,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<GameUser | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [log, setLog] = useState<string[]>([]);
-console.log('gameState',gameState);
+  console.log('gameState', gameState);
   const maxReconnectAttempts = 5;
 
   const addLog = useCallback((message: string) => {
     const timestamp = new Date().toLocaleTimeString();
     const logEntry = `[${timestamp}] ${message}`;
-    setLog(prev => [...prev, logEntry]);
+    setLog((prev) => [...prev, logEntry]);
   }, []);
 
   const connect = useCallback(() => {
@@ -98,11 +98,11 @@ console.log('gameState',gameState);
 
     try {
       // Dynamic import to avoid TypeScript issues
-      import('socket.io-client').then(({ io }) => {
-        const newSocket = io(import.meta.env.VITE_API_ENDPOINT || 'http://localhost:3000', {
+      import('socket.io-client').then(({ io }: any) => {
+        const newSocket = io(import.meta.env.VITE_API_ENDPOINT, {
           transports: ['websocket', 'polling'],
           timeout: 10000,
-          forceNew: true
+          forceNew: true,
         });
 
         setSocket(newSocket);
@@ -115,119 +115,128 @@ console.log('gameState',gameState);
     }
   }, [socket, addLog]);
 
-  const authenticate = useCallback((socketInstance: any) => {
-    if (!socketInstance || !socketInstance.connected) {
-      addLog('❌ Cannot authenticate: not connected to server');
-      return;
-    }
-
-    if (!telegramUser?.id) {
-      addLog('❌ Cannot authenticate: no Telegram user ID available');
-      return;
-    }
-
-    const telegram_id = telegramUser.id.toString();
-    // addLog(`🔐 Authenticating with telegram_id: ${telegram_id}`);
-    socketInstance.emit('authenticate', { telegram_id });
-  }, [telegramUser, addLog]);
-
-  const setupSocketHandlers = useCallback((socketInstance: any) => {
-    socketInstance.on('connect', () => {
-      setIsConnected(true);
-      addLog('✅ Connected to server successfully');
-      setReconnectAttempts(0);
-
-      // Auto-authenticate when connected
-      if (telegramUser?.id) {
-        authenticate(socketInstance);
+  const authenticate = useCallback(
+    (socketInstance: any) => {
+      if (!socketInstance || !socketInstance.connected) {
+        addLog('❌ Cannot authenticate: not connected to server');
+        return;
       }
-    });
 
-    socketInstance.on('disconnect', (reason: string) => {
-      setIsConnected(false);
-      setIsAuthenticated(false);
-      setCurrentUser(null);
-      addLog(`❌ Disconnected: ${reason}`);
-
-      if (reason === 'io server disconnect') {
-        // Server disconnected us, try to reconnect
-        setTimeout(() => {
-          if (reconnectAttempts < maxReconnectAttempts) {
-            setReconnectAttempts(prev => prev + 1);
-            addLog(`🔄 Attempting to reconnect (${reconnectAttempts + 1}/${maxReconnectAttempts})...`);
-            connect();
-          } else {
-            addLog('❌ Max reconnection attempts reached');
-          }
-        }, 1000);
+      if (!telegramUser?.id) {
+        addLog('❌ Cannot authenticate: no Telegram user ID available');
+        return;
       }
-    });
 
-    socketInstance.on('welcome', (data: WelcomeData) => {
-      addLog(`👋 Welcome: ${data.message}`);
-    });
+      const telegram_id = telegramUser.id.toString();
+      // addLog(`🔐 Authenticating with telegram_id: ${telegram_id}`);
+      socketInstance.emit('authenticate', { telegram_id });
+    },
+    [telegramUser, addLog]
+  );
 
-    socketInstance.on('authenticated', (data: AuthenticatedData) => {
-      setIsAuthenticated(true);
-      setCurrentUser(data.user);
-      setCurrentPoints(data.user.points || 0);
-      addLog(`✅ Authentication successful: ${data.user.first_name} ${data.user.last_name}`);
-    });
+  const setupSocketHandlers = useCallback(
+    (socketInstance: any) => {
+      socketInstance.on('connect', () => {
+        setIsConnected(true);
+        addLog('✅ Connected to server successfully');
+        setReconnectAttempts(0);
 
-    socketInstance.on('auth_error', (data: AuthErrorData) => {
-      addLog(`❌ Authentication error: ${data.message}`);
-      setIsAuthenticated(false);
-      setCurrentUser(null);
-    });
+        // Auto-authenticate when connected
+        if (telegramUser?.id) {
+          authenticate(socketInstance);
+        }
+      });
 
-    socketInstance.on('joined_game_room', (data: JoinedGameRoomData) => {
-      addLog(`🎮 Joined game room: ${data.message}`);
-      if (data.yourPoints !== undefined) {
-        setCurrentPoints(data.yourPoints);
-      }
-    });
+      socketInstance.on('disconnect', (reason: string) => {
+        setIsConnected(false);
+        setIsAuthenticated(false);
+        setCurrentUser(null);
+        addLog(`❌ Disconnected: ${reason}`);
 
-    socketInstance.on('game_state_update', (data: GameStateUpdateData) => {
-      addLog(`📊 Game state updated - ${data.totalUsers} total users, ${data.onlineUsers} online`);
-      setGameState(data);
-    });
+        if (reason === 'io server disconnect') {
+          // Server disconnected us, try to reconnect
+          setTimeout(() => {
+            if (reconnectAttempts < maxReconnectAttempts) {
+              setReconnectAttempts((prev) => prev + 1);
+              addLog(`🔄 Attempting to reconnect (${reconnectAttempts + 1}/${maxReconnectAttempts})...`);
+              connect();
+            } else {
+              addLog('❌ Max reconnection attempts reached');
+            }
+          }, 1000);
+        }
+      });
 
-    socketInstance.on('joined_room', (data: JoinedRoomData) => {
-      addLog(`🚪 Joined room: ${data.message}`);
-    });
+      socketInstance.on('welcome', (data: WelcomeData) => {
+        addLog(`👋 Welcome: ${data.message}`);
+      });
 
-    socketInstance.on('connect_error', (error: any) => {
-      addLog(`❌ Connection error: ${error.message}`);
-      setIsConnected(false);
+      socketInstance.on('authenticated', (data: AuthenticatedData) => {
+        setIsAuthenticated(true);
+        setCurrentUser(data.user);
+        setCurrentPoints(data.user.points || 0);
+        addLog(`✅ Authentication successful: ${data.user.first_name} ${data.user.last_name}`);
+      });
 
-      if (error.message.includes('xhr poll error')) {
-        addLog('💡 This usually means the server is not running or not accessible');
-        addLog('💡 Make sure to run: npm run dev');
-      }
-    });
+      socketInstance.on('auth_error', (data: AuthErrorData) => {
+        addLog(`❌ Authentication error: ${data.message}`);
+        setIsAuthenticated(false);
+        setCurrentUser(null);
+      });
 
-    socketInstance.on('error', (error: any) => {
-      addLog(`❌ Socket error: ${error.message}`);
-    });
-  }, [addLog, reconnectAttempts, maxReconnectAttempts, connect, authenticate, telegramUser]);
+      socketInstance.on('joined_game_room', (data: JoinedGameRoomData) => {
+        addLog(`🎮 Joined game room: ${data.message}`);
+        if (data.yourPoints !== undefined) {
+          setCurrentPoints(data.yourPoints);
+        }
+      });
+
+      socketInstance.on('game_state_update', (data: GameStateUpdateData) => {
+        addLog(`📊 Game state updated - ${data.totalUsers} total users, ${data.onlineUsers} online`);
+        setGameState(data);
+      });
+
+      socketInstance.on('joined_room', (data: JoinedRoomData) => {
+        addLog(`🚪 Joined room: ${data.message}`);
+      });
+
+      socketInstance.on('connect_error', (error: any) => {
+        addLog(`❌ Connection error: ${error.message}`);
+        setIsConnected(false);
+
+        if (error.message.includes('xhr poll error')) {
+          addLog('💡 This usually means the server is not running or not accessible');
+          addLog('💡 Make sure to run: npm run dev');
+        }
+      });
+
+      socketInstance.on('error', (error: any) => {
+        addLog(`❌ Socket error: ${error.message}`);
+      });
+    },
+    [addLog, reconnectAttempts, maxReconnectAttempts, connect, authenticate, telegramUser]
+  );
 
   const reconnect = useCallback(() => {
     addLog('🔄 Manual reconnection requested...');
     connect();
   }, [connect, addLog]);
 
-  const updatePoints = useCallback((points: number) => {
-    if (!socket || !socket.connected || !isAuthenticated) {
-      addLog('❌ Cannot update points: not authenticated');
-      return;
-    }
+  const updatePoints = useCallback(
+    (points: number) => {
+      if (!socket || !socket.connected || !isAuthenticated) {
+        addLog('❌ Cannot update points: not authenticated');
+        return;
+      }
 
-    if (points >= 0) {
-      setCurrentPoints(points);
-      socket.emit('update_points', { points });
-      addLog(`📈 Updating points to: ${points}`);
-    }
-  }, [socket, isAuthenticated, addLog]);
+      if (points >= 0) {
+        setCurrentPoints(points);
+        socket.emit('update_points', { points });
+        addLog(`📈 Updating points to: ${points}`);
+      }
+    },
+    [socket, isAuthenticated, addLog]
+  );
 
   // Auto-connect on mount
   useEffect(() => {
