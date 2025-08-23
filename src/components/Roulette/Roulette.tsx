@@ -5,7 +5,7 @@ import { useGame } from '../../providers/GameProvider';
 import ConnectionOverlay from './ConnectionOverlay';
 
 function Roulette() {
-  const { log } = useGame();
+  const { log, gameState } = useGame();
 
   return (
     <Box
@@ -83,13 +83,17 @@ function Roulette() {
 
           <Box
             sx={{
+              border: '1px solid red',
               position: 'absolute',
-              top: '15%',
-              left: '15%',
-              transform: 'translate(-50%, -50%)',
+              width: '100%',
+              height: '100%',
             }}
           >
-            <UserAvatar size={100} />
+            {gameState?.users.map((user, i) => (
+              <Box key={i}>
+                <UserAvatar user={user} />
+              </Box>
+            ))}
           </Box>
         </Paper>
       </Box>

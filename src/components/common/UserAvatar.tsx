@@ -1,15 +1,15 @@
 import { Box, Avatar } from '@mui/material';
 import { Person } from '@mui/icons-material';
-import { useApp } from '../../providers/AppProvider';
+import type { GameUser } from '../../providers/GameProvider/GameProvider';
 
-function UserAvatar({size = 30}: {size?: number}) {
-  const { userData } = useApp();
+function UserAvatar({ user }: { user: GameUser }) {
+  const size = 100;
 
   return (
     <Box sx={{ width: `${size}px`, minHeight: `${size}px`, display: 'flex', flexDirection: 'column' }}>
-      {userData?.photo_url ? (
+      {user?.photo_url ? (
         <Avatar
-          src={userData.photo_url}
+          src={user.photo_url}
           alt="Profile"
           sx={{
             width: size,

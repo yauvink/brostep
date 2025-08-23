@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, type ReactNode, useCallback } from 'react';
 import { useTelegram } from '../TelegramProvider/useTelegram';
 
-interface GameUser {
+export interface GameUser {
   socketId: string;
   points: number;
   is_online: boolean;
