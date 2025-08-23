@@ -1,10 +1,11 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useTelegram } from '../providers/TelegramProvider/useTelegram';
 import { useApp } from '../providers/AppProvider';
+import { APP_VIEW } from '../constants/app.constants';
 
 function Main() {
   const { webApp } = useTelegram();
-  const { isAppLoading, userData } = useApp();
+  const { isAppLoading, userData, setAppView } = useApp();
 
   if (isAppLoading) {
     return (
@@ -24,6 +25,8 @@ function Main() {
       <span style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 999, color: 'white' }}>0.3</span>
 
       <Typography sx={{ fontSize: '30px', color: 'white', mb: '30px' }}>Welcome</Typography>
+
+      <Button onClick={() => setAppView(APP_VIEW.PROFILE)}>Profile</Button>
 
       {webApp && (
         <Box

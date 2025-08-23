@@ -2,10 +2,13 @@ import React, { createContext, useState, useEffect, type ReactNode, useCallback 
 import { useTelegram } from '../TelegramProvider/useTelegram';
 import { getUser, type GetUserResponse } from '../../services/requests';
 import { ToastContainer, toast } from 'react-toastify';
+import { APP_VIEW } from '../../constants/app.constants';
 interface AppContextType {
   isAppLoading: boolean;
   setIsAppLoading: (loading: boolean) => void;
   userData: GetUserResponse | null;
+  appView: string;
+  setAppView: (view: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -15,6 +18,7 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  const [appView, setAppView] = useState(APP_VIEW.MAIN);
   const { telegramUser } = useTelegram();
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [userData, setUserData] = useState<GetUserResponse | null>(null);
@@ -57,6 +61,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     isAppLoading,
     setIsAppLoading,
     userData,
+    appView,
+    setAppView,
   };
 
   return (
