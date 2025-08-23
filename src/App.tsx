@@ -3,9 +3,12 @@ import { TelegramProvider } from './providers/TelegramProvider/TelegramProvider'
 import Main from './components/Main';
 import { APP_VIEW } from './constants/app.constants';
 import Profile from './components/Profile';
+import ErrorScreen from './components/ErrorScreen';
 
 const View = () => {
-  const { appView } = useApp();
+  const { appView, appError } = useApp();
+  if (appError) return <ErrorScreen />;
+
   switch (appView) {
     case APP_VIEW.PROFILE: {
       return <Profile />;

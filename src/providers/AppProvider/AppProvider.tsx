@@ -9,6 +9,7 @@ interface AppContextType {
   userData: GetUserResponse | null;
   appView: string;
   setAppView: (view: string) => void;
+  appError: string | null;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -19,6 +20,7 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [appView, setAppView] = useState(APP_VIEW.MAIN);
+  const [appError, setAppError] = useState<string | null>(null);
   const { telegramUser } = useTelegram();
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [userData, setUserData] = useState<GetUserResponse | null>(null);
@@ -48,6 +50,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         toast(`Error fetching user. ${errMessage}. ${respErrorMessage}`, {
           type: 'error',
         });
+        setAppError('We are sorry, something went wrong 😢');
       });
   }, [telegramUser]);
 
@@ -63,24 +66,25 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     userData,
     appView,
     setAppView,
+    appError,
   };
 
   return (
     <AppContext.Provider value={value}>
       {children}
       <ToastContainer
-      position="top-center"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      // closeOnClick={false}
-      closeButton={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-      // transition={Bounce}
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        // closeOnClick={false}
+        closeButton={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        // transition={Bounce}
       />
     </AppContext.Provider>
   );
