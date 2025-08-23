@@ -21,12 +21,38 @@ const userMock: WebAppUser = {
   photo_url: 'https://t.me/i/userpic/320/aW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg',
   username: 'yauvink',
 };
+const userMock1: WebAppUser = {
+  allows_write_to_pm: true,
+  first_name: 'Test1',
+  id: 3231231,
+  language_code: 'en',
+  last_name: 'Vink',
+  photo_url: '',
+  username: 'yauvink',
+};
+const userMock2: WebAppUser = {
+  allows_write_to_pm: true,
+  first_name: 'Test2',
+  id: 5555555,
+  language_code: 'en',
+  last_name: 'Vink',
+  photo_url: '',
+  username: 'yauvink',
+};
 
 export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) => {
   const [webApp, setWebApp] = useState<WebApp | null>(null);
 
   const telegramUser = useMemo(() => {
     if (import.meta.env.DEV) {
+      const id = new URLSearchParams(window.location.search).get('id');
+      if (Number(id) === 1) {
+        return userMock1;
+      }
+      if (Number(id) === 2) {
+        return userMock2;
+      }
+
       return userMock;
     }
     return webApp?.initDataUnsafe?.user ?? null;
