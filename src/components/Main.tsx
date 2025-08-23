@@ -1,10 +1,10 @@
-import { Box, Button, Typography } from '@mui/material';
-import { useTelegram } from '../providers/TelegramProvider/useTelegram';
+import { Box, Typography, AppBar, Toolbar, IconButton, Avatar } from '@mui/material';
+import { Person } from '@mui/icons-material';
 import { useApp } from '../providers/AppProvider';
 import { APP_VIEW } from '../constants/app.constants';
+import Game from './Game';
 
 function Main() {
-  const { webApp } = useTelegram();
   const { isAppLoading, userData, setAppView } = useApp();
 
   if (isAppLoading) {
@@ -16,41 +16,50 @@ function Main() {
   }
 
   return (
-    <Box
-      sx={{
-        padding: '20px',
-        width: '100%',
-      }}
-    >
-      <span style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 999, color: 'white' }}>0.3</span>
+    <Box sx={{ width: '100%', minHeight: '100vh', backgroundColor: '#0E111B', display: 'flex', flexDirection: 'column' }}>
+      {/* Header */}
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: 'rgba(14, 17, 27, 0.9)',
+          backdropFilter: 'blur(10px)',
+          boxShadow: 'none',
+          borderBottom: '1px solid rgba(255,255,255,0.1)'
+        }}
+      >
+        <Toolbar sx={{ height: '70px' }}>
+          <Typography variant="h6" sx={{ color: 'white', flexGrow: 1 }}>
+            BroStep
+          </Typography>
+          <IconButton
+            color="inherit"
+            onClick={() => setAppView(APP_VIEW.PROFILE)}
+            sx={{
+              color: 'white',
+              padding: 0,
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.1)'
+              }
+            }}
+          >
+            {userData?.photo_url ? (
+              <Avatar
+                src={userData.photo_url}
+                alt="Profile"
+                sx={{
+                  width: 50,
+                  height: 50,
+                  border: '2px solid rgba(255,255,255,0.2)'
+                }}
+              />
+            ) : (
+              <Person />
+            )}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
 
-      <Typography sx={{ fontSize: '30px', color: 'white', mb: '30px' }}>Welcome</Typography>
-
-      <Button onClick={() => setAppView(APP_VIEW.PROFILE)}>Profile</Button>
-
-      {webApp && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '5px',
-          }}
-        >
-          <p>Platform: {webApp.platform}</p>
-          <p>Version: {webApp.version}</p>
-          <img src={userData?.photo_url ?? ''} width={100}></img>
-          <p>first_name: {userData?.first_name}</p>
-          <p>last_name: {userData?.last_name}</p>
-          <p>username: {userData?.username}</p>
-          <p>id: {userData?.id}</p>
-          <p>telegram_id: {userData?.telegram_id}</p>
-          <p>created_at: {userData?.created_at}</p>
-          <p>updated_at: {userData?.updated_at}</p>
-          {/* <p>language_code: {userData?.language_code}</p> */}
-          {/* <p>allows_write_to_pm: {String(userData?.allows_write_to_pm)}</p> */}
-          <p>is_premium: {String(userData?.is_premium)}</p>
-        </Box>
-      )}
+        <Game />
     </Box>
   );
 }
