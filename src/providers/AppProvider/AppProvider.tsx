@@ -68,7 +68,20 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   return (
     <AppContext.Provider value={value}>
       {children}
-      <ToastContainer />
+      <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      // closeOnClick={false}
+      closeButton={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      // transition={Bounce}
+      />
     </AppContext.Provider>
   );
 };

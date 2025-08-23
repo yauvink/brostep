@@ -28,23 +28,22 @@ function Profile() {
           flexDirection: 'column',
           color: 'red',
           overflow: 'auto',
-          backgroundColor: '#0E111B',
         }}
       >
         <AppBar
           // position="static"
           sx={{
-            backgroundColor: 'rgba(14, 17, 27, 0.9)',
+            backgroundColor: 'transparent',
             backdropFilter: 'blur(10px)',
-            boxShadow: 'none',
-            borderBottom: '1px solid rgba(255,255,255,0.1)',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+            borderBottom: '1px solid rgba(0,0,0,0.1)',
           }}
         >
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={() => setAppView(APP_VIEW.MAIN)} sx={{ mr: 2 }}>
+            <IconButton edge="start" onClick={() => setAppView(APP_VIEW.MAIN)} sx={{ mr: 2, color: 'black' }}>
               <ArrowBack />
             </IconButton>
-            <Typography variant="h6" sx={{ color: 'white', flexGrow: 1 }}>
+            <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
               Profile
             </Typography>
           </Toolbar>
@@ -63,9 +62,10 @@ function Profile() {
                   alignItems: 'center',
                   gap: 3,
                   padding: 3,
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
                   borderRadius: 3,
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
                 {userData.photo_url && (
@@ -77,16 +77,16 @@ function Profile() {
                       height: 120,
                       borderRadius: '50%',
                       objectFit: 'cover',
-                      border: '3px solid rgba(255,255,255,0.2)',
+                      border: '3px solid rgba(0,0,0,0.1)',
                       boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
                     }}
                   />
                 )}
                 <Box>
-                  <Typography variant="h4" sx={{ color: 'white', mb: 1, fontWeight: 'bold' }}>
+                  <Typography variant="h4" sx={{ color: '#333', mb: 1, fontWeight: 'bold' }}>
                     {userData.first_name} {userData.last_name}
                   </Typography>
-                  <Typography variant="h6" sx={{ color: '#888', mb: 1 }}>
+                  <Typography variant="h6" sx={{ color: '#666', mb: 1 }}>
                     @{userData.username}
                   </Typography>
                   {userData.is_premium && (
@@ -99,31 +99,32 @@ function Profile() {
 
               <Box
                 sx={{
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
                   borderRadius: 3,
                   padding: 3,
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
-                <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
                   Personal Information
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>First Name:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{userData.first_name}</Typography>
+                    <Typography sx={{ color: '#666' }}>First Name:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.first_name}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Last Name:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{userData.last_name || 'N/A'}</Typography>
+                    <Typography sx={{ color: '#666' }}>Last Name:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.last_name || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Username:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>@{userData.username}</Typography>
+                    <Typography sx={{ color: '#666' }}>Username:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>@{userData.username}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Premium Status:</Typography>
-                    <Typography sx={{ color: userData.is_premium ? '#FFD700' : '#ccc', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Premium Status:</Typography>
+                    <Typography sx={{ color: userData.is_premium ? '#FFD700' : '#666', fontWeight: 'medium' }}>
                       {userData.is_premium ? 'Premium' : 'Standard'}
                     </Typography>
                   </Box>
@@ -132,31 +133,32 @@ function Profile() {
 
               <Box
                 sx={{
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
                   borderRadius: 3,
                   padding: 3,
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
-                <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
                   Account Details
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Telegram ID:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{userData.telegram_id}</Typography>
+                    <Typography sx={{ color: '#666' }}>Telegram ID:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.telegram_id}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Database ID:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{userData.id}</Typography>
+                    <Typography sx={{ color: '#666' }}>Database ID:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.id}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Reference Code:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{userData.ref_code || 'N/A'}</Typography>
+                    <Typography sx={{ color: '#666' }}>Reference Code:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.ref_code || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Member Since:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Member Since:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
                       {userData.created_at
                         ? new Date(userData.created_at).toLocaleDateString('en-US', {
                             year: 'numeric',
@@ -167,8 +169,8 @@ function Profile() {
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Last Updated:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Last Updated:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
                       {userData.updated_at
                         ? new Date(userData.updated_at).toLocaleDateString('en-US', {
                             year: 'numeric',
@@ -185,72 +187,74 @@ function Profile() {
 
               <Box
                 sx={{
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
                   borderRadius: 3,
                   padding: 3,
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
-                <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
                   Telegram WebApp Info
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Platform:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{webApp.platform}</Typography>
+                    <Typography sx={{ color: '#666' }}>Platform:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.platform}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Version:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{webApp.version}</Typography>
+                    <Typography sx={{ color: '#666' }}>Version:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.version}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Color Scheme:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{webApp.colorScheme}</Typography>
+                    <Typography sx={{ color: '#666' }}>Color Scheme:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.colorScheme}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Viewport Height:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{webApp.viewportHeight}px</Typography>
+                    <Typography sx={{ color: '#666' }}>Viewport Height:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.viewportHeight}px</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Is Expanded:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{String(webApp.isExpanded)}</Typography>
+                    <Typography sx={{ color: '#666' }}>Is Expanded:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{String(webApp.isExpanded)}</Typography>
                   </Box>
                 </Box>
               </Box>
 
               <Box
                 sx={{
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
                   borderRadius: 3,
                   padding: 3,
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
-                <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
                   Telegram Settings
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Language:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Language:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
                       {webApp.initDataUnsafe?.user?.language_code || 'N/A'}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Can Write to PM:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Can Write to PM:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
                       {String(webApp.initDataUnsafe?.user?.allows_write_to_pm || false)}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Added to Menu:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Added to Menu:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
                       {String(webApp.initDataUnsafe?.user?.added_to_attachment_menu || false)}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Premium Status:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Premium Status:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
                       {String(webApp.initDataUnsafe?.user?.is_premium || false)}
                     </Typography>
                   </Box>
@@ -259,27 +263,28 @@ function Profile() {
 
               <Box
                 sx={{
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
                   borderRadius: 3,
                   padding: 3,
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
-                <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
                   Theme & Colors
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Header Color:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{webApp.headerColor}</Typography>
+                    <Typography sx={{ color: '#666' }}>Header Color:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.headerColor}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Background Color:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>{webApp.backgroundColor}</Typography>
+                    <Typography sx={{ color: '#666' }}>Background Color:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.backgroundColor}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography sx={{ color: '#ccc' }}>Closing Confirmation:</Typography>
-                    <Typography sx={{ color: 'white', fontWeight: 'medium' }}>
+                    <Typography sx={{ color: '#666' }}>Closing Confirmation:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
                       {String(webApp.isClosingConfirmationEnabled)}
                     </Typography>
                   </Box>
