@@ -4,6 +4,7 @@ import Main from './components/Main';
 import { APP_VIEW } from './constants/app.constants';
 import Profile from './components/Profile';
 import ErrorScreen from './components/ErrorScreen';
+import { GameProvider } from './providers/GameProvider/GameProvider';
 
 const View = () => {
   const { appView, appError } = useApp();
@@ -24,7 +25,9 @@ function App() {
   return (
     <TelegramProvider>
       <AppProvider>
-        <View />
+        <GameProvider>
+          <View />
+        </GameProvider>
       </AppProvider>
     </TelegramProvider>
   );

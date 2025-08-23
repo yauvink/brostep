@@ -1,8 +1,11 @@
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 import StraightIcon from '@mui/icons-material/Straight';
 import UserAvatar from '../common/UserAvatar';
+import { useGame } from '../../providers/GameProvider';
 
 function Roulette() {
+  const { log, isConnected } = useGame();
+
   return (
     <Box
       sx={{
@@ -13,63 +16,123 @@ function Roulette() {
         justifyContent: 'center',
         textAlign: 'center',
         color: 'white',
-        padding: '30px',
+        position: 'relative',
       }}
     >
+      {!isConnected && (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            zIndex: 10000,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            gap: '20px',
+          }}
+        >
+          <span className="loader"></span>
+          <Typography>Connecting you to the game...</Typography>
+        </Box>
+      )}
+      <Box
+        sx={{
+          flexGrow: 1,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+        }}
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            borderRadius: '50%',
+            width: '100%',
+            aspectRatio: '1/1',
+            backgroundColor: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+          }}
+        >
+          <Button
+            sx={{
+              borderRadius: '50%',
+              height: '100px',
+              width: '100px',
+              position: 'absolute',
+              zIndex: 10,
+            }}
+            variant="contained"
+          >
+            roll
+          </Button>
+
+          <Box
+            sx={{
+              display: 'flex',
+              // alignItems: 'center',
+              justifyContent: 'center',
+              position: 'absolute',
+              // border: '1px solid red',
+              width: '100%',
+              height: '100%',
+              padding: '20px',
+            }}
+          >
+            <StraightIcon
+              sx={{
+                width: '100px',
+                height: '100px',
+              }}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '15%',
+              left: '15%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <UserAvatar size={100} />
+          </Box>
+        </Paper>
+      </Box>
       <Paper
         elevation={3}
         sx={{
-          borderRadius: '50%',
           width: '100%',
-          aspectRatio: '1/1',
-          backgroundColor: 'white',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
+          // flexGrow: 1,
+          flexDirection: 'column',
+          padding: '10px',
+          maxHeight: '200px',
+          overflow: 'auto',
+          // alignItems
         }}
       >
-        <Button
-          sx={{
-            borderRadius: '50%',
-            height: '100px',
-            width: '100px',
-            position: 'absolute',
-            zIndex: 10,
-          }}
-          variant="contained"
-        >
-          roll
-        </Button>
-
-        <Box
-          sx={{
-            display: 'flex',
-            // alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
-            // border: '1px solid red',
-            width: '100%',
-            height: '100%',
-            padding: '20px',
-          }}
-        >
-          <StraightIcon
+        {log.reverse().map((item: string, index: number) => (
+          <Typography
+            key={index}
             sx={{
-              width: '100px',
-              height: '100px',
+              textAlign: 'left',
             }}
-          />
-        </Box>
-
-        <Box sx={{
-          position: 'absolute',
-          top: '15%',
-          left: '15%',
-          transform: 'translate(-50%, -50%)',
-        }}>
-    <UserAvatar size={100}/>
-        </Box>
+          >
+            {item}
+          </Typography>
+        ))}
       </Paper>
     </Box>
   );

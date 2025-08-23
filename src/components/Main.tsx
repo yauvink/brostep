@@ -15,11 +15,11 @@ function Main() {
   }
 
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh',
-      display: 'flex', flexDirection: 'column' }}>
-        <AppHeader/>
-        {/* <Game /> */}
-        <Roulette/>
+    <Box sx={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <AppHeader />
+      <Box height={70} />
+      {/* <Game /> */}
+      <Roulette />
     </Box>
   );
 }

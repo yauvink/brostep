@@ -9,7 +9,7 @@ function AppHeader() {
 
   return (
     <AppBar
-      position="static"
+      // position="static"
       sx={{
         backgroundColor: 'transparent',
         backdropFilter: 'blur(10px)',
