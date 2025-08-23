@@ -3,8 +3,8 @@ import { useTelegram } from '../providers/TelegramProvider/useTelegram';
 import { useApp } from '../providers/AppProvider';
 
 function Main() {
-  const { webApp, telegramUser } = useTelegram();
-  const { isAppLoading } = useApp();
+  const { webApp } = useTelegram();
+  const { isAppLoading, userData } = useApp();
 
   if (isAppLoading) {
     return (
@@ -30,19 +30,22 @@ function Main() {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '10px',
+            gap: '5px',
           }}
         >
           <p>Platform: {webApp.platform}</p>
           <p>Version: {webApp.version}</p>
-          <img src={telegramUser?.photo_url} width={100}></img>
-          <p>username: {telegramUser?.username}</p>
-          <p>id: {telegramUser?.id}</p>
-          <p>first_name: {telegramUser?.first_name}</p>
-          <p>last_name: {telegramUser?.last_name}</p>
-          <p>language_code: {telegramUser?.language_code}</p>
-          <p>allows_write_to_pm: {String(telegramUser?.allows_write_to_pm)}</p>
-          <p>is_premium: {String(telegramUser?.is_premium)}</p>
+          <img src={userData?.photo_url ?? ''} width={100}></img>
+          <p>first_name: {userData?.first_name}</p>
+          <p>last_name: {userData?.last_name}</p>
+          <p>username: {userData?.username}</p>
+          <p>id: {userData?.id}</p>
+          <p>telegram_id: {userData?.telegram_id}</p>
+          <p>created_at: {userData?.created_at}</p>
+          <p>updated_at: {userData?.updated_at}</p>
+          {/* <p>language_code: {userData?.language_code}</p> */}
+          {/* <p>allows_write_to_pm: {String(userData?.allows_write_to_pm)}</p> */}
+          <p>is_premium: {String(userData?.is_premium)}</p>
         </Box>
       )}
     </Box>

@@ -12,10 +12,23 @@ interface TelegramProviderProps {
   children: ReactNode;
 }
 
+const userMock: WebAppUser = {
+  allows_write_to_pm: true,
+  first_name: 'Yauhen',
+  id: 392009623,
+  language_code: 'en',
+  last_name: 'Vink',
+  photo_url: 'https://t.me/i/userpic/320/aW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg',
+  username: 'yauvink',
+};
+
 export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) => {
   const [webApp, setWebApp] = useState<WebApp | null>(null);
 
   const telegramUser = useMemo(() => {
+    if (import.meta.env.DEV) {
+      return userMock;
+    }
     return webApp?.initDataUnsafe?.user ?? null;
   }, [webApp]);
 

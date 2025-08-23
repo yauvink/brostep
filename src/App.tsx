@@ -4,11 +4,11 @@ import Main from './components/Main';
 
 function App() {
   return (
-    <AppProvider>
-      <TelegramProvider>
+    <TelegramProvider>
+      <AppProvider>
         <Main />
-      </TelegramProvider>
-    </AppProvider>
+      </AppProvider>
+    </TelegramProvider>
   );
 }
 
