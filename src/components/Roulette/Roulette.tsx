@@ -4,7 +4,19 @@ import UserAvatar from '../common/UserAvatar';
 import { useGame } from '../../providers/GameProvider';
 
 function Roulette() {
-  const { log, isConnected } = useGame();
+  const { log, isConnected, isAuthenticated, currentUser, currentPoints } = useGame();
+
+  const getStatusMessage = () => {
+    if (!isConnected) {
+      return 'Connecting you to the game...';
+    }
+    if (!isAuthenticated) {
+      return 'Authenticating...';
+    }
+    return `Connected as ${currentUser?.first_name} ${currentUser?.last_name} (${currentPoints} points)`;
+  };
+
+  const showOverlay = !isConnected || !isAuthenticated;
 
   return (
     <Box
@@ -19,7 +31,7 @@ function Roulette() {
         position: 'relative',
       }}
     >
-      {!isConnected && (
+      {showOverlay && (
         <Box
           sx={{
             position: 'absolute',
@@ -38,7 +50,7 @@ function Roulette() {
           }}
         >
           <span className="loader"></span>
-          <Typography>Connecting you to the game...</Typography>
+          <Typography>{getStatusMessage()}</Typography>
         </Box>
       )}
       <Box
@@ -120,6 +132,7 @@ function Roulette() {
           // flexGrow: 1,
           flexDirection: 'column',
           padding: '10px',
+          minHeight: '200px',
           maxHeight: '200px',
           overflow: 'auto',
           // alignItems

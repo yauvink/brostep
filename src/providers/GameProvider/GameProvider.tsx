@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, type ReactNode, useCallback } from 'react';
+import { useTelegram } from '../TelegramProvider/useTelegram';
 
 interface GameUser {
   socketId: string;
@@ -7,6 +8,7 @@ interface GameUser {
   first_name: string;
   last_name: string;
   photo_url: string | null;
+  telegram_id: string;
   connectedAt: string;
   lastActivity: string;
 }
@@ -16,14 +18,18 @@ interface GameState {
   lastUpdate: string;
   totalUsers: number;
   onlineUsers: number;
+  yourPoints?: number;
 }
 
 interface GameContextType {
   isConnected: boolean;
+  isAuthenticated: boolean;
   gameState: GameState | null;
   currentPoints: number;
+  currentUser: GameUser | null;
   updatePoints: (points: number) => void;
   log: string[];
+  reconnect: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -32,14 +38,46 @@ interface GameProviderProps {
   children: ReactNode;
 }
 
+interface AuthenticatedData {
+  user: GameUser;
+}
+
+interface AuthErrorData {
+  message: string;
+}
+
+interface WelcomeData {
+  message: string;
+}
+
+interface JoinedGameRoomData {
+  message: string;
+  yourPoints?: number;
+}
+
+interface GameStateUpdateData {
+  users: GameUser[];
+  lastUpdate: string;
+  totalUsers: number;
+  onlineUsers: number;
+  yourPoints?: number;
+}
+
+interface JoinedRoomData {
+  message: string;
+}
+
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
+  const { telegramUser } = useTelegram();
   const [isConnected, setIsConnected] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [socket, setSocket] = useState<any | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [currentPoints, setCurrentPoints] = useState(0);
+  const [currentUser, setCurrentUser] = useState<GameUser | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [log, setLog] = useState<string[]>([]);
-console.log('gameState', gameState);
+console.log('gameState',gameState);
   const maxReconnectAttempts = 5;
 
   const addLog = useCallback((message: string) => {
@@ -54,12 +92,14 @@ console.log('gameState', gameState);
     }
 
     setIsConnected(false);
+    setIsAuthenticated(false);
+    setCurrentUser(null);
     addLog('Attempting to connect to server...');
 
     try {
       // Dynamic import to avoid TypeScript issues
       import('socket.io-client').then(({ io }) => {
-        const newSocket = io(import.meta.env.VITE_API_ENDPOINT, {
+        const newSocket = io(import.meta.env.VITE_API_ENDPOINT || 'http://localhost:3000', {
           transports: ['websocket', 'polling'],
           timeout: 10000,
           forceNew: true
@@ -75,17 +115,38 @@ console.log('gameState', gameState);
     }
   }, [socket, addLog]);
 
+  const authenticate = useCallback((socketInstance: any) => {
+    if (!socketInstance || !socketInstance.connected) {
+      addLog('❌ Cannot authenticate: not connected to server');
+      return;
+    }
 
+    if (!telegramUser?.id) {
+      addLog('❌ Cannot authenticate: no Telegram user ID available');
+      return;
+    }
+
+    const telegram_id = telegramUser.id.toString();
+    // addLog(`🔐 Authenticating with telegram_id: ${telegram_id}`);
+    socketInstance.emit('authenticate', { telegram_id });
+  }, [telegramUser, addLog]);
 
   const setupSocketHandlers = useCallback((socketInstance: any) => {
     socketInstance.on('connect', () => {
       setIsConnected(true);
       addLog('✅ Connected to server successfully');
       setReconnectAttempts(0);
+
+      // Auto-authenticate when connected
+      if (telegramUser?.id) {
+        authenticate(socketInstance);
+      }
     });
 
     socketInstance.on('disconnect', (reason: string) => {
       setIsConnected(false);
+      setIsAuthenticated(false);
+      setCurrentUser(null);
       addLog(`❌ Disconnected: ${reason}`);
 
       if (reason === 'io server disconnect') {
@@ -102,23 +163,36 @@ console.log('gameState', gameState);
       }
     });
 
-    socketInstance.on('welcome', (data: any) => {
+    socketInstance.on('welcome', (data: WelcomeData) => {
       addLog(`👋 Welcome: ${data.message}`);
     });
 
-    socketInstance.on('joined_game_room', (data: any) => {
+    socketInstance.on('authenticated', (data: AuthenticatedData) => {
+      setIsAuthenticated(true);
+      setCurrentUser(data.user);
+      setCurrentPoints(data.user.points || 0);
+      addLog(`✅ Authentication successful: ${data.user.first_name} ${data.user.last_name}`);
+    });
+
+    socketInstance.on('auth_error', (data: AuthErrorData) => {
+      addLog(`❌ Authentication error: ${data.message}`);
+      setIsAuthenticated(false);
+      setCurrentUser(null);
+    });
+
+    socketInstance.on('joined_game_room', (data: JoinedGameRoomData) => {
       addLog(`🎮 Joined game room: ${data.message}`);
       if (data.yourPoints !== undefined) {
         setCurrentPoints(data.yourPoints);
       }
     });
 
-    socketInstance.on('game_state_update', (data: any) => {
-      addLog(`📊 Game state updated - ${data.totalUsers} users connected`);
+    socketInstance.on('game_state_update', (data: GameStateUpdateData) => {
+      addLog(`📊 Game state updated - ${data.totalUsers} total users, ${data.onlineUsers} online`);
       setGameState(data);
     });
 
-    socketInstance.on('joined_room', (data: any) => {
+    socketInstance.on('joined_room', (data: JoinedRoomData) => {
       addLog(`🚪 Joined room: ${data.message}`);
     });
 
@@ -135,11 +209,16 @@ console.log('gameState', gameState);
     socketInstance.on('error', (error: any) => {
       addLog(`❌ Socket error: ${error.message}`);
     });
-  }, [addLog, reconnectAttempts, maxReconnectAttempts, connect]);
+  }, [addLog, reconnectAttempts, maxReconnectAttempts, connect, authenticate, telegramUser]);
+
+  const reconnect = useCallback(() => {
+    addLog('🔄 Manual reconnection requested...');
+    connect();
+  }, [connect, addLog]);
 
   const updatePoints = useCallback((points: number) => {
-    if (!socket || !socket.connected) {
-      addLog('❌ Cannot update points: not connected to server');
+    if (!socket || !socket.connected || !isAuthenticated) {
+      addLog('❌ Cannot update points: not authenticated');
       return;
     }
 
@@ -148,7 +227,7 @@ console.log('gameState', gameState);
       socket.emit('update_points', { points });
       addLog(`📈 Updating points to: ${points}`);
     }
-  }, [socket, addLog]);
+  }, [socket, isAuthenticated, addLog]);
 
   // Auto-connect on mount
   useEffect(() => {
@@ -164,20 +243,23 @@ console.log('gameState', gameState);
   // Send activity periodically
   useEffect(() => {
     const interval = setInterval(() => {
-      if (socket && socket.connected) {
+      if (socket && socket.connected && isAuthenticated) {
         socket.emit('user_activity', { timestamp: new Date().toISOString() });
       }
     }, 30000); // Every 30 seconds
 
     return () => clearInterval(interval);
-  }, [socket]);
+  }, [socket, isAuthenticated]);
 
   const value: GameContextType = {
     isConnected,
+    isAuthenticated,
     gameState,
     currentPoints,
+    currentUser,
     updatePoints,
     log,
+    reconnect,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
