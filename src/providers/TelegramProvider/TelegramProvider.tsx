@@ -1,8 +1,9 @@
-import React, { createContext, useState, useEffect, type ReactNode } from 'react';
-import type { WebApp } from 'telegram-web-app';
+import React, { createContext, useState, useEffect, type ReactNode, useMemo } from 'react';
+import type { WebApp, WebAppUser } from 'telegram-web-app';
 
 interface TelegramContextType {
   webApp: WebApp | null;
+  telegramUser: WebAppUser | null;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -13,6 +14,10 @@ interface TelegramProviderProps {
 
 export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) => {
   const [webApp, setWebApp] = useState<WebApp | null>(null);
+
+  const telegramUser = useMemo(() => {
+    return webApp?.initDataUnsafe?.user ?? null;
+  }, [webApp]);
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
@@ -44,6 +49,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   const value: TelegramContextType = {
     webApp,
+    telegramUser,
   };
 
   return <TelegramContext.Provider value={value}>{children}</TelegramContext.Provider>;

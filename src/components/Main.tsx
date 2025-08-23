@@ -3,7 +3,7 @@ import { useTelegram } from '../providers/TelegramProvider/useTelegram';
 import { useApp } from '../providers/AppProvider';
 
 function Main() {
-  const { webApp } = useTelegram();
+  const { webApp, telegramUser } = useTelegram();
   const { isAppLoading } = useApp();
 
   if (isAppLoading) {
@@ -21,7 +21,7 @@ function Main() {
         width: '100%',
       }}
     >
-      <span style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 999, color: 'white' }}>0.2</span>
+      <span style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 999, color: 'white' }}>0.3</span>
 
       <Typography sx={{ fontSize: '30px', color: 'white', mb: '30px' }}>Welcome</Typography>
 
@@ -35,14 +35,14 @@ function Main() {
         >
           <p>Platform: {webApp.platform}</p>
           <p>Version: {webApp.version}</p>
-          <img src={webApp?.initDataUnsafe?.user?.photo_url} width={100}></img>
-          <p>username: {webApp.initDataUnsafe.user?.username}</p>
-          <p>id: {webApp.initDataUnsafe.user?.id}</p>
-          <p>first_name: {webApp.initDataUnsafe.user?.first_name}</p>
-          <p>last_name: {webApp.initDataUnsafe.user?.last_name}</p>
-          <p>language_code: {webApp.initDataUnsafe.user?.language_code}</p>
-          <p>allows_write_to_pm: {webApp.initDataUnsafe.user?.allows_write_to_pm}</p>
-          <p>is_premium: {webApp.initDataUnsafe.user?.is_premium}</p>
+          <img src={telegramUser?.photo_url} width={100}></img>
+          <p>username: {telegramUser?.username}</p>
+          <p>id: {telegramUser?.id}</p>
+          <p>first_name: {telegramUser?.first_name}</p>
+          <p>last_name: {telegramUser?.last_name}</p>
+          <p>language_code: {telegramUser?.language_code}</p>
+          <p>allows_write_to_pm: {String(telegramUser?.allows_write_to_pm)}</p>
+          <p>is_premium: {String(telegramUser?.is_premium)}</p>
         </Box>
       )}
     </Box>

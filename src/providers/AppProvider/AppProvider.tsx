@@ -15,7 +15,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [isAppLoading, setIsAppLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate initial app loading
     const timer = setTimeout(() => {
       setIsAppLoading(false);
     }, 3000);
@@ -28,11 +27,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setIsAppLoading,
   };
 
-  return (
-    <AppContext.Provider value={value}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
 export { AppContext };
