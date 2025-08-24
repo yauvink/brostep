@@ -1,5 +1,5 @@
-import { Button } from '@mui/material';
-import { useGame } from '../../providers/GameProvider';
+import { Button, CircularProgress } from '@mui/material';
+import { useGame } from '../../../providers/GameProvider';
 import { useMemo } from 'react';
 
 function TouchButton() {
@@ -7,6 +7,7 @@ function TouchButton() {
   const isDisabled = useMemo(() => {
     return gameState?.currentState !== 'idle';
   }, [gameState]);
+
   return (
     <Button
       disabled={isDisabled}
@@ -15,14 +16,13 @@ function TouchButton() {
         borderRadius: '50%',
         height: '100px',
         width: '100px',
-        position: 'absolute',
         zIndex: 10,
         backgroundColor: 'red',
         fontWeight: 900,
       }}
       variant="contained"
     >
-      {isDisabled ? <span className="loader"></span> : 'do not touch!'}
+      {isDisabled ? <CircularProgress sx={{ color: 'white' }} /> : 'do not touch!'}
     </Button>
   );
 }

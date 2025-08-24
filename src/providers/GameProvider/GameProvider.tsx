@@ -22,7 +22,7 @@ interface GameState {
 }
 
 interface ChatMessage {
-  type: 'detection_completed' | 'button_touched' | 'user_selected';
+  type: 'button_touched' | 'user_selected';
   user: {
     telegram_id: string;
     first_name: string;
@@ -51,6 +51,8 @@ interface GameContextType {
   currentUser: GameUser | null;
   log: ChatMessage[];
   touchButton: () => void;
+  selectedUser: GameUser | null;
+  setSelectedUser: (v: GameUser | null) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -96,9 +98,11 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [currentPoints, setCurrentPoints] = useState(0);
   const [currentUser, setCurrentUser] = useState<GameUser | null>(null);
+  const [selectedUser, setSelectedUser] = useState<GameUser | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [log, setLog] = useState<ChatMessage[]>([]);
-  console.log('gameState', gameState);
+  // console.log('gameState', gameState);
+  // console.log('currentState', gameState?.currentState);
   const maxReconnectAttempts = 5;
 
   const addLog = useCallback((message: string) => {
@@ -108,10 +112,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       user: {
         telegram_id: '',
         first_name: 'System',
-        last_name: ''
+        last_name: '',
       },
       message,
-      timestamp
+      timestamp,
     };
     setLog((prev) => [...prev, logEntry]);
   }, []);
@@ -231,6 +235,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       });
 
       socketInstance.on('chat_message', (data: ChatMessage) => {
+        // console.log('data',data);
+        if (data.type === 'user_selected') {
+          console.log('selected', data);
+        }
         setLog((prev) => [...prev, data]);
       });
 
@@ -294,6 +302,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     currentUser,
     log,
     touchButton,
+    selectedUser,
+    setSelectedUser,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

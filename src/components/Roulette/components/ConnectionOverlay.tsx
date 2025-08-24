@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { useGame } from '../../providers/GameProvider';
+import { useGame } from '../../../providers/GameProvider';
 
 function ConnectionOverlay() {
   const { isConnected, isAuthenticated } = useGame();
