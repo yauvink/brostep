@@ -1,7 +1,7 @@
-import StraightIcon from '@mui/icons-material/Straight';
 import { Box } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useMemo } from 'react';
+import arrow_cropped from '../../../assets/arrow_cropped.png';
 
 function SpinnerAnimation() {
   const { gameState } = useGame();
@@ -16,16 +16,24 @@ function SpinnerAnimation() {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        padding: '30px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
         animation: isSpinning ? 'spin 1s linear infinite' : 'none',
       }}
     >
       {isSpinning && (
-        <StraightIcon
+        <Box
           sx={{
-            width: '100px',
-            height: '100px',
+            // border: '1px solid red',
             animation: isSpinning ? 'scale 5s linear infinite' : 'none',
+            width: '40px',
+            height: '200px',
+            backgroundImage: `url(${arrow_cropped})`,
+            // backgroundSize: '79px 399px',
+            backgroundPosition: 'bottom',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
           }}
         />
       )}

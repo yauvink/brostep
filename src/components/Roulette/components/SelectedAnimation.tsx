@@ -1,12 +1,10 @@
-import StraightIcon from '@mui/icons-material/Straight';
 import { Box } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useMemo } from 'react';
+import arrow_cropped from '../../../assets/arrow_cropped.png'
 
 function SelectedAnimation() {
   const { selectedCompleteData, gameState } = useGame();
-
-  console.log('currentState', gameState?.currentState);
 
   const isDetected = useMemo(() => {
     // return true
@@ -44,9 +42,10 @@ function SelectedAnimation() {
       sx={{
         // border: '1px solid red',
         position: 'absolute',
+        zIndex: 100,
         width: '100%',
         height: '100%',
-        // padding: '30px',
+        padding: '70px',
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center',
@@ -54,13 +53,19 @@ function SelectedAnimation() {
       }}
     >
       {isDetected && (
-        <StraightIcon
+        <Box
           sx={{
             // border: '1px solid red',
-            width: '200px',
+            width: '40px',
             height: '200px',
             // transform: `rotate(90deg)`,
             animation: 'push 1s linear infinite',
+            backgroundImage:`url(${arrow_cropped})`,
+            // backgroundSize: '79px 399px',
+            backgroundPosition: 'bottom',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat'
+
           }}
         />
       )}

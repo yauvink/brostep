@@ -73,6 +73,7 @@ interface GameContextType {
   touchButton: () => void;
   selectedCompleteData: SelectedCompleteData | null;
   setSelectedCompleteData: (v: SelectedCompleteData | null) => void;
+  touchedUserId: number | null;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -111,13 +112,14 @@ interface JoinedRoomData {
 }
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const { telegramUser } = useTelegram();
+  const { telegramUser, webApp } = useTelegram();
   const [isConnected, setIsConnected] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [socket, setSocket] = useState<any | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [currentPoints, setCurrentPoints] = useState(0);
   const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
+  const [touchedUserId, setTouchedUserId] = useState<number | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [log, setLog] = useState<ChatMessage[]>([]);
   const maxReconnectAttempts = 5;
@@ -250,6 +252,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socketInstance.on('chat_message', (data: SelectedCompleteData) => {
         if (data.type === 'user_selected') {
           setSelectedCompleteData(data);
+        }else if (data.type === 'button_touched') {
+          setTouchedUserId(data.user.telegram_id);
         }
         setLog((prev) => [...prev, data]);
       });
@@ -280,6 +284,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     // if (points >= 0) {
     //   setCurrentPoints(points);
     socket.emit('touch_button', { telegram_id: telegramUser.id });
+    if (webApp) {
+      webApp.HapticFeedback.impactOccurred('soft');
+    }
     //   addLog(`📈 Updating points to: ${points}`);
     // }
   }, [telegramUser, socket, isAuthenticated, addLog]);
@@ -315,6 +322,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     touchButton,
     selectedCompleteData,
     setSelectedCompleteData,
+    touchedUserId,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

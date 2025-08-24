@@ -1,10 +1,10 @@
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Avatar, Box, Button, CircularProgress } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useMemo, useState } from 'react';
 import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
 
 function TouchButton() {
-  const { gameState, touchButton } = useGame();
+  const { gameState, touchButton, touchedUserId } = useGame();
   const { telegramUser } = useTelegram();
 
   const isDetecting = useMemo(() => {
@@ -47,22 +47,37 @@ function TouchButton() {
     return () => clearInterval(interval);
   }, [currentUser]);
 
+  const userTouchedPhotoUrl = useMemo(() => {
+    if (gameState) {
+      return gameState.users.find((user) => user.telegram_id === touchedUserId)?.photo_url;
+    }
+  }, [gameState, touchedUserId]);
+
   if (isDetecting) {
     return (
       <Button
-        disabled
-        onClick={touchButton}
         sx={{
           borderRadius: '50%',
           height: '100px',
           width: '100px',
-          zIndex: 10,
-          backgroundColor: 'red',
+          zIndex: 200,
           fontWeight: 900,
         }}
         variant="contained"
       >
-        <CircularProgress sx={{ color: 'white' }} />
+        {userTouchedPhotoUrl ? (
+          <Avatar
+            src={userTouchedPhotoUrl}
+            alt="Profile"
+            sx={{
+              width: 100,
+              height: 100,
+              border: '2px solid rgba(0,0,0,0.1)',
+            }}
+          />
+        ) : (
+          <CircularProgress sx={{ color: 'white' }} />
+        )}
       </Button>
     );
   }
@@ -80,6 +95,7 @@ function TouchButton() {
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
+          zIndex: 200,
           lineHeight: 1.2,
         }}
       >
@@ -97,7 +113,7 @@ function TouchButton() {
         borderRadius: '50%',
         height: '100px',
         width: '100px',
-        zIndex: 10,
+        zIndex: 200,
         // backgroundColor: 'red',
         fontWeight: 900,
         lineHeight: 1.4,
