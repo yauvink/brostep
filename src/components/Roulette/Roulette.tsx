@@ -139,6 +139,9 @@ function Roulette() {
               key={index}
               sx={{
                 textAlign: 'left',
+                color: item.type === 'detection_completed' ? '#4caf50' :
+                       item.type === 'button_touched' ? '#2196f3' : '#666',
+                fontWeight: item.type === 'detection_completed' ? 'bold' : 'normal',
               }}
             >
               {new Date(item.timestamp).toLocaleString().split(',')[1]}: {item.message}

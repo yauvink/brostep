@@ -21,13 +21,28 @@ interface GameState {
   currentState: 'idle' | 'detecting' | 'detected';
 }
 
+interface ChatMessage {
+  type: 'detection_completed' | 'button_touched';
+  user: {
+    telegram_id: string;
+    first_name: string;
+    last_name: string;
+  };
+  message: string;
+  points?: {
+    previous: number;
+    current: number;
+  };
+  timestamp: number;
+}
+
 interface GameContextType {
   isConnected: boolean;
   isAuthenticated: boolean;
   gameState: GameState | null;
   currentPoints: number;
   currentUser: GameUser | null;
-  log: { message: string; timestamp: number }[];
+  log: ChatMessage[];
   touchButton: () => void;
 }
 
@@ -75,13 +90,22 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [currentUser, setCurrentUser] = useState<GameUser | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
-  const [log, setLog] = useState<{ message: string; timestamp: number }[]>([]);
+  const [log, setLog] = useState<ChatMessage[]>([]);
   console.log('gameState', gameState);
   const maxReconnectAttempts = 5;
 
   const addLog = useCallback((message: string) => {
     const timestamp = Date.now();
-    const logEntry = { message, timestamp };
+    const logEntry: ChatMessage = {
+      type: 'button_touched',
+      user: {
+        telegram_id: '',
+        first_name: 'System',
+        last_name: ''
+      },
+      message,
+      timestamp
+    };
     setLog((prev) => [...prev, logEntry]);
   }, []);
 
@@ -197,6 +221,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       socketInstance.on('joined_room', (data: JoinedRoomData) => {
         addLog(`🚪 Joined room: ${data.message}`);
+      });
+
+      socketInstance.on('chat_message', (data: ChatMessage) => {
+        setLog((prev) => [...prev, data]);
       });
 
       socketInstance.on('connect_error', (error: any) => {
