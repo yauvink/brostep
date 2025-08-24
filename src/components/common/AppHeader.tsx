@@ -1,8 +1,8 @@
 import { Person } from '@mui/icons-material';
-
 import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@mui/material';
 import { APP_VIEW } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 
 function AppHeader() {
   const { userData, setAppView } = useApp();
@@ -22,6 +22,24 @@ function AppHeader() {
         <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
           Большая Игра на ТНТ
         </Typography>
+        <IconButton
+          color="inherit"
+          onClick={() => setAppView(APP_VIEW.LEADERBOARD)}
+          sx={{
+            color: '#333',
+            padding: 0,
+            border: '2px solid rgba(0,0,0,0.1)',
+
+            width: '50px',
+            height: '50px',
+            marginRight: '10px',
+            '&:hover': {
+              backgroundColor: 'rgba(0,0,0,0.1)',
+            },
+          }}
+        >
+          <LeaderboardIcon />
+        </IconButton>
         <IconButton
           color="inherit"
           onClick={() => setAppView(APP_VIEW.PROFILE)}

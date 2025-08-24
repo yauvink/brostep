@@ -33,13 +33,13 @@ function Profile() {
         <AppBar
           // position="static"
           sx={{
-            backgroundColor: 'transparent',
+            backgroundColor: 'rgba(255,255,255,0.6)',
             backdropFilter: 'blur(10px)',
             boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
             borderBottom: '1px solid rgba(0,0,0,0.1)',
           }}
         >
-          <Toolbar>
+          <Toolbar sx={{ height: '70px' }}>
             <IconButton edge="start" onClick={() => setAppView(APP_VIEW.MAIN)} sx={{ mr: 2, color: 'black' }}>
               <ArrowBack />
             </IconButton>

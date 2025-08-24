@@ -5,6 +5,7 @@ import { APP_VIEW } from './constants/app.constants';
 import Profile from './components/Profile';
 import ErrorScreen from './components/ErrorScreen';
 import { GameProvider } from './providers/GameProvider/GameProvider';
+import Leaderboard from './components/Leaderboard';
 
 const View = () => {
   const { appView, appError } = useApp();
@@ -13,6 +14,9 @@ const View = () => {
   switch (appView) {
     case APP_VIEW.PROFILE: {
       return <Profile />;
+    }
+    case APP_VIEW.LEADERBOARD: {
+      return <Leaderboard />;
     }
 
     default: {
