@@ -23,11 +23,12 @@ const userMock: WebAppUser = {
 };
 const userMock1: WebAppUser = {
   allows_write_to_pm: true,
-  first_name: 'Test1',
+  first_name: 'Tester1',
   id: 3231231,
   language_code: 'en',
-  last_name: 'Vink',
-  photo_url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Favatar-placeholder.iran.liara.run%2F&psig=AOvVaw3Yf8R3ZSRajErrMXh9DA4X&ust=1756070986697000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJDmiK_woY8DFQAAAAAdAAAAABAE',
+  last_name: '',
+  photo_url:
+    'https://www.google.com/url?sa=i&url=https%3A%2F%2Favatar-placeholder.iran.liara.run%2F&psig=AOvVaw3Yf8R3ZSRajErrMXh9DA4X&ust=1756070986697000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJDmiK_woY8DFQAAAAAdAAAAABAE',
   username: 'yauvink',
 };
 const userMock2: WebAppUser = {
@@ -35,7 +36,7 @@ const userMock2: WebAppUser = {
   first_name: 'Test2',
   id: 5555555,
   language_code: 'en',
-  last_name: 'Vink',
+  last_name: '',
   photo_url: '',
   username: 'yauvink',
 };

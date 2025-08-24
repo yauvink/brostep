@@ -1,16 +1,97 @@
-import { Button, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
 
 function TouchButton() {
   const { gameState, touchButton } = useGame();
-  const isDisabled = useMemo(() => {
+  const { telegramUser } = useTelegram();
+
+  const isDetecting = useMemo(() => {
     return gameState?.currentState !== 'idle';
   }, [gameState]);
 
+  const currentUser = useMemo(() => {
+    return gameState?.users.find((user) => user.telegram_id === telegramUser?.id);
+  }, [gameState, telegramUser]);
+
+  const [timeout, setTimeout] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkTimeRemaining = () => {
+      if (!currentUser || !currentUser.lastTouched) {
+        setTimeout(null);
+        return;
+      }
+
+      const COOLDOWN_PERIOD = 20 * 1000;
+      const timeDiff = new Date().getTime() - currentUser.lastTouched;
+      const remainingTime = COOLDOWN_PERIOD - timeDiff;
+
+      if (remainingTime <= 0) {
+        setTimeout(null);
+        return;
+      }
+
+      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+      const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      setTimeout(timeString);
+    };
+
+    checkTimeRemaining();
+
+    const interval = setInterval(checkTimeRemaining, 1000);
+
+    return () => clearInterval(interval);
+  }, [currentUser]);
+
+  if (isDetecting) {
+    return (
+      <Button
+        disabled
+        onClick={touchButton}
+        sx={{
+          borderRadius: '50%',
+          height: '100px',
+          width: '100px',
+          zIndex: 10,
+          backgroundColor: 'red',
+          fontWeight: 900,
+        }}
+        variant="contained"
+      >
+        <CircularProgress sx={{ color: 'white' }} />
+      </Button>
+    );
+  }
+
+  if (timeout) {
+    return (
+      <Box
+        sx={{
+          borderRadius: '50%',
+          height: '100px',
+          width: '100px',
+          backgroundColor: 'grey',
+          fontWeight: 900,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          lineHeight: 1.2,
+        }}
+      >
+        Your timeout:
+        <br />
+        {timeout}
+      </Box>
+    );
+  }
+
   return (
     <Button
-      disabled={isDisabled}
       onClick={touchButton}
       sx={{
         borderRadius: '50%',
@@ -22,7 +103,7 @@ function TouchButton() {
       }}
       variant="contained"
     >
-      {isDisabled ? <CircularProgress sx={{ color: 'white' }} /> : 'do not touch!'}
+      do not touch!
     </Button>
   );
 }

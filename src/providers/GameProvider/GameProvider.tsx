@@ -8,9 +8,10 @@ export interface GameUser {
   first_name: string;
   last_name: string;
   photo_url: string | null;
-  telegram_id: string;
+  telegram_id: number;
   connectedAt: string;
   lastActivity: string;
+  lastTouched: number | null;
 }
 
 interface GameState {
@@ -24,12 +25,12 @@ interface GameState {
 interface ChatMessage {
   type: 'button_touched' | 'user_selected';
   user: {
-    telegram_id: string;
+    telegram_id: number;
     first_name: string;
     last_name: string;
   };
   selectedUser?: {
-    telegram_id: string;
+    telegram_id: number;
     first_name: string;
     last_name: string;
   };
@@ -48,7 +49,6 @@ interface GameContextType {
   isAuthenticated: boolean;
   gameState: GameState | null;
   currentPoints: number;
-  currentUser: GameUser | null;
   log: ChatMessage[];
   touchButton: () => void;
   selectedUser: GameUser | null;
@@ -97,12 +97,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<any | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [currentPoints, setCurrentPoints] = useState(0);
-  const [currentUser, setCurrentUser] = useState<GameUser | null>(null);
   const [selectedUser, setSelectedUser] = useState<GameUser | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [log, setLog] = useState<ChatMessage[]>([]);
-  // console.log('gameState', gameState);
-  // console.log('currentState', gameState?.currentState);
   const maxReconnectAttempts = 5;
 
   const addLog = useCallback((message: string) => {
@@ -110,7 +107,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     const logEntry: ChatMessage = {
       type: 'button_touched',
       user: {
-        telegram_id: '',
+        telegram_id: 0,
         first_name: 'System',
         last_name: '',
       },
@@ -127,7 +124,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
     setIsConnected(false);
     setIsAuthenticated(false);
-    setCurrentUser(null);
     addLog('Attempting to connect to server...');
 
     try {
@@ -184,7 +180,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socketInstance.on('disconnect', (reason: string) => {
         setIsConnected(false);
         setIsAuthenticated(false);
-        setCurrentUser(null);
         addLog(`❌ Disconnected: ${reason}`);
 
         if (reason === 'io server disconnect') {
@@ -207,7 +202,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       socketInstance.on('authenticated', (data: AuthenticatedData) => {
         setIsAuthenticated(true);
-        setCurrentUser(data.user);
         setCurrentPoints(data.user.points || 0);
         addLog(`✅ Authentication successful: ${data.user.first_name} ${data.user.last_name}`);
       });
@@ -215,7 +209,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socketInstance.on('auth_error', (data: AuthErrorData) => {
         addLog(`❌ Authentication error: ${data.message}`);
         setIsAuthenticated(false);
-        setCurrentUser(null);
       });
 
       socketInstance.on('joined_game_room', (data: JoinedGameRoomData) => {
@@ -299,7 +292,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     isAuthenticated,
     gameState,
     currentPoints,
-    currentUser,
     log,
     touchButton,
     selectedUser,
