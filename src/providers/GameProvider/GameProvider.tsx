@@ -1,6 +1,26 @@
 import React, { createContext, useState, useEffect, type ReactNode, useCallback } from 'react';
 import { useTelegram } from '../TelegramProvider/useTelegram';
 
+export interface SelectedCompleteData {
+  type: 'user_selected';
+  user: {
+    telegram_id: number;
+    first_name: string;
+    last_name: string;
+  };
+  selectedUser: {
+    telegram_id: number;
+    first_name: string;
+    last_name: string;
+  };
+  message: string;
+  points: {
+    buttonUser: number;
+    selectedUser: number;
+  };
+  timestamp: number;
+}
+
 export interface GameUser {
   socketId: string;
   points: number;
@@ -51,8 +71,8 @@ interface GameContextType {
   currentPoints: number;
   log: ChatMessage[];
   touchButton: () => void;
-  selectedUser: GameUser | null;
-  setSelectedUser: (v: GameUser | null) => void;
+  selectedCompleteData: SelectedCompleteData | null;
+  setSelectedCompleteData: (v: SelectedCompleteData | null) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -97,7 +117,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<any | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [currentPoints, setCurrentPoints] = useState(0);
-  const [selectedUser, setSelectedUser] = useState<GameUser | null>(null);
+  const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [log, setLog] = useState<ChatMessage[]>([]);
   const maxReconnectAttempts = 5;
@@ -227,9 +247,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         addLog(`🚪 Joined room: ${data.message}`);
       });
 
-      socketInstance.on('chat_message', (data: ChatMessage) => {
+      socketInstance.on('chat_message', (data: SelectedCompleteData) => {
         // console.log('data',data);
         if (data.type === 'user_selected') {
+          setSelectedCompleteData(data);
           console.log('selected', data);
         }
         setLog((prev) => [...prev, data]);
@@ -294,8 +315,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     currentPoints,
     log,
     touchButton,
-    selectedUser,
-    setSelectedUser,
+    selectedCompleteData,
+    setSelectedCompleteData,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

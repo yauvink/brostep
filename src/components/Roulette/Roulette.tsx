@@ -2,9 +2,8 @@ import { Box } from '@mui/material';
 import ConnectionOverlay from './components/ConnectionOverlay';
 import TouchButton from './components/TouchButton';
 import SpinnerAnimation from './components/SpinnerAnimation';
-import SelectedAnimation from './components/SelectedAnimation';
 import Logs from './components/Logs';
-import Users from './components/Users';
+import Users from './components/Users/Users';
 
 function Roulette() {
   return (
@@ -50,8 +49,6 @@ function Roulette() {
           <TouchButton />
 
           <SpinnerAnimation />
-
-          <SelectedAnimation />
 
           <Users />
         </Box>

@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import UserAvatar from '../../common/UserAvatar';
-import { useGame } from '../../../providers/GameProvider';
+import { useGame } from '../../../../providers/GameProvider';
 import { useMemo } from 'react';
+import SelectedAnimation from '../SelectedAnimation';
+import User from './components/User';
 
 function Users() {
   const { gameState } = useGame();
@@ -37,21 +38,10 @@ function Users() {
       }}
     >
       {usersWithPositions?.map((user, i) => {
-        return (
-          <Box
-            key={i}
-            sx={{
-              position: 'absolute',
-              left: `${user.x}%`,
-              top: `${user.y}%`,
-              transform: 'translate(-50%, -50%)',
-              zIndex: 5,
-            }}
-          >
-            <UserAvatar user={user} />
-          </Box>
-        );
+        return <User key={i} user={user} x={user.x} y={user.y} />;
       })}
+
+      <SelectedAnimation />
     </Box>
   );
 }

@@ -27,8 +27,7 @@ const userMock1: WebAppUser = {
   id: 3231231,
   language_code: 'en',
   last_name: '',
-  photo_url:
-    'https://www.google.com/url?sa=i&url=https%3A%2F%2Favatar-placeholder.iran.liara.run%2F&psig=AOvVaw3Yf8R3ZSRajErrMXh9DA4X&ust=1756070986697000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJDmiK_woY8DFQAAAAAdAAAAABAE',
+  photo_url: 'https://gravatar.com/avatar/ed9aeeed8a2c68aa053a8c8a3c870c5d?s=400&d=robohash&r=x',
   username: 'yauvink',
 };
 const userMock2: WebAppUser = {
@@ -37,7 +36,7 @@ const userMock2: WebAppUser = {
   id: 5555555,
   language_code: 'en',
   last_name: '',
-  photo_url: '',
+  photo_url: 'https://robohash.org/6db66d69373a72d263537c7675f20da3?set=set4&bgset=&size=400x400',
   username: 'yauvink',
 };
 

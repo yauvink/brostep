@@ -35,9 +35,12 @@ function UserAvatar({ user }: { user: GameUser }) {
           src={user.photo_url}
           alt="Profile"
           sx={{
+            backgroundColor: 'white',
             width: size,
             height: size,
-            boxShadow: '0 0 10px 0 rgba(0,0,0,0.5)',
+            boxShadow: user.is_online ? '0 0 10px 0 green' : '0 0 10px 0 grey',
+            border: user.is_online ? '4px solid green' : '4px solid grey',
+            borderRadius: '50%',
           }}
         />
       ) : (
@@ -45,9 +48,10 @@ function UserAvatar({ user }: { user: GameUser }) {
           sx={{
             width: size,
             height: size,
-            boxShadow: '0 0 10px 0 rgba(0,0,0,0.5)',
             backgroundColor: 'white',
+            boxShadow: user.is_online ? '0 0 10px 0 green' : '0 0 10px 0 grey',
             borderRadius: '50%',
+            border: user.is_online ? '4px solid green' : '4px solid grey',
           }}
         >
           <Person sx={{ color: 'black', width: size, height: size }} />
@@ -56,31 +60,35 @@ function UserAvatar({ user }: { user: GameUser }) {
       <Box
         sx={{
           position: 'absolute',
-          top: '0px',
-          right: '0px',
+          top: '-5px',
+          right: '-5px',
           backgroundColor: user.is_online ? 'green' : 'grey',
+          // backgroundColor: '#fff',
           borderRadius: '50%',
-          width: '20px',
-          height: '20px',
-        }}
-      ></Box>
-
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '0px',
-          left: '-4px',
-          backgroundColor: 'white',
-          padding: '0 4px',
-          borderRadius: '5px',
+          width: '30px',
+          height: '30px',
           display: 'flex',
-          alignItems: 'center',
-          boxShadow: '0 0 10px 0 rgba(0,0,0,0.5)',
           justifyContent: 'center',
-          color: user.points > 0 ? 'green' : 'red',
+          alignItems: 'center',
+          padding: '4px',
         }}
       >
-        {user.points}
+        <Box
+          sx={{
+            // color: user.points > 0 ? 'green' : 'red',
+            color: 'black',
+            background: '#fff',
+            borderRadius: '50%',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '12px',
+          }}
+        >
+          {user.points}
+        </Box>
       </Box>
     </Box>
   );

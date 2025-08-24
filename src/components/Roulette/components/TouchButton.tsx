@@ -100,10 +100,11 @@ function TouchButton() {
         zIndex: 10,
         backgroundColor: 'red',
         fontWeight: 900,
+        lineHeight: 1.4,
       }}
       variant="contained"
     >
-      do not touch!
+      show what you got
     </Button>
   );
 }
