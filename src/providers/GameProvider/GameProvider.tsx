@@ -22,16 +22,23 @@ interface GameState {
 }
 
 interface ChatMessage {
-  type: 'detection_completed' | 'button_touched';
+  type: 'detection_completed' | 'button_touched' | 'user_selected';
   user: {
+    telegram_id: string;
+    first_name: string;
+    last_name: string;
+  };
+  selectedUser?: {
     telegram_id: string;
     first_name: string;
     last_name: string;
   };
   message: string;
   points?: {
-    previous: number;
-    current: number;
+    previous?: number;
+    current?: number;
+    buttonUser?: number;
+    selectedUser?: number;
   };
   timestamp: number;
 }

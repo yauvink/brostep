@@ -41,7 +41,17 @@ function UserAvatar({ user }: { user: GameUser }) {
           }}
         />
       ) : (
-        <Person sx={{ width: size, height: size }} />
+        <Box
+          sx={{
+            width: size,
+            height: size,
+            boxShadow: '0 0 10px 0 rgba(0,0,0,0.5)',
+            backgroundColor: 'white',
+            borderRadius: '50%',
+          }}
+        >
+          <Person sx={{ color: 'black', width: size, height: size }} />
+        </Box>
       )}
       <Box
         sx={{
@@ -59,13 +69,15 @@ function UserAvatar({ user }: { user: GameUser }) {
         sx={{
           position: 'absolute',
           top: '0px',
-          left: '0px',
+          left: '-4px',
           backgroundColor: 'white',
-          padding: '0 2px',
+          padding: '0 4px',
           borderRadius: '5px',
           display: 'flex',
           alignItems: 'center',
+          boxShadow: '0 0 10px 0 rgba(0,0,0,0.5)',
           justifyContent: 'center',
+          color: user.points > 0 ? 'green' : 'red',
         }}
       >
         {user.points}

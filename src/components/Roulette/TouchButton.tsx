@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 function TouchButton() {
   const { gameState, touchButton } = useGame();
   const isDisabled = useMemo(() => {
-    console.log('gameState?.currentState',gameState?.currentState);
     return gameState?.currentState !== 'idle';
   }, [gameState]);
   return (
@@ -23,8 +22,7 @@ function TouchButton() {
       }}
       variant="contained"
     >
-      {isDisabled ? <span className="loader"></span>:
-      "do not touch!"}
+      {isDisabled ? <span className="loader"></span> : 'do not touch!'}
     </Button>
   );
 }

@@ -57,13 +57,13 @@ function Roulette() {
           padding: '20px',
         }}
       >
-        <Paper
-          elevation={3}
+        <Box
           sx={{
+            // border: '1px solid white',
             borderRadius: '50%',
             width: '100%',
             aspectRatio: '1/1',
-            backgroundColor: 'white',
+            backgroundColor: 'transparent',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -116,7 +116,7 @@ function Roulette() {
               );
             })}
           </Box>
-        </Paper>
+        </Box>
       </Box>
       <Paper
         elevation={3}
@@ -139,8 +139,14 @@ function Roulette() {
               key={index}
               sx={{
                 textAlign: 'left',
-                color: item.type === 'detection_completed' ? '#4caf50' :
-                       item.type === 'button_touched' ? '#2196f3' : '#666',
+                color:
+                  item.type === 'detection_completed'
+                    ? '#4caf50'
+                    : item.type === 'button_touched'
+                    ? '#2196f3'
+                    : item.type === 'user_selected'
+                    ? '#ff9800'
+                    : '#666',
                 fontWeight: item.type === 'detection_completed' ? 'bold' : 'normal',
               }}
             >
