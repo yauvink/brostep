@@ -98,7 +98,7 @@ function TouchButton() {
         height: '100px',
         width: '100px',
         zIndex: 10,
-        backgroundColor: 'red',
+        // backgroundColor: 'red',
         fontWeight: 900,
         lineHeight: 1.4,
       }}

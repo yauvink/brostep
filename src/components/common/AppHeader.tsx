@@ -11,7 +11,8 @@ function AppHeader() {
     <AppBar
       // position="static"
       sx={{
-        backgroundColor: 'transparent',
+        // backgroundColor: 'transparent',
+        backgroundColor: 'rgba(255,255,255,0.6)',
         backdropFilter: 'blur(10px)',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
         borderBottom: '1px solid rgba(0,0,0,0.1)',
@@ -19,7 +20,7 @@ function AppHeader() {
     >
       <Toolbar sx={{ height: '70px' }}>
         <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
-          BroStep
+          Большая Игра на ТНТ
         </Typography>
         <IconButton
           color="inherit"

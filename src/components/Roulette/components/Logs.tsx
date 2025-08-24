@@ -7,6 +7,8 @@ function Logs() {
     <Paper
       elevation={3}
       sx={{
+        backgroundColor: 'rgba(255,255,255,0.6)',
+        backdropFilter: 'blur(10px)',
         width: '100%',
         display: 'flex',
         // flexGrow: 1,
@@ -24,7 +26,7 @@ function Logs() {
             key={index}
             sx={{
               textAlign: 'left',
-              color: item.type === 'button_touched' ? '#2196f3' : item.type === 'user_selected' ? '#ff9800' : '#666',
+              color: item.type === 'button_touched' ? '#2196f3' : item.type === 'user_selected' ? 'black' : '#666',
             }}
           >
             {new Date(item.timestamp).toLocaleString().split(',')[1]}: {item.message}

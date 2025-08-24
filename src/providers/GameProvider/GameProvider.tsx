@@ -248,10 +248,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       });
 
       socketInstance.on('chat_message', (data: SelectedCompleteData) => {
-        // console.log('data',data);
         if (data.type === 'user_selected') {
           setSelectedCompleteData(data);
-          console.log('selected', data);
         }
         setLog((prev) => [...prev, data]);
       });

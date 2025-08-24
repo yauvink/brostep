@@ -49,13 +49,21 @@ body {
 }
 
 
-@keyframes scaleLot {
-  from {
-    transform: scale(0.2);
+@keyframes push {
+
+  0% {
+    transform: rotate(90deg) translateY(20px);
+
   }
 
-  to {
-    transform: scale(1);
+  50% {
+    transform: rotate(90deg) translateY(0px);
+
+  }
+
+  100% {
+    transform: rotate(90deg) translateY(20px);
+
   }
 }
 
