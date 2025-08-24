@@ -1,16 +1,17 @@
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import StraightIcon from '@mui/icons-material/Straight';
 import UserAvatar from '../common/UserAvatar';
 import { useGame } from '../../providers/GameProvider';
 import ConnectionOverlay from './ConnectionOverlay';
 import { useMemo } from 'react';
+import TouchButton from './TouchButton';
 
 function Roulette() {
-  const { log, gameState, touchButton } = useGame();
+  const { log, gameState } = useGame();
 
   const usersWithPositions = useMemo(() => {
     return gameState?.users.map((user, i, arr) => {
-      const totalUsers = arr.length
+      const totalUsers = arr.length;
       const angleStep = (2 * Math.PI) / totalUsers;
       const angle = i * angleStep - Math.PI / 2; // Start from top (-90 degrees)
 
@@ -22,11 +23,11 @@ function Roulette() {
       const x = centerX + radius * Math.cos(angle);
       const y = centerY + radius * Math.sin(angle);
 
-   return {
-    ...user,
-    x,
-    y
-   }
+      return {
+        ...user,
+        x,
+        y,
+      };
     });
   }, [gameState]);
 
@@ -69,21 +70,7 @@ function Roulette() {
             position: 'relative',
           }}
         >
-          <Button
-            onClick={touchButton}
-            sx={{
-              borderRadius: '50%',
-              height: '100px',
-              width: '100px',
-              position: 'absolute',
-              zIndex: 10,
-              backgroundColor: 'red',
-              fontWeight: 900,
-            }}
-            variant="contained"
-          >
-            do not touch
-          </Button>
+          <TouchButton />
 
           <Box
             sx={{
@@ -145,16 +132,18 @@ function Roulette() {
           // alignItems
         }}
       >
-        {log.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).map((item, index) => (
-          <Typography
-            key={index}
-            sx={{
-              textAlign: 'left',
-            }}
-          >
-            {new Date(item.timestamp).toLocaleString().split(',')[1]}: {item.message}
-          </Typography>
-        ))}
+        {log
+          .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+          .map((item, index) => (
+            <Typography
+              key={index}
+              sx={{
+                textAlign: 'left',
+              }}
+            >
+              {new Date(item.timestamp).toLocaleString().split(',')[1]}: {item.message}
+            </Typography>
+          ))}
       </Paper>
     </Box>
   );

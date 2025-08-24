@@ -18,7 +18,7 @@ interface GameState {
   lastUpdate: string;
   totalUsers: number;
   onlineUsers: number;
-  yourPoints?: number;
+  currentState: 'idle' | 'detecting' | 'detected';
 }
 
 interface GameContextType {
@@ -59,7 +59,7 @@ interface GameStateUpdateData {
   lastUpdate: string;
   totalUsers: number;
   onlineUsers: number;
-  yourPoints?: number;
+  currentState: 'idle' | 'detecting' | 'detected';
 }
 
 interface JoinedRoomData {
