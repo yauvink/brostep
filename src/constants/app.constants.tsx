@@ -3,3 +3,5 @@ export const APP_VIEW = {
   PROFILE: 'PROFILE',
   LEADERBOARD: 'LEADERBOARD',
 };
+
+export const ALLOWED_PLATFORMS = ['ios', 'android'];

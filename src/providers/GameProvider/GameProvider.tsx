@@ -294,6 +294,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   // Auto-connect on mount
   useEffect(() => {
+    console.log('useEffect telegramUser',telegramUser);
     if (telegramUser?.id) {
       connect();
 

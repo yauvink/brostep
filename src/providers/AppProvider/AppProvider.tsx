@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, type ReactNode, useCallback 
 import { useTelegram } from '../TelegramProvider/useTelegram';
 import { getUser, type GetUserResponse } from '../../services/requests';
 import { ToastContainer, toast } from 'react-toastify';
-import { APP_VIEW } from '../../constants/app.constants';
+import { ALLOWED_PLATFORMS, APP_VIEW } from '../../constants/app.constants';
 interface AppContextType {
   isAppLoading: boolean;
   setIsAppLoading: (loading: boolean) => void;
@@ -21,7 +21,7 @@ interface AppProviderProps {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [appView, setAppView] = useState(APP_VIEW.MAIN);
   const [appError, setAppError] = useState<string | null>(null);
-  const { telegramUser } = useTelegram();
+  const { telegramUser, webApp } = useTelegram();
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [userData, setUserData] = useState<GetUserResponse | null>(null);
 
@@ -59,6 +59,16 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       updateUser();
     }
   }, [telegramUser, updateUser]);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) {
+      if (webApp) {
+        if (!ALLOWED_PLATFORMS.includes(webApp.platform)) {
+          setAppError('Please open in Telegram @bro_step_bot');
+        }
+      }
+    }
+  }, [webApp]);
 
   const value: AppContextType = {
     isAppLoading,
