@@ -194,7 +194,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setReconnectAttempts(0);
 
         // Auto-authenticate when connected
-        console.log('telegramUser before authenticate',telegramUser);
+        console.log('telegramUser before authenticate', telegramUser);
         if (telegramUser?.id) {
           authenticate(socketInstance);
         }
@@ -253,7 +253,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socketInstance.on('chat_message', (data: SelectedCompleteData) => {
         if (data.type === 'user_selected') {
           setSelectedCompleteData(data);
-        }else if (data.type === 'button_touched') {
+        } else if (data.type === 'button_touched') {
           setTouchedUserId(data.user.telegram_id);
         }
         setLog((prev) => [...prev, data]);
@@ -294,14 +294,16 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   // Auto-connect on mount
   useEffect(() => {
-    connect();
+    if (telegramUser?.id) {
+      connect();
 
-    return () => {
-      if (socket) {
-        socket.disconnect();
-      }
-    };
-  }, []);
+      return () => {
+        if (socket) {
+          socket.disconnect();
+        }
+      };
+    }
+  }, [telegramUser]);
 
   // Send activity periodically
   useEffect(() => {
