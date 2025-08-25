@@ -140,6 +140,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }, []);
 
   const connect = useCallback(() => {
+    console.log(2,'CONNECT 2', telegramUser);
     if (socket) {
       socket.disconnect();
     }
@@ -165,7 +166,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       addLog(`❌ Connection error: ${errorMessage}`);
       setIsConnected(false);
     }
-  }, [socket, addLog]);
+  }, [socket, addLog, telegramUser]);
 
   const authenticate = useCallback(
     (socketInstance: any) => {
@@ -296,6 +297,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   useEffect(() => {
     console.log('useEffect telegramUser',telegramUser);
     if (telegramUser?.id) {
+      console.log(1,'CONNECT 1',Date.now());
       connect();
 
       return () => {
