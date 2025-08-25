@@ -194,6 +194,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setReconnectAttempts(0);
 
         // Auto-authenticate when connected
+        console.log('telegramUser before authenticate',telegramUser);
         if (telegramUser?.id) {
           authenticate(socketInstance);
         }
