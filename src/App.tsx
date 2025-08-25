@@ -7,7 +7,7 @@ import ErrorScreen from './components/ErrorScreen';
 import { GameProvider } from './providers/GameProvider/GameProvider';
 import Leaderboard from './components/Leaderboard';
 
-console.log('0.02');
+console.log('000003');
 
 const View = () => {
   const { appView, appError } = useApp();
