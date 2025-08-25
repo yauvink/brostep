@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
-import { useApp } from '../providers/AppProvider';
+import { useError } from '../providers/ErrorProvider';
 
 function ErrorScreen() {
-  const { appError } = useApp();
+  const { appError } = useError();
 
   return (
     <div className="loading-screen">

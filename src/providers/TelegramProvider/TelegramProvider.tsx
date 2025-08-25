@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect, type ReactNode, useMemo } from 'react';
+import React, { createContext, useState, useEffect, type ReactNode } from 'react';
 import type { WebApp, WebAppUser } from 'telegram-web-app';
+import { useError } from '../ErrorProvider';
 
 interface TelegramContextType {
   webApp: WebApp | null;
@@ -42,29 +43,34 @@ const userMock2: WebAppUser = {
 
 export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) => {
   const [webApp, setWebApp] = useState<WebApp | null>(null);
+  const { setAppError } = useError();
 
-  const telegramUser = useMemo(() => {
-    if (import.meta.env.DEV) {
-      const id = new URLSearchParams(window.location.search).get('id');
-      if (Number(id) === 1) {
-        return userMock1;
-      }
-      if (Number(id) === 2) {
-        return userMock2;
-      }
-
-      return userMock;
-    }
-    return webApp?.initDataUnsafe?.user ?? null;
-  }, [webApp]);
+  const [telegramUser, setTelegramUser] = useState<WebAppUser | null>(null);
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
+    console.log('app', app);
     if (app) {
       app.ready();
       app.setHeaderColor('#0E111B');
       app.setBackgroundColor('#0E111B');
       setWebApp(app);
+      if (app.initDataUnsafe.user) {
+        setTelegramUser(app.initDataUnsafe.user);
+      } else {
+        if (import.meta.env.DEV) {
+          const id = new URLSearchParams(window.location.search).get('id');
+          if (Number(id) === 1) {
+            setTelegramUser(userMock1);
+          } else if (Number(id) === 2) {
+            setTelegramUser(userMock2);
+          } else {
+            setTelegramUser(userMock);
+          }
+        } else {
+          setAppError('Please open in Telegram @bro_step_bot');
+        }
+      }
     }
   }, []);
 

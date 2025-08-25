@@ -1,5 +1,6 @@
 import { AppProvider, useApp } from './providers/AppProvider';
 import { TelegramProvider } from './providers/TelegramProvider/TelegramProvider';
+import { ErrorProvider, useError } from './providers/ErrorProvider';
 import Main from './components/Main';
 import { APP_VIEW } from './constants/app.constants';
 import Profile from './components/Profile';
@@ -8,7 +9,8 @@ import { GameProvider } from './providers/GameProvider/GameProvider';
 import Leaderboard from './components/Leaderboard';
 
 const View = () => {
-  const { appView, appError } = useApp();
+  const { appView } = useApp();
+  const { appError } = useError();
   if (appError) return <ErrorScreen />;
 
   switch (appView) {
@@ -27,13 +29,15 @@ const View = () => {
 
 function App() {
   return (
-    <TelegramProvider>
-      <AppProvider>
-        <GameProvider>
-          <View />
-        </GameProvider>
-      </AppProvider>
-    </TelegramProvider>
+    <ErrorProvider>
+      <TelegramProvider>
+        <AppProvider>
+          <GameProvider>
+            <View />
+          </GameProvider>
+        </AppProvider>
+      </TelegramProvider>
+    </ErrorProvider>
   );
 }
 
