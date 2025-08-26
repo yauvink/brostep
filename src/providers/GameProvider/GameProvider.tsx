@@ -77,6 +77,7 @@ interface GameContextType {
   selectedCompleteData: SelectedCompleteData | null;
   setSelectedCompleteData: (v: SelectedCompleteData | null) => void;
   touchedUserId: number | null;
+  growButtonClick: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -284,14 +285,22 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       return;
     }
 
-    // if (points >= 0) {
-    //   setCurrentPoints(points);
     socket.emit('touch_button', { telegram_id: telegramUser.id });
     if (webApp) {
       webApp.HapticFeedback.impactOccurred('soft');
     }
-    //   addLog(`📈 Updating points to: ${points}`);
-    // }
+  }, [telegramUser, socket, isAuthenticated, addLog]);
+
+  const growButtonClick = useCallback(() => {
+    if (!telegramUser || !socket || !socket.connected || !isAuthenticated) {
+      addLog('❌ Cannot grow');
+      return;
+    }
+
+    socket.emit('grow_button', { telegram_id: telegramUser.id });
+    if (webApp) {
+      webApp.HapticFeedback.impactOccurred('soft');
+    }
   }, [telegramUser, socket, isAuthenticated, addLog]);
 
   // Auto-connect on mount
@@ -328,6 +337,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     selectedCompleteData,
     setSelectedCompleteData,
     touchedUserId,
+    growButtonClick,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

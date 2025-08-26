@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
 
 function GrowButton() {
-  const { gameState } = useGame();
+  const { gameState, growButtonClick } = useGame();
   const { telegramUser } = useTelegram();
 
   const currentUser = useMemo(() => {
@@ -27,11 +27,15 @@ function GrowButton() {
         return;
       }
 
+      const hours = Math.floor(remainingTime / (1000 * 60 * 60));
       const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-      const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      setTimeout(timeString);
+      setTimeout(
+        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
+          .toString()
+          .padStart(2, '0')}`
+      );
     };
 
     checkTimeRemaining();
@@ -65,7 +69,7 @@ function GrowButton() {
         </Button>
       ) : (
         <Button
-          onClick={() => {}}
+          onClick={growButtonClick}
           sx={{
             width: '100%',
             backgroundColor: '#EFBF04',
