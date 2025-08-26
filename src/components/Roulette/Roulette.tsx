@@ -4,6 +4,7 @@ import TouchButton from './components/TouchButton';
 import SpinnerAnimation from './components/SpinnerAnimation';
 import Logs from './components/Logs';
 import Users from './components/Users/Users';
+import GrowButton from './components/GrowButton';
 
 function Roulette() {
   return (
@@ -53,6 +54,8 @@ function Roulette() {
           <Users />
         </Box>
       </Box>
+
+      <GrowButton />
 
       <Logs />
     </Box>

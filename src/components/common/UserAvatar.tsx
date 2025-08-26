@@ -25,9 +25,12 @@ function UserAvatar({ user }: { user: GameUser }) {
           transform: 'translateX(-50%)',
           color: 'white',
           textShadow: '1px 1px 2px black, 0 0 1em black, 0 0 0.2em black',
+          lineHeight: '14px',
         }}
       >
         {user.first_name}
+        <br />
+        {user.size}cm
       </Typography>
 
       {user?.photo_url ? (

@@ -49,7 +49,6 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
-    console.log('app', app);
     if (app) {
       app.ready();
       app.setHeaderColor('#0E111B');

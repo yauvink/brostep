@@ -32,6 +32,9 @@ export interface GameUser {
   connectedAt: string;
   lastActivity: string;
   lastTouched: number | null;
+  size: number;
+  grow_timeout: number;
+  grow_timestamp: number;
 }
 
 interface GameState {
@@ -140,7 +143,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }, []);
 
   const connect = useCallback(() => {
-    console.log(2,'CONNECT 2', telegramUser);
     if (socket) {
       socket.disconnect();
     }
@@ -195,7 +197,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setReconnectAttempts(0);
 
         // Auto-authenticate when connected
-        console.log('telegramUser before authenticate', telegramUser);
         if (telegramUser?.id) {
           authenticate(socketInstance);
         }
@@ -295,9 +296,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   // Auto-connect on mount
   useEffect(() => {
-    console.log('useEffect telegramUser',telegramUser);
     if (telegramUser?.id) {
-      console.log(1,'CONNECT 1',Date.now());
       connect();
 
       return () => {
