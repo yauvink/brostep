@@ -41,8 +41,8 @@ function UserAvatar({ user }: { user: GameUser }) {
             backgroundColor: 'white',
             width: size,
             height: size,
-            boxShadow: user.is_online ? '0 0 10px 0 green' : '0 0 10px 0 grey',
-            border: user.is_online ? '4px solid green' : '4px solid grey',
+            boxShadow: user.isOnline ? '0 0 10px 0 green' : '0 0 10px 0 grey',
+            border: user.isOnline ? '4px solid green' : '4px solid grey',
             borderRadius: '50%',
           }}
         />
@@ -52,9 +52,9 @@ function UserAvatar({ user }: { user: GameUser }) {
             width: size,
             height: size,
             backgroundColor: 'white',
-            boxShadow: user.is_online ? '0 0 10px 0 green' : '0 0 10px 0 grey',
+            boxShadow: user.isOnline ? '0 0 10px 0 green' : '0 0 10px 0 grey',
             borderRadius: '50%',
-            border: user.is_online ? '4px solid green' : '4px solid grey',
+            border: user.isOnline ? '4px solid green' : '4px solid grey',
           }}
         >
           <Person sx={{ color: 'black', width: size, height: size }} />
@@ -65,7 +65,7 @@ function UserAvatar({ user }: { user: GameUser }) {
           position: 'absolute',
           top: '-5px',
           right: '-5px',
-          backgroundColor: user.is_online ? 'green' : 'grey',
+          backgroundColor: user.isOnline ? 'green' : 'grey',
           // backgroundColor: '#fff',
           borderRadius: '50%',
           width: '30px',

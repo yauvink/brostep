@@ -20,7 +20,7 @@ function GrowButton() {
         return;
       }
 
-      const remainingTime = currentUser.grow_timestamp + currentUser.grow_timeout - Date.now();
+      const remainingTime = currentUser.growTimestamp + currentUser.growTimeout - Date.now();
 
       if (remainingTime <= 0) {
         setTimeout(null);
@@ -50,7 +50,7 @@ function GrowButton() {
       sx={{
         display: 'flex',
         width: '100%',
-        padding: '5px',
+        padding: '15px',
       }}
     >
       {timeout ? (

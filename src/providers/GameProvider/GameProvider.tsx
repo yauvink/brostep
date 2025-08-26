@@ -24,7 +24,7 @@ export interface SelectedCompleteData {
 export interface GameUser {
   socketId: string;
   points: number;
-  is_online: boolean;
+  isOnline: boolean;
   first_name: string;
   last_name: string;
   photo_url: string | null;
@@ -33,8 +33,8 @@ export interface GameUser {
   lastActivity: string;
   lastTouched: number | null;
   size: number;
-  grow_timeout: number;
-  grow_timestamp: number;
+  growTimeout: number;
+  growTimestamp: number;
 }
 
 interface GameState {
@@ -71,7 +71,6 @@ interface GameContextType {
   isConnected: boolean;
   isAuthenticated: boolean;
   gameState: GameState | null;
-  currentPoints: number;
   log: ChatMessage[];
   touchButton: () => void;
   selectedCompleteData: SelectedCompleteData | null;
@@ -93,11 +92,6 @@ interface AuthenticatedData {
 interface AuthErrorData {
   message: string;
 }
-
-// interface WelcomeData {
-//   message: string;
-// }
-
 interface JoinedGameRoomData {
   message: string;
   yourPoints?: number;
@@ -121,7 +115,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [socket, setSocket] = useState<any | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
-  const [currentPoints, setCurrentPoints] = useState(0);
   const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
   const [touchedUserId, setTouchedUserId] = useState<number | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
@@ -222,13 +215,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         }
       });
 
-      // socketInstance.on('welcome', (data: WelcomeData) => {
-      //   addLog(`👋 Welcome: ${data.message}`);
-      // });
-
       socketInstance.on('authenticated', (data: AuthenticatedData) => {
         setIsAuthenticated(true);
-        setCurrentPoints(data.user.points || 0);
         addLog(`✅ Authentication successful: ${data.user.first_name} ${data.user.last_name}`);
       });
 
@@ -239,9 +227,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       socketInstance.on('joined_game_room', (data: JoinedGameRoomData) => {
         addLog(`🎮 Joined game room: ${data.message}`);
-        if (data.yourPoints !== undefined) {
-          setCurrentPoints(data.yourPoints);
-        }
       });
 
       socketInstance.on('game_state_update', (data: GameStateUpdateData) => {
@@ -331,7 +316,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     isConnected,
     isAuthenticated,
     gameState,
-    currentPoints,
     log,
     touchButton,
     selectedCompleteData,

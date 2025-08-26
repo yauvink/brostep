@@ -159,8 +159,8 @@ function Profile() {
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Member Since:</Typography>
                     <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
-                      {userData.created_at
-                        ? new Date(userData.created_at).toLocaleDateString('en-US', {
+                      {userData.createdAt
+                        ? new Date(userData.createdAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric',
@@ -171,8 +171,8 @@ function Profile() {
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Last Updated:</Typography>
                     <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
-                      {userData.updated_at
-                        ? new Date(userData.updated_at).toLocaleDateString('en-US', {
+                      {userData.updatedAt
+                        ? new Date(userData.updatedAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric',

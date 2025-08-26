@@ -19,8 +19,8 @@ export interface GetUserResponse {
   telegram_id: number;
   photo_url: string | null;
   ref_code: string | null;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const getUser = ({
