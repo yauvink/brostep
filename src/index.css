@@ -27,14 +27,67 @@ body {
 #root {
   height: 100%;
 }
+@keyframes spinAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(30deg); /* медленно вначале */
+  }
+  30% {
+    transform: rotate(180deg); /* ускорение */
+  }
+  100% {
+    transform: rotate(1080deg); /* несколько оборотов на высокой скорости */
+  }
+}
 
-@keyframes spin {
+/* @keyframes spinUp {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes spinLoop {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(720deg);
+  }
+} */
+@keyframes spin1 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes spin2 {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(720deg); }
+}
+
+@keyframes spin3 {
+  from { transform: rotate(720deg); }
+  to   { transform: rotate(1080deg); }
+}
+@keyframes spinUp {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinLoop {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(720deg);
   }
 }
 

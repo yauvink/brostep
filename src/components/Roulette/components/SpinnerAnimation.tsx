@@ -19,14 +19,14 @@ function SpinnerAnimation() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        animation: isSpinning ? 'spin 1s linear infinite' : 'none',
+        animation: isSpinning ? 'spin1 2s linear forwards, spin2 1s linear forwards 2s, spin3 0.5s linear infinite 3s' : 'none',
       }}
     >
       {isSpinning && (
         <Box
           sx={{
             // border: '1px solid red',
-            animation: isSpinning ? 'scale 5s linear infinite' : 'none',
+            animation: isSpinning ? 'scale 5s linear' : 'none',
             width: '40px',
             height: '200px',
             backgroundImage: `url(${arrow_cropped})`,

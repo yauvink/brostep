@@ -24,21 +24,21 @@ const userMock: WebAppUser = {
 };
 const userMock1: WebAppUser = {
   allows_write_to_pm: true,
-  first_name: 'Tester1',
-  id: 3231231,
+  first_name: 'Bender',
+  id: 14888888,
   language_code: 'en',
   last_name: '',
   photo_url: 'https://gravatar.com/avatar/ed9aeeed8a2c68aa053a8c8a3c870c5d?s=400&d=robohash&r=x',
-  username: 'yauvink',
+  username: 'ben',
 };
 const userMock2: WebAppUser = {
   allows_write_to_pm: true,
-  first_name: 'Test2',
+  first_name: 'Kisa',
   id: 5555555,
   language_code: 'en',
-  last_name: '',
+  last_name: 'Drisa',
   photo_url: 'https://robohash.org/6db66d69373a72d263537c7675f20da3?set=set4&bgset=&size=400x400',
-  username: 'yauvink',
+  username: 'kisa',
 };
 
 export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) => {
