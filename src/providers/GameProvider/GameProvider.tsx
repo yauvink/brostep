@@ -3,6 +3,7 @@ import { useTelegram } from '../TelegramProvider/useTelegram';
 
 export interface SelectedCompleteData {
   type: 'user_selected';
+  timestamp: number;
   user: {
     telegram_id: number;
     first_name: string;
@@ -13,11 +14,14 @@ export interface SelectedCompleteData {
     first_name: string;
     last_name: string;
   };
-  message: string;
   points: {
     buttonUser: number;
     selectedUser: number;
   };
+}
+
+export interface LastMessagesData {
+  messages: ChatMessage[];
   timestamp: number;
 }
 
@@ -46,32 +50,17 @@ interface GameState {
 }
 
 interface ChatMessage {
-  type: 'button_touched' | 'user_selected';
-  user: {
-    telegram_id: number;
-    first_name: string;
-    last_name: string;
-  };
-  selectedUser?: {
-    telegram_id: number;
-    first_name: string;
-    last_name: string;
-  };
-  message: string;
-  points?: {
-    previous?: number;
-    current?: number;
-    buttonUser?: number;
-    selectedUser?: number;
-  };
+  id?: string;
   timestamp: number;
+  type: 'user' | 'system' | 'app';
+  message: string;
 }
 
 interface GameContextType {
   isConnected: boolean;
   isAuthenticated: boolean;
   gameState: GameState | null;
-  log: ChatMessage[];
+  chatMessages: ChatMessage[];
   touchButton: () => void;
   selectedCompleteData: SelectedCompleteData | null;
   setSelectedCompleteData: (v: SelectedCompleteData | null) => void;
@@ -105,10 +94,6 @@ interface GameStateUpdateData {
   currentState: 'idle' | 'detecting' | 'detected';
 }
 
-interface JoinedRoomData {
-  message: string;
-}
-
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const { telegramUser, webApp } = useTelegram();
   const [isConnected, setIsConnected] = useState(false);
@@ -118,22 +103,14 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
   const [touchedUserId, setTouchedUserId] = useState<number | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
-  const [log, setLog] = useState<ChatMessage[]>([]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
   const maxReconnectAttempts = 5;
 
-  const addLog = useCallback((message: string) => {
-    const timestamp = Date.now();
-    const logEntry: ChatMessage = {
-      type: 'button_touched',
-      user: {
-        telegram_id: 0,
-        first_name: 'System',
-        last_name: '',
-      },
-      message,
-      timestamp,
-    };
-    setLog((prev) => [...prev, logEntry]);
+  console.log('chatMessages', chatMessages);
+
+  const addChatMessage = useCallback((chatMessage: ChatMessage) => {
+    setChatMessages((prev) => [...prev, chatMessage]);
   }, []);
 
   const connect = useCallback(() => {
@@ -143,7 +120,11 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
     setIsConnected(false);
     setIsAuthenticated(false);
-    addLog('Attempting to connect to server...');
+    // addLog({
+    //   type: 'app',
+    //   message: 'Attempting to connect to server...',
+    //   timestamp: Date.now(),
+    // });
 
     try {
       // Dynamic import to avoid TypeScript issues
@@ -159,20 +140,32 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      addLog(`❌ Connection error: ${errorMessage}`);
+      addChatMessage({
+        type: 'app',
+        message: `❌ Connection error: ${errorMessage}`,
+        timestamp: Date.now(),
+      });
       setIsConnected(false);
     }
-  }, [socket, addLog, telegramUser]);
+  }, [socket, addChatMessage, telegramUser]);
 
   const authenticate = useCallback(
     (socketInstance: any) => {
       if (!socketInstance || !socketInstance.connected) {
-        addLog('❌ Cannot authenticate: not connected to server');
+        addChatMessage({
+          type: 'app',
+          message: '❌ Cannot authenticate: not connected to server',
+          timestamp: Date.now(),
+        });
         return;
       }
 
       if (!telegramUser?.id) {
-        addLog('❌ Cannot authenticate: no Telegram user ID available');
+        addChatMessage({
+          type: 'app',
+          message: '❌ Cannot authenticate: no Telegram user ID available',
+          timestamp: Date.now(),
+        });
         return;
       }
 
@@ -180,14 +173,18 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       // addLog(`🔐 Authenticating with telegram_id: ${telegram_id}`);
       socketInstance.emit('authenticate', { telegram_id });
     },
-    [telegramUser, addLog]
+    [telegramUser, addChatMessage]
   );
 
   const setupSocketHandlers = useCallback(
     (socketInstance: any) => {
       socketInstance.on('connect', () => {
         setIsConnected(true);
-        addLog('✅ Connected to server successfully');
+        // addChatMessage({
+        //   type: 'app',
+        //   message: '✅ Connected to server successfully',
+        //   timestamp: Date.now(),
+        // });
         setReconnectAttempts(0);
 
         // Auto-authenticate when connected
@@ -199,17 +196,29 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socketInstance.on('disconnect', (reason: string) => {
         setIsConnected(false);
         setIsAuthenticated(false);
-        addLog(`❌ Disconnected: ${reason}`);
+        addChatMessage({
+          type: 'app',
+          message: `❌ Disconnected: ${reason}`,
+          timestamp: Date.now(),
+        });
 
         if (reason === 'io server disconnect') {
           // Server disconnected us, try to reconnect
           setTimeout(() => {
             if (reconnectAttempts < maxReconnectAttempts) {
               setReconnectAttempts((prev) => prev + 1);
-              addLog(`🔄 Attempting to reconnect (${reconnectAttempts + 1}/${maxReconnectAttempts})...`);
+              addChatMessage({
+                type: 'app',
+                message: `🔄 Attempting to reconnect (${reconnectAttempts + 1}/${maxReconnectAttempts})...`,
+                timestamp: Date.now(),
+              });
               connect();
             } else {
-              addLog('❌ Max reconnection attempts reached');
+              addChatMessage({
+                type: 'app',
+                message: '❌ Max reconnection attempts reached',
+                timestamp: Date.now(),
+              });
             }
           }, 1000);
         }
@@ -217,56 +226,93 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       socketInstance.on('authenticated', (data: AuthenticatedData) => {
         setIsAuthenticated(true);
-        addLog(`✅ Authentication successful: ${data.user.first_name} ${data.user.last_name}`);
+        addChatMessage({
+          type: 'app',
+          message: `✅ Authentication successful: ${data.user.first_name} ${data.user.last_name}`,
+          timestamp: Date.now(),
+        });
       });
 
       socketInstance.on('auth_error', (data: AuthErrorData) => {
-        addLog(`❌ Authentication error: ${data.message}`);
+        addChatMessage({
+          type: 'app',
+          message: `❌ Authentication error: ${data.message}`,
+          timestamp: Date.now(),
+        });
         setIsAuthenticated(false);
       });
 
       socketInstance.on('joined_game_room', (data: JoinedGameRoomData) => {
-        addLog(`🎮 Joined game room: ${data.message}`);
+        addChatMessage({
+          type: 'app',
+          message: `🎮 ${data.message}`,
+          timestamp: Date.now(),
+        });
       });
 
       socketInstance.on('game_state_update', (data: GameStateUpdateData) => {
-        // addLog(`📊 Game state updated - ${data.totalUsers} total users, ${data.onlineUsers} online`);
         setGameState(data);
       });
 
-      socketInstance.on('joined_room', (data: JoinedRoomData) => {
-        addLog(`🚪 Joined room: ${data.message}`);
-      });
-
-      socketInstance.on('chat_message', (data: SelectedCompleteData) => {
+      socketInstance.on('game_state_message', (data: SelectedCompleteData) => {
+        console.log('game_state_message', data);
         if (data.type === 'user_selected') {
           setSelectedCompleteData(data);
         } else if (data.type === 'button_touched') {
           setTouchedUserId(data.user.telegram_id);
         }
-        setLog((prev) => [...prev, data]);
+      });
+
+      socketInstance.on('last_messages', (data: LastMessagesData) => {
+        console.log('last_messages', data);
+        setChatMessages((prev) => [...prev, ...data.messages]);
+      });
+
+      socketInstance.on('chat_message', (data: ChatMessage) => {
+        console.log('chat_message', data);
+        setChatMessages((prev) => [...prev, data]);
       });
 
       socketInstance.on('connect_error', (error: any) => {
-        addLog(`❌ Connection error: ${error.message}`);
+        addChatMessage({
+          type: 'app',
+          message: `❌ Connection error: ${error.message}`,
+          timestamp: Date.now(),
+        });
         setIsConnected(false);
 
         if (error.message.includes('xhr poll error')) {
-          addLog('💡 This usually means the server is not running or not accessible');
-          addLog('💡 Make sure to run: npm run dev');
+          addChatMessage({
+            type: 'app',
+            message: '💡 This usually means the server is not running or not accessible',
+            timestamp: Date.now(),
+          });
+          addChatMessage({
+            type: 'app',
+            message: '💡 Make sure to run: npm run dev',
+            timestamp: Date.now(),
+          });
         }
       });
 
       socketInstance.on('error', (error: any) => {
-        addLog(`❌ Socket error: ${error.message}`);
+        addChatMessage({
+          type: 'app',
+          message: `❌ Socket error: ${error.message}`,
+          timestamp: Date.now(),
+        });
       });
     },
-    [addLog, reconnectAttempts, maxReconnectAttempts, connect, authenticate, telegramUser]
+    [addChatMessage, reconnectAttempts, maxReconnectAttempts, connect, authenticate, telegramUser]
   );
 
   const touchButton = useCallback(() => {
     if (!telegramUser || !socket || !socket.connected || !isAuthenticated) {
-      addLog('❌ Cannot touch');
+      addChatMessage({
+        type: 'app',
+        message: '❌ Cannot touch',
+        timestamp: Date.now(),
+      });
       return;
     }
 
@@ -274,11 +320,15 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     if (webApp) {
       webApp.HapticFeedback.impactOccurred('soft');
     }
-  }, [telegramUser, socket, isAuthenticated, addLog]);
+  }, [telegramUser, socket, isAuthenticated, addChatMessage, webApp]);
 
   const growButtonClick = useCallback(() => {
     if (!telegramUser || !socket || !socket.connected || !isAuthenticated) {
-      addLog('❌ Cannot grow');
+      addChatMessage({
+        type: 'app',
+        message: '❌ Cannot grow',
+        timestamp: Date.now(),
+      });
       return;
     }
 
@@ -286,7 +336,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     if (webApp) {
       webApp.HapticFeedback.impactOccurred('soft');
     }
-  }, [telegramUser, socket, isAuthenticated, addLog]);
+  }, [telegramUser, socket, isAuthenticated, addChatMessage, webApp]);
 
   // Auto-connect on mount
   useEffect(() => {
@@ -316,7 +366,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     isConnected,
     isAuthenticated,
     gameState,
-    log,
+    chatMessages,
     touchButton,
     selectedCompleteData,
     setSelectedCompleteData,

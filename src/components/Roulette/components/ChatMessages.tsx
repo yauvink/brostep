@@ -1,8 +1,8 @@
 import { Paper, Typography } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 
-function Logs() {
-  const { log } = useGame();
+function ChatMessages() {
+  const { chatMessages } = useGame();
   return (
     <Paper
       elevation={3}
@@ -19,21 +19,30 @@ function Logs() {
         overflow: 'auto',
       }}
     >
-      {log
+      {chatMessages
         .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
         .map((item, index) => (
           <Typography
-            key={index}
+            key={item.id || index}
             sx={{
               textAlign: 'left',
-              color: item.type === 'button_touched' ? '#2196f3' : item.type === 'user_selected' ? 'black' : '#666',
+              fontWeight: 'bold',
+              color:
+                item.type === 'app'
+                  ? '#666'
+                  : item.type === 'user'
+                  ? '#4caf50'
+                  : item.type === 'system'
+                  ? '#ff9800'
+                  : '#666',
             }}
           >
-            {new Date(item.timestamp).toLocaleString().split(',')[1]}: {item.message}
+            [{item.type.slice(0, 3).toUpperCase()}] {new Date(item.timestamp).toLocaleString().split(',')[1]}:{' '}
+            <span style={{ fontStyle: 'italic', fontWeight: 'normal' }}>{item.message}</span>
           </Typography>
         ))}
     </Paper>
   );
 }
 
-export default Logs;
+export default ChatMessages;

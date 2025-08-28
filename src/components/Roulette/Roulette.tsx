@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import ConnectionOverlay from './components/ConnectionOverlay';
 import TouchButton from './components/TouchButton';
 import SpinnerAnimation from './components/SpinnerAnimation';
-import Logs from './components/Logs';
+import ChatMessages from './components/ChatMessages';
 import Users from './components/Users/Users';
 import GrowButton from './components/GrowButton';
 
@@ -57,7 +57,7 @@ function Roulette() {
 
       <GrowButton />
 
-      <Logs />
+      <ChatMessages />
     </Box>
   );
 }
