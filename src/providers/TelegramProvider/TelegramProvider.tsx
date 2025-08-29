@@ -51,9 +51,10 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
       try {
-          console.log('retrieveLaunchParams', retrieveLaunchParams());
+          const { initDataRaw } = retrieveLaunchParams();
+          console.log('initDataRaw', initDataRaw);
       } catch (error) {
-          console.log('retrieveLaunchParams', error);
+          console.log('initDataRaw', error);
       }
       if (app) {
       app.ready();
