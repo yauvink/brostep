@@ -35,7 +35,7 @@ export const getUser = ({
   const url = import.meta.env.VITE_API_ENDPOINT;
 
   return axios.post(
-    url + '/user',
+    url + '/api/user',
     {
       telegram_id,
       username,

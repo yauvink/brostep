@@ -107,8 +107,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   const maxReconnectAttempts = 5;
 
-  console.log('chatMessages', chatMessages);
-
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
   }, []);

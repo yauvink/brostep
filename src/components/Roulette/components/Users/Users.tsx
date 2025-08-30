@@ -14,7 +14,7 @@ function Users() {
       const angle = i * angleStep - Math.PI / 2; // Start from top (-90 degrees)
 
       // Calculate position on circle (radius is 35% of container)
-      const radius = 50; // percentage of container
+      const radius = 45; // percentage of container
       const centerX = 50; // center of container
       const centerY = 50; // center of container
 
