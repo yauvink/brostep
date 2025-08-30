@@ -4,6 +4,7 @@ import { useApp } from '../providers/AppProvider';
 import { APP_VIEW } from '../constants/app.constants';
 import { useMemo } from 'react';
 import { useGame } from '../providers/GameProvider';
+import { iOsPadding } from '../utils/browser';
 
 function Leaderboard() {
   const { setAppView } = useApp();
@@ -12,7 +13,7 @@ function Leaderboard() {
   const tableValues = useMemo(() => {
     const data = gameState?.users.map((user) => ({
       name: `${user.first_name} ${user.last_name}`,
-      size: `? cm`,
+      size: `${user.size} cm`,
       points: user.points,
     }));
 
@@ -44,6 +45,7 @@ function Leaderboard() {
         <AppBar
           // position="static"
           sx={{
+            paddingTop: `${iOsPadding()}px`,
             backgroundColor: 'rgba(255,255,255,0.6)',
             backdropFilter: 'blur(10px)',
             boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
@@ -61,7 +63,7 @@ function Leaderboard() {
         </AppBar>
         <Box
           sx={{
-            mt: '57px',
+            mt: `${iOsPadding() + 107}px`,
             padding: '20px',
           }}
         >
@@ -105,12 +107,20 @@ function Leaderboard() {
                   width: '100%',
                   display: 'flex',
                   textAlign: 'center',
-                  color: 'white',
+                  color: 'black',
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}
               >
-                <Box sx={{ minWidth: '30px', border: '1px solid black', borderRadius: '50%', height: '30px' }}>
+                <Box
+                  sx={{
+                    minWidth: '30px',
+                    border: '1px solid yellow',
+                    borderRadius: '50%',
+                    height: '30px',
+                    color: 'black',
+                  }}
+                >
                   {i + 1}
                 </Box>
                 <Typography

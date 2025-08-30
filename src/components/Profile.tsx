@@ -3,6 +3,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { useTelegram } from '../providers/TelegramProvider/useTelegram';
 import { useApp } from '../providers/AppProvider';
 import { APP_VIEW } from '../constants/app.constants';
+import { iOsPadding } from '../utils/browser';
 
 function Profile() {
   const { webApp } = useTelegram();
@@ -33,6 +34,7 @@ function Profile() {
         <AppBar
           // position="static"
           sx={{
+            paddingTop: `${iOsPadding()}px`,
             backgroundColor: 'rgba(255,255,255,0.6)',
             backdropFilter: 'blur(10px)',
             boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
@@ -50,7 +52,7 @@ function Profile() {
         </AppBar>
         <Box
           sx={{
-            mt: '57px',
+            mt: `${iOsPadding() + 57}px`,
             padding: '20px',
           }}
         >

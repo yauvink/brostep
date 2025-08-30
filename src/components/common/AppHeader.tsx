@@ -3,6 +3,7 @@ import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@mui/material';
 import { APP_VIEW } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import { iOsPadding } from '../../utils/browser';
 
 function AppHeader() {
   const { userData, setAppView } = useApp();
@@ -11,6 +12,7 @@ function AppHeader() {
     <AppBar
       // position="static"
       sx={{
+        paddingTop: `${iOsPadding()}px`,
         // backgroundColor: 'transparent',
         backgroundColor: 'rgba(255,255,255,0.6)',
         backdropFilter: 'blur(10px)',
