@@ -4,5 +4,6 @@ export const isIos = () => {
 };
 
 export const iOsPadding = () => {
-  return isIos() ? 50 : 0;
+  return 0;
+  // return isIos() ? 50 : 0;
 };

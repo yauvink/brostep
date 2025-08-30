@@ -21,7 +21,7 @@ function AppHeader() {
       }}
     >
       <Toolbar sx={{ height: '70px' }}>
-        <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
+        <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold', lineHeight: 'normal' }}>
           Большая Игра на ТНТ
         </Typography>
         <IconButton

@@ -18,6 +18,7 @@ function Roulette() {
         textAlign: 'center',
         color: 'white',
         position: 'relative',
+        // border: '1px solid red',
       }}
     >
       <ConnectionOverlay />
@@ -29,8 +30,10 @@ function Roulette() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          // justifyContent: 'flex-end',
           justifyContent: 'center',
-          padding: '20px',
+          padding: '70px 30px 10px',
+          // border: '1px solid blue',
         }}
       >
         <Box

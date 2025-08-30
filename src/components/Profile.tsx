@@ -52,7 +52,7 @@ function Profile() {
         </AppBar>
         <Box
           sx={{
-            mt: `${iOsPadding() + 57}px`,
+            mt: `${iOsPadding() + 70}px`,
             padding: '20px',
           }}
         >

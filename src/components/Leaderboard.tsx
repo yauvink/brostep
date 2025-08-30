@@ -63,7 +63,7 @@ function Leaderboard() {
         </AppBar>
         <Box
           sx={{
-            mt: `${iOsPadding() + 107}px`,
+            mt: `${iOsPadding() + 70}px`,
             padding: '20px',
           }}
         >
