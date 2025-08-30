@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, type ReactNode } from 'react';
 import type { WebApp, WebAppUser } from 'telegram-web-app';
-import { retrieveRawInitData } from '@telegram-apps/sdk'
+// import { retrieveRawInitData } from '@telegram-apps/sdk'
 import { useError } from '../ErrorProvider';
 
 interface TelegramContextType {
@@ -50,12 +50,12 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
-      try {
-          const initDataRaw = retrieveRawInitData();
-          console.log('initDataRaw', initDataRaw);
-      } catch (error) {
-          console.log('initDataRaw', error);
-      }
+      // try {
+          // const initDataRaw = retrieveRawInitData();
+          // console.log('initDataRaw', initDataRaw);
+      // } catch (error) {
+          // console.log('initDataRaw', error);
+      // }
       if (app) {
       app.ready();
       app.setHeaderColor('#0E111B');
