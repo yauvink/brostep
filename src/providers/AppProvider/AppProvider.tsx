@@ -4,6 +4,7 @@ import { getUser, type GetUserResponse } from '../../services/requests';
 import { ToastContainer, toast } from 'react-toastify';
 import { APP_VIEW } from '../../constants/app.constants';
 import { useError } from '../ErrorProvider/useError';
+import { useAuth } from '../../hooks/useAuth.tsx';
 
 interface AppContextType {
   isAppLoading: boolean;
@@ -21,10 +22,14 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [appView, setAppView] = useState(APP_VIEW.MAIN);
-  const { telegramUser } = useTelegram();
+  const { telegramUser, initData } = useTelegram();
+  const { authState } = useAuth(initData);
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [userData, setUserData] = useState<GetUserResponse | null>(null);
   const { setAppError } = useError();
+
+    console.log('===================== authState.accessToken =====================');
+    console.log(authState.accessToken);
 
   const updateUser = useCallback(async () => {
     if (!telegramUser) return;

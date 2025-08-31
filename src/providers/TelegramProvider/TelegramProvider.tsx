@@ -6,6 +6,7 @@ import { useError } from '../ErrorProvider';
 interface TelegramContextType {
   webApp: WebApp | null;
   telegramUser: WebAppUser | null;
+  initData: string | null;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -47,15 +48,15 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
   const { setAppError } = useError();
 
   const [telegramUser, setTelegramUser] = useState<WebAppUser | null>(null);
+  const [initData, setInitData] = useState<string | null>(null);
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
-      try {
-          const initDataRaw = retrieveRawInitData();
-          console.log('initDataRaw', initDataRaw);
-      } catch (error) {
-          console.log('initDataRaw', error);
+      const rawInitData = retrieveRawInitData();
+      if (rawInitData) {
+          setInitData(rawInitData)
       }
+
       if (app) {
       app.ready();
       app.setHeaderColor('#0E111B');
@@ -101,6 +102,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
   const value: TelegramContextType = {
     webApp,
     telegramUser,
+    initData,
   };
 
   return <TelegramContext.Provider value={value}>{children}</TelegramContext.Provider>;
