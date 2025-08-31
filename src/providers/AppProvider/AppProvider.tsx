@@ -53,7 +53,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         setAppError('We are sorry, something went wrong 😢');
       });
-  }, [telegramUser]);
+  }, [telegramUser, setAppError]);
 
   useEffect(() => {
     if (telegramUser) {
