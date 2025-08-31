@@ -1,0 +1,62 @@
+{
+  "name": "PDR CHECK",
+  "short_name": "PDR CHECK",
+  "description": "A modern web application",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#a8e6cf",
+  "theme_color": "#a8e6cf",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-196x196.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    },
+    {
+      "src": "/mstile-70x70.png",
+      "sizes": "70x70",
+      "type": "image/png"
+    },
+    {
+      "src": "/mstile-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/mstile-150x150.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "/mstile-310x150.png",
+      "sizes": "310x150",
+      "type": "image/png"
+    },
+    {
+      "src": "/mstile-310x310.png",
+      "sizes": "310x310",
+      "type": "image/png"
+    }
+  ]
+}
