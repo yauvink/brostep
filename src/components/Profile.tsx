@@ -56,6 +56,9 @@ function Profile() {
             padding: '20px',
           }}
         >
+          <br />
+          <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
+          <br />
           {webApp && userData && (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <Box

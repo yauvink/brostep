@@ -340,7 +340,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   useEffect(() => {
     if (telegramUser?.id) {
       console.log('SOCKET CONNECT HERE ===');
-      // connect();
+      connect();
 
       return () => {
         if (socket) {

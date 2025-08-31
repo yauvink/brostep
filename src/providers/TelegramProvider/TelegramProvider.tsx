@@ -74,7 +74,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
             setTelegramUser(userMock);
           }
         } else {
-          setAppError('Please open in Telegram @bro_step_bot');
+          setAppError('Please open in Telegram');
         }
       }
     }

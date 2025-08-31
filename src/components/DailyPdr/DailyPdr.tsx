@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
-import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
+import TouchButton from './components/TouchButton';
+import Users from './components/Users/Users';
+import ChatMessages from './components/ChatMessages';
 
 function DailyPdr() {
-  const { webApp } = useTelegram();
   return (
-    <Box
+      <Box
       sx={{
         flexGrow: 1,
         display: 'flex',
@@ -17,25 +18,44 @@ function DailyPdr() {
         // border: '1px solid red',
       }}
     >
+      {/* <ConnectionOverlay /> */}
+
       <Box
         sx={{
-          // border: '1px solid red',
-          color: 'black',
-          div: {
-            borderTop: '1px solid black',
-            display: 'block',
-          },
-          pre: {
-            wordBreak: 'break-all',
-          },
+          flexGrow: 1,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          // justifyContent: 'flex-end',
+          justifyContent: 'center',
+          padding: '70px 30px 10px',
+          // border: '1px solid blue',
         }}
       >
-        {/* <pre> {JSON.stringify(webApp, null, 2)}</pre> */}
-        <div>initDataUnsafe.start_param :</div>
-        <pre> {JSON.stringify(webApp?.initDataUnsafe.start_param, null, 2)}</pre>
-        <div>initDataUnsafe.user :</div>
-        <pre> {JSON.stringify(webApp?.initDataUnsafe.user, null, 2)}</pre>
+        <Box
+          sx={{
+            // border: '1px solid white',
+            maxWidth: '800px',
+            borderRadius: '50%',
+            width: '100%',
+            aspectRatio: '1/1',
+            backgroundColor: 'transparent',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+          }}
+        >
+          <TouchButton />
+
+
+          <Users />
+        </Box>
       </Box>
+
+
+      <ChatMessages />
     </Box>
   );
 }
