@@ -5,7 +5,7 @@ import { useError } from '../providers/ErrorProvider/useError.ts';
 const ACCESS_TOKEN_KEY = 'accessToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 
-interface AuthState {
+export interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   isLoading: boolean;
@@ -22,13 +22,10 @@ export const useAuth = (initData: string | null) => {
   });
 
   const updateTokens = async (initData: string) => {
-    console.log('1', 1, initData);
     setAuthState((prev) => ({ ...prev, isLoading: true }));
 
     getTokens(initData)
       .then((res) => {
-        console.log('res', res);
-
         localStorage.setItem(REFRESH_TOKEN_KEY, res.data.refreshToken);
         localStorage.setItem(ACCESS_TOKEN_KEY, res.data.accessToken);
         setAuthState({

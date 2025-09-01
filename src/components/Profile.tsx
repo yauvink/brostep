@@ -6,8 +6,8 @@ import { APP_VIEW } from '../constants/app.constants';
 import { iOsPadding } from '../utils/browser';
 
 function Profile() {
-  const { webApp } = useTelegram();
-  const { userData, setAppView } = useApp();
+  const { webApp, telegramUser } = useTelegram();
+  const { setAppView } = useApp();
   return (
     <Box
       sx={{
@@ -59,7 +59,7 @@ function Profile() {
           <br />
           <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
           <br />
-          {webApp && userData && (
+          {webApp && telegramUser && (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <Box
                 sx={{
@@ -73,9 +73,9 @@ function Profile() {
                   boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
-                {userData.photo_url && (
+                {telegramUser.photo_url && (
                   <img
-                    src={userData.photo_url}
+                    src={telegramUser.photo_url}
                     alt="Profile"
                     style={{
                       width: 120,
@@ -89,12 +89,12 @@ function Profile() {
                 )}
                 <Box>
                   <Typography variant="h4" sx={{ color: '#333', mb: 1, fontWeight: 'bold' }}>
-                    {userData.first_name} {userData.last_name}
+                    {telegramUser.first_name} {telegramUser.last_name}
                   </Typography>
                   <Typography variant="h6" sx={{ color: '#666', mb: 1 }}>
-                    @{userData.username}
+                    @{telegramUser.username}
                   </Typography>
-                  {userData.is_premium && (
+                  {telegramUser.is_premium && (
                     <Typography variant="body1" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
                       ⭐ Premium User
                     </Typography>
@@ -117,20 +117,22 @@ function Profile() {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>First Name:</Typography>
-                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.first_name}</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{telegramUser.first_name}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Last Name:</Typography>
-                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.last_name || 'N/A'}</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                      {telegramUser.last_name || 'N/A'}
+                    </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Username:</Typography>
-                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>@{userData.username}</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>@{telegramUser.username}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Premium Status:</Typography>
-                    <Typography sx={{ color: userData.is_premium ? '#FFD700' : '#666', fontWeight: 'medium' }}>
-                      {userData.is_premium ? 'Premium' : 'Standard'}
+                    <Typography sx={{ color: telegramUser.is_premium ? '#FFD700' : '#666', fontWeight: 'medium' }}>
+                      {telegramUser.is_premium ? 'Premium' : 'Standard'}
                     </Typography>
                   </Box>
                 </Box>
@@ -151,33 +153,33 @@ function Profile() {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Telegram ID:</Typography>
-                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.telegram_id}</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{telegramUser.id}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Database ID:</Typography>
-                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.id}</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{telegramUser.id}</Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Reference Code:</Typography>
-                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{userData.ref_code || 'N/A'}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{telegramUser.ref_code || 'N/A'}</Typography>
+                  </Box> */}
+                  {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Member Since:</Typography>
                     <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
-                      {userData.createdAt
-                        ? new Date(userData.createdAt).toLocaleDateString('en-US', {
+                      {telegramUser.createdAt
+                        ? new Date(telegramUser.createdAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric',
                           })
                         : 'N/A'}
                     </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  </Box> */}
+                  {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography sx={{ color: '#666' }}>Last Updated:</Typography>
                     <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
-                      {userData.updatedAt
-                        ? new Date(userData.updatedAt).toLocaleDateString('en-US', {
+                      {telegramUser.updatedAt
+                        ? new Date(telegramUser.updatedAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric',
@@ -186,7 +188,7 @@ function Profile() {
                           })
                         : 'N/A'}
                     </Typography>
-                  </Box>
+                  </Box> */}
                 </Box>
               </Box>
 

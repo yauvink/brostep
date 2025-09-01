@@ -53,9 +53,9 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
     if (import.meta.env.DEV) {
-      const testData =
-        'user=%7B%22id%22%3A392009623%2C%22first_name%22%3A%22Yauhen%22%2C%22last_name%22%3A%22Vink%22%2C%22username%22%3A%22yauvink%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg%22%7D&chat_instance=-5805934516278627323&chat_type=private&auth_date=1756755397&signature=Qqk68Fql-BRG8nZVgLtigxDqGFKPKao3YRNn8nam_uUooEAsjjogWW7moxwTufa_6Vma3hS4i0v3RZjdia8WBw&hash=3c3238ce1e5f99baf22d644e60c3b5f4bf0c2b2ec772b2ee50d650766a8695d0';
-      setInitData(testData);
+      const DEV_DATA =
+        'user=%7B%22id%22%3A392009623%2C%22first_name%22%3A%22Yauhen%22%2C%22last_name%22%3A%22Vink%22%2C%22username%22%3A%22yauvink%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg%22%7D&chat_instance=-5805934516278627323&chat_type=private&auth_date=1756756141&signature=qmRjEEMVBCbe8oxxtyhkPoNFUPXIMmvdFMgAzBg6SmVFcxRXz-gHJEvrmiRFUtsGFFWUVOjJMBuEMx_fveScDg&hash=02e1d63ea96d0d932a26740ac51ae37ea77ac4e28d812973daa66a5e3f392d33';
+      setInitData(DEV_DATA);
     } else {
       try {
         const rawInitData = retrieveRawInitData();
@@ -64,6 +64,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
         }
       } catch (err) {
         console.error('retrieveRawInitData err', err);
+        setAppError('Error retrieving your data');
       }
     }
 

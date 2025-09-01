@@ -335,7 +335,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       webApp.HapticFeedback.impactOccurred('soft');
     }
   }, [telegramUser, socket, isAuthenticated, addChatMessage, webApp]);
-
+  // const GAME_ROOM_ID = '68b5959a40ec022e1db093aa'
   // Auto-connect on mount
   useEffect(() => {
     if (telegramUser?.id) {
