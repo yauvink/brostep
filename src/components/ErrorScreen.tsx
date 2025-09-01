@@ -9,9 +9,9 @@ function ErrorScreen() {
       <Typography
         sx={{
           fontSize: '20px',
-          color: 'white',
           margin: '30px',
           textAlign: 'center',
+          color: 'red',
         }}
       >
         {appError}

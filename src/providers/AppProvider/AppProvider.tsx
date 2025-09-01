@@ -4,6 +4,7 @@ import { getUser, type GetUserResponse } from '../../services/requests';
 import { ToastContainer, toast } from 'react-toastify';
 import { APP_VIEW } from '../../constants/app.constants';
 import { useError } from '../ErrorProvider/useError';
+import { useAuth } from '../../hooks/useAuth.tsx';
 
 interface AppContextType {
   isAppLoading: boolean;
@@ -21,45 +22,49 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [appView, setAppView] = useState(APP_VIEW.MAIN);
-  const { telegramUser } = useTelegram();
+  const { telegramUser, initData } = useTelegram();
+  const { authState } = useAuth(initData);
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [userData, setUserData] = useState<GetUserResponse | null>(null);
   const { setAppError } = useError();
 
-  const updateUser = useCallback(async () => {
-    if (!telegramUser) return;
+    console.log('===================== authState.accessToken =====================');
+    console.log(authState.accessToken);
 
-    const ref_code = 'ref_code_0x1';
+  // const updateUser = useCallback(async () => {
+  //   if (!telegramUser) return;
 
-    getUser({
-      telegram_id: telegramUser.id,
-      username: telegramUser.username ?? '',
-      last_name: telegramUser.last_name ?? '',
-      first_name: telegramUser.first_name,
-      is_premium: Boolean(telegramUser.is_premium),
-      photo_url: telegramUser.photo_url,
-      ref_code,
-    })
-      .then((res) => {
-        setUserData(res.data);
-        setIsAppLoading(false);
-      })
-      .catch((err) => {
-        console.log('err', err);
-        const errMessage = err.message;
-        const respErrorMessage = err?.response?.data?.error ?? '';
-        toast(`Error fetching user. ${errMessage}. ${respErrorMessage}`, {
-          type: 'error',
-        });
-        setAppError('We are sorry, something went wrong 😢');
-      });
-  }, [telegramUser, setAppError]);
+  //   const ref_code = 'ref_code_0x1';
 
-  useEffect(() => {
-    if (telegramUser) {
-      updateUser();
-    }
-  }, [telegramUser, updateUser]);
+  //   getUser({
+  //     telegram_id: telegramUser.id,
+  //     username: telegramUser.username ?? '',
+  //     last_name: telegramUser.last_name ?? '',
+  //     first_name: telegramUser.first_name,
+  //     is_premium: Boolean(telegramUser.is_premium),
+  //     photo_url: telegramUser.photo_url,
+  //     ref_code,
+  //   })
+  //     .then((res) => {
+  //       setUserData(res.data);
+  //       setIsAppLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log('err', err);
+  //       const errMessage = err.message;
+  //       const respErrorMessage = err?.response?.data?.error ?? '';
+  //       toast(`Error fetching user. ${errMessage}. ${respErrorMessage}`, {
+  //         type: 'error',
+  //       });
+  //       setAppError('We are sorry, something went wrong 😢');
+  //     });
+  // }, [telegramUser]);
+
+  // useEffect(() => {
+  //   if (telegramUser) {
+  //     updateUser();
+  //   }
+  // }, [telegramUser, updateUser]);
 
   const value: AppContextType = {
     isAppLoading,
