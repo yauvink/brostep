@@ -222,7 +222,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     if (!socket || !socket.connected) {
       addChatMessage({
         type: 'app',
-        message: '❌ Cannot touch',
+        message: '❌ Cannot connect, no socket yet',
         timestamp: Date.now(),
       });
       return;

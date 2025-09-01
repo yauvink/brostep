@@ -3,6 +3,7 @@ import TouchButton from './components/TouchButton';
 import Users from './components/Users/Users';
 import ChatMessages from './components/ChatMessages';
 import { useGame } from '../../providers/GameProvider';
+import DetectingAnimation from './components/DetectingAnimation';
 
 function DailyPdr() {
   const { gameState, connectToGame } = useGame();
@@ -51,6 +52,7 @@ function DailyPdr() {
             <>
               <TouchButton />
               <Users />
+              <DetectingAnimation/>
             </>
           ) : (
             <Button variant="contained" onClick={connectToGame}>
