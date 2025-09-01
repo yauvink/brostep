@@ -1,55 +1,51 @@
-import { Avatar, Button, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
 
 function TouchButton() {
+  const { telegramUser } = useTelegram();
   const { gameState, touchButton } = useGame();
 
   const isDetecting = useMemo(() => {
     return gameState?.currentState !== 'idle';
   }, [gameState]);
 
-  // const currentUser = useMemo(() => {
-  //   return gameState?.users.find((user) => user.telegram_id === telegramUser?.id);
-  // }, [gameState, telegramUser]);
 
-  // const [timeout, setTimeout] = useState<string | null>(null);
+  const currentUser = useMemo(() => {
+    return gameState?.users.find((user) => user.telegramId === telegramUser?.id);
+  }, [gameState, telegramUser]);
 
-  // useEffect(() => {
-  //   const checkTimeRemaining = () => {
-  //     if (!currentUser || !currentUser.lastTouched) {
-  //       setTimeout(null);
-  //       return;
-  //     }
+  const [timeout, setTimeout] = useState<string | null>(null);
 
-  //     const COOLDOWN_PERIOD = 20 * 1000;
-  //     const timeDiff = new Date().getTime() - currentUser.lastTouched;
-  //     const remainingTime = COOLDOWN_PERIOD - timeDiff;
+  useEffect(() => {
+    const checkTimeRemaining = () => {
+      if (!currentUser || !currentUser.lastDetectedAt) {
+        setTimeout(null);
+        return;
+      }
 
-  //     if (remainingTime <= 0) {
-  //       setTimeout(null);
-  //       return;
-  //     }
+      const GAME_TOUCH_TIMEOUT = 10000;
+      const timeDiff = new Date().getTime() - currentUser.lastDetectedAt;
+      const remainingTime = GAME_TOUCH_TIMEOUT - timeDiff;
 
-  //     const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-  //     const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+      if (remainingTime <= 0) {
+        setTimeout(null);
+        return;
+      }
 
-  //     const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  //     setTimeout(timeString);
-  //   };
+      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-  //   checkTimeRemaining();
+      const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      setTimeout(timeString);
+    };
 
-  //   const interval = setInterval(checkTimeRemaining, 1000);
+    checkTimeRemaining();
 
-  //   return () => clearInterval(interval);
-  // }, [currentUser]);
+    const interval = setInterval(checkTimeRemaining, 1000);
 
-  const userTouchedPhotoUrl = useMemo(() => {
-    return undefined;
-    // if (gameState) {
-    //   return gameState.users.find((user) => user.telegram_id === touchedUserId)?.photo_url;
-    // }
+    return () => clearInterval(interval);
   }, [gameState]);
 
   if (isDetecting) {
@@ -65,46 +61,34 @@ function TouchButton() {
         }}
         variant="contained"
       >
-        {userTouchedPhotoUrl ? (
-          <Avatar
-            src={userTouchedPhotoUrl}
-            alt="Profile"
-            sx={{
-              width: 100,
-              height: 100,
-              border: '2px solid rgba(0,0,0,0.1)',
-            }}
-          />
-        ) : (
-          <CircularProgress sx={{ color: 'white' }} />
-        )}
+        <CircularProgress sx={{ color: 'white' }} />
       </Button>
     );
   }
 
-  // if (timeout) {
-  //   return (
-  //     <Box
-  //       sx={{
-  //         borderRadius: '50%',
-  //         height: '100px',
-  //         width: '100px',
-  //         backgroundColor: 'grey',
-  //         fontWeight: 900,
-  //         display: 'flex',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //         color: 'white',
-  //         zIndex: 200,
-  //         lineHeight: 1.2,
-  //       }}
-  //     >
-  //       Your timeout:
-  //       <br />
-  //       {timeout}
-  //     </Box>
-  //   );
-  // }
+  if (timeout) {
+    return (
+      <Box
+        sx={{
+          borderRadius: '50%',
+          height: '100px',
+          width: '100px',
+          backgroundColor: 'grey',
+          fontWeight: 900,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          zIndex: 200,
+          lineHeight: 1.2,
+        }}
+      >
+        Your timeout:
+        <br />
+        {timeout}
+      </Box>
+    );
+  }
 
   return (
     <Button

@@ -35,7 +35,7 @@ export interface GameUser {
   createdAt: Date;
   updatedAt: Date;
   count: number;
-  lastDetectedAt: Date | null;
+  lastDetectedAt: number | null;
   isOnline: boolean;
 }
 
@@ -177,7 +177,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   );
 
   const touchButton = useCallback(() => {
-    console.log('to');
     if (!socket || !socket.connected) {
       addChatMessage({
         type: 'app',
