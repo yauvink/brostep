@@ -4,9 +4,11 @@ import { APP_VIEW } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import { iOsPadding } from '../../utils/browser';
+import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
 
 function AppHeader() {
-  const { userData, setAppView } = useApp();
+  const { telegramUser } = useTelegram();
+  const { setAppView } = useApp();
 
   return (
     <AppBar
@@ -53,9 +55,9 @@ function AppHeader() {
             },
           }}
         >
-          {userData?.photo_url ? (
+          {telegramUser?.photo_url ? (
             <Avatar
-              src={userData.photo_url}
+              src={telegramUser.photo_url}
               alt="Profile"
               sx={{
                 width: 50,

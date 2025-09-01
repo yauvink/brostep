@@ -4,9 +4,9 @@ import AppHeader from './common/AppHeader';
 import DailyPdr from './DailyPdr/DailyPdr';
 
 function Main() {
-  const { isAppLoading } = useApp();
+  const { authState } = useApp();
 
-  if (isAppLoading) {
+  if (authState.isLoading) {
     return (
       <div className="loading-screen">
         <span className="loader"></span>
