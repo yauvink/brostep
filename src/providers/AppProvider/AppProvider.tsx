@@ -31,40 +31,40 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     console.log('===================== authState.accessToken =====================');
     console.log(authState.accessToken);
 
-  const updateUser = useCallback(async () => {
-    if (!telegramUser) return;
+  // const updateUser = useCallback(async () => {
+  //   if (!telegramUser) return;
 
-    const ref_code = 'ref_code_0x1';
+  //   const ref_code = 'ref_code_0x1';
 
-    getUser({
-      telegram_id: telegramUser.id,
-      username: telegramUser.username ?? '',
-      last_name: telegramUser.last_name ?? '',
-      first_name: telegramUser.first_name,
-      is_premium: Boolean(telegramUser.is_premium),
-      photo_url: telegramUser.photo_url,
-      ref_code,
-    })
-      .then((res) => {
-        setUserData(res.data);
-        setIsAppLoading(false);
-      })
-      .catch((err) => {
-        console.log('err', err);
-        const errMessage = err.message;
-        const respErrorMessage = err?.response?.data?.error ?? '';
-        toast(`Error fetching user. ${errMessage}. ${respErrorMessage}`, {
-          type: 'error',
-        });
-        setAppError('We are sorry, something went wrong 😢');
-      });
-  }, [telegramUser]);
+  //   getUser({
+  //     telegram_id: telegramUser.id,
+  //     username: telegramUser.username ?? '',
+  //     last_name: telegramUser.last_name ?? '',
+  //     first_name: telegramUser.first_name,
+  //     is_premium: Boolean(telegramUser.is_premium),
+  //     photo_url: telegramUser.photo_url,
+  //     ref_code,
+  //   })
+  //     .then((res) => {
+  //       setUserData(res.data);
+  //       setIsAppLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log('err', err);
+  //       const errMessage = err.message;
+  //       const respErrorMessage = err?.response?.data?.error ?? '';
+  //       toast(`Error fetching user. ${errMessage}. ${respErrorMessage}`, {
+  //         type: 'error',
+  //       });
+  //       setAppError('We are sorry, something went wrong 😢');
+  //     });
+  // }, [telegramUser]);
 
-  useEffect(() => {
-    if (telegramUser) {
-      updateUser();
-    }
-  }, [telegramUser, updateUser]);
+  // useEffect(() => {
+  //   if (telegramUser) {
+  //     updateUser();
+  //   }
+  // }, [telegramUser, updateUser]);
 
   const value: AppContextType = {
     isAppLoading,
