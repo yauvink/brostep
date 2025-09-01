@@ -1,11 +1,13 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import TouchButton from './components/TouchButton';
 import Users from './components/Users/Users';
 import ChatMessages from './components/ChatMessages';
+import { useGame } from '../../providers/GameProvider';
 
 function DailyPdr() {
+  const { gameState, connectToGame } = useGame();
   return (
-      <Box
+    <Box
       sx={{
         flexGrow: 1,
         display: 'flex',
@@ -18,8 +20,6 @@ function DailyPdr() {
         // border: '1px solid red',
       }}
     >
-      {/* <ConnectionOverlay /> */}
-
       <Box
         sx={{
           flexGrow: 1,
@@ -47,13 +47,18 @@ function DailyPdr() {
             position: 'relative',
           }}
         >
-          <TouchButton />
-
-
-          <Users />
+          {gameState ? (
+            <>
+              <TouchButton />
+              <Users />
+            </>
+          ) : (
+            <Button variant="contained" onClick={connectToGame}>
+              connect to game room
+            </Button>
+          )}
         </Box>
       </Box>
-
 
       <ChatMessages />
     </Box>

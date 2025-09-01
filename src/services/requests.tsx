@@ -6,11 +6,11 @@ export interface TokenPairResponse {
 }
 
 export const authenticate = (initData: string): Promise<AxiosResponse<TokenPairResponse>> => {
-  const url = `${import.meta.env.VITE_API_ENDPOINT}/auth`;
+  const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/auth`;
   return axios.post(url, { initData });
 };
 
 export const renewRefreshToken = (refreshToken: string): Promise<AxiosResponse<TokenPairResponse>> => {
-  const url = `${import.meta.env.VITE_API_ENDPOINT}/auth/tokens/renew/refresh`;
+  const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/auth/tokens/renew/refresh`;
   return axios.post(url, { refreshToken });
 };

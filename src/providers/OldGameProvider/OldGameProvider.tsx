@@ -127,7 +127,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     try {
       // Dynamic import to avoid TypeScript issues
       import('socket.io-client').then(({ io }: any) => {
-        const newSocket = io(import.meta.env.VITE_API_ENDPOINT, {
+        const newSocket = io(import.meta.env.VITE_API_BACKEND_ENDPOINT, {
           transports: ['websocket', 'polling'],
           timeout: 10000,
           forceNew: true,

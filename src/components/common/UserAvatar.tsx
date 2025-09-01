@@ -28,14 +28,12 @@ function UserAvatar({ user }: { user: GameUser }) {
           lineHeight: '14px',
         }}
       >
-        {user.first_name}
-        <br />
-        {user.size}cm
+        {user.firstName}
       </Typography>
 
-      {user?.photo_url ? (
+      {user?.photoUrl ? (
         <Avatar
-          src={user.photo_url}
+          src={user.photoUrl}
           alt="Profile"
           sx={{
             backgroundColor: 'white',
@@ -90,7 +88,7 @@ function UserAvatar({ user }: { user: GameUser }) {
             fontSize: '12px',
           }}
         >
-          {user.points}
+          {user.count}
         </Box>
       </Box>
     </Box>
