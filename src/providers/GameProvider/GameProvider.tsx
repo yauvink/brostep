@@ -60,7 +60,7 @@ interface GameContextType {
   touchButton: () => void;
   selectedCompleteData: SelectedCompleteData | null;
   setSelectedCompleteData: (v: SelectedCompleteData | null) => void;
-  connectToGame: () => void;
+  isSocketConnected: boolean;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -70,15 +70,15 @@ interface GameProviderProps {
 }
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const { telegramUser, webApp } = useTelegram();
+  const { webApp } = useTelegram();
   const { authState } = useApp();
   const [socket, setSocket] = useState<any | null>(null);
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
-  const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
-  const maxReconnectAttempts = 5;
+  const GAME_ROOM_ID = '68b5959a40ec022e1db093aa';
 
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
@@ -107,6 +107,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
         setSocket(newSocket);
         setupSocketHandlers(newSocket);
+
+        newSocket.emit('join_game', { gameId: GAME_ROOM_ID });
       });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -126,7 +128,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           message: '✅ Connected to server successfully',
           timestamp: Date.now(),
         });
-        setReconnectAttempts(0);
+        setIsSocketConnected(true);
       });
 
       socketInstance.on('disconnect', (reason: string) => {
@@ -135,27 +137,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           message: `❌ Disconnected: ${reason}`,
           timestamp: Date.now(),
         });
-
-        if (reason === 'io server disconnect') {
-          // Server disconnected us, try to reconnect
-          setTimeout(() => {
-            if (reconnectAttempts < maxReconnectAttempts) {
-              setReconnectAttempts((prev) => prev + 1);
-              addChatMessage({
-                type: 'app',
-                message: `🔄 Attempting to reconnect (${reconnectAttempts + 1}/${maxReconnectAttempts})...`,
-                timestamp: Date.now(),
-              });
-              connect();
-            } else {
-              addChatMessage({
-                type: 'app',
-                message: '❌ Max reconnection attempts reached',
-                timestamp: Date.now(),
-              });
-            }
-          }, 1000);
-        }
+        setIsSocketConnected(false);
       });
 
       socketInstance.on('game_state_update', (data: GameState) => {
@@ -173,7 +155,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       //   setChatMessages((prev) => [...prev, data]);
       // });
     },
-    [addChatMessage, reconnectAttempts, maxReconnectAttempts, connect, telegramUser]
+    [addChatMessage]
   );
 
   const touchButton = useCallback(() => {
@@ -207,34 +189,15 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }, [authState]);
 
   // Send activity periodically
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (socket && socket.connected) {
-        socket.emit('user_activity', { timestamp: new Date().toISOString() });
-      }
-    }, 30000); // Every 30 seconds
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (socket && socket.connected) {
+  //       socket.emit('user_activity', { timestamp: new Date().toISOString() });
+  //     }
+  //   }, 30000); // Every 30 seconds
 
-    return () => clearInterval(interval);
-  }, [socket]);
-
-  const connectToGame = useCallback(() => {
-    // this.socket.emit('join_game', { gameId: this.gameId });
-    if (!socket || !socket.connected) {
-      addChatMessage({
-        type: 'app',
-        message: '❌ Cannot connect, no socket yet',
-        timestamp: Date.now(),
-      });
-      return;
-    }
-
-    const GAME_ROOM_ID = '68b5959a40ec022e1db093aa';
-
-    socket.emit('join_game', { gameId: GAME_ROOM_ID });
-    if (webApp) {
-      webApp.HapticFeedback.impactOccurred('soft');
-    }
-  }, [socket, addChatMessage, webApp]);
+  //   return () => clearInterval(interval);
+  // }, [socket]);
 
   const value: GameContextType = {
     gameState,
@@ -242,7 +205,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     touchButton,
     selectedCompleteData,
     setSelectedCompleteData,
-    connectToGame,
+    isSocketConnected,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

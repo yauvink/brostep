@@ -1,21 +1,10 @@
 import { Box, Typography } from '@mui/material';
+import { useGame } from '../../../providers/GameProvider';
 
 function ConnectionOverlay() {
-  // const { isConnected } = useGame();
+  const { isSocketConnected } = useGame();
 
-  // const getStatusMessage = () => {
-  //   if (!isConnected) {
-  //     return 'Connecting you to the game...';
-  //   }
-  //   if (!isAuthenticated) {
-  //     return 'Authenticating...';
-  //   }
-  //   return `Connected`;
-  // };
-
-  // const showOverlay = !isConnected || !isAuthenticated;
-
-  // if (!showOverlay) return null;
+  if (isSocketConnected) return null;
 
   return (
     <Box
@@ -36,7 +25,7 @@ function ConnectionOverlay() {
       }}
     >
       <span className="loader"></span>
-      <Typography>{'getStatusMessage()'}</Typography>
+      <Typography>{'Connecting to the game...'}</Typography>
     </Box>
   );
 }
