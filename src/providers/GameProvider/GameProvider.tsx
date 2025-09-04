@@ -171,7 +171,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     socket.emit('detect');
 
     if (webApp) {
-      webApp.HapticFeedback.impactOccurred('soft');
+      webApp.HapticFeedback.impactOccurred('heavy');
     }
   }, [socket, addChatMessage, webApp]);
 

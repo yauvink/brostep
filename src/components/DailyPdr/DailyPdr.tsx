@@ -1,14 +1,11 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import TouchButton from './components/TouchButton';
 import Users from './components/Users/Users';
 import ChatMessages from './components/ChatMessages';
 import DetectingAnimation from './components/DetectingAnimation';
 import ConnectionOverlay from '../Roulette/components/ConnectionOverlay';
-import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
 
 function DailyPdr() {
-  const { webApp } = useTelegram();
-
   return (
     <Box
       sx={{
@@ -56,48 +53,6 @@ function DailyPdr() {
           <Users />
           <DetectingAnimation />
         </Box>
-      </Box>
-      <Box sx={{ display: 'flex', gap: '5px',padding: '10px' }}>
-        <Button
-        variant='contained'
-          onClick={() => {
-            webApp?.HapticFeedback.impactOccurred('light');
-          }}
-        >
-          light
-        </Button>
-        <Button
-        variant='contained'
-          onClick={() => {
-            webApp?.HapticFeedback.impactOccurred('medium');
-          }}
-        >
-          medium
-        </Button>
-        <Button
-        variant='contained'
-          onClick={() => {
-            webApp?.HapticFeedback.impactOccurred('heavy');
-          }}
-        >
-          heavy
-        </Button>
-        <Button
-        variant='contained'
-          onClick={() => {
-            webApp?.HapticFeedback.impactOccurred('rigid');
-          }}
-        >
-          rigid
-        </Button>
-        <Button
-        variant='contained'
-          onClick={() => {
-            webApp?.HapticFeedback.impactOccurred('soft');
-          }}
-        >
-          warning
-        </Button>
       </Box>
       <ChatMessages />
     </Box>
