@@ -61,6 +61,208 @@ function Profile() {
           <br />
           {webApp && telegramUser && (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <Box
+                sx={{
+                  backgroundColor: 'rgba(255,255,255,0.8)',
+                  borderRadius: 3,
+                  padding: 3,
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                }}
+              >
+                <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
+                  Init Data - Chat Information
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#666' }}>Query ID:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                      {webApp.initDataUnsafe?.query_id || 'N/A'}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#666' }}>Chat Type:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                      {webApp.initDataUnsafe?.chat_type || 'N/A'}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#666' }}>Chat Instance:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                      {webApp.initDataUnsafe?.chat_instance || 'N/A'}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#666' }}>Start Param:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                      {webApp.initDataUnsafe?.start_param || 'N/A'}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#666' }}>Can Send After:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                      {webApp.initDataUnsafe?.can_send_after ? `${webApp.initDataUnsafe.can_send_after}s` : 'N/A'}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#666' }}>Auth Date:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                      {webApp.initDataUnsafe?.auth_date ? new Date(webApp.initDataUnsafe.auth_date * 1000).toLocaleString() : 'N/A'}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography sx={{ color: '#666' }}>Hash:</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 'medium', fontSize: '0.8rem', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {webApp.initDataUnsafe?.hash || 'N/A'}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+
+              {webApp.initDataUnsafe?.chat && (
+                <Box
+                  sx={{
+                    backgroundColor: 'rgba(255,255,255,0.8)',
+                    borderRadius: 3,
+                    padding: 3,
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  }}
+                >
+                  <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
+                    Chat Details
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Chat ID:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.initDataUnsafe.chat.id}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Chat Type:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.initDataUnsafe.chat.type}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Chat Title:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.initDataUnsafe.chat.title}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Chat Username:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                        {webApp.initDataUnsafe.chat.username ? `@${webApp.initDataUnsafe.chat.username}` : 'N/A'}
+                      </Typography>
+                    </Box>
+                    {webApp.initDataUnsafe.chat.photo_url && (
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography sx={{ color: '#666' }}>Chat Photo:</Typography>
+                        <img
+                          src={webApp.initDataUnsafe.chat.photo_url}
+                          alt="Chat"
+                          style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              )}
+
+              {webApp.initDataUnsafe?.receiver && (
+                <Box
+                  sx={{
+                    backgroundColor: 'rgba(255,255,255,0.8)',
+                    borderRadius: 3,
+                    padding: 3,
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  }}
+                >
+                  <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
+                    Receiver Information
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Receiver ID:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.initDataUnsafe.receiver.id}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>First Name:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>{webApp.initDataUnsafe.receiver.first_name}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Last Name:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                        {webApp.initDataUnsafe.receiver.last_name || 'N/A'}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Username:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                        {webApp.initDataUnsafe.receiver.username ? `@${webApp.initDataUnsafe.receiver.username}` : 'N/A'}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography sx={{ color: '#666' }}>Is Bot:</Typography>
+                      <Typography sx={{ color: '#333', fontWeight: 'medium' }}>
+                        {String(webApp.initDataUnsafe.receiver.is_bot || false)}
+                      </Typography>
+                    </Box>
+                    {webApp.initDataUnsafe.receiver.photo_url && (
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography sx={{ color: '#666' }}>Photo:</Typography>
+                        <img
+                          src={webApp.initDataUnsafe.receiver.photo_url}
+                          alt="Receiver"
+                          style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              )}
+
+              <Box
+                sx={{
+                  backgroundColor: 'rgba(255,255,255,0.8)',
+                  borderRadius: 3,
+                  padding: 3,
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                }}
+              >
+                <Typography variant="h6" sx={{ color: '#333', mb: 3, fontWeight: 'bold' }}>
+                  Raw Init Data
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <Typography variant="body2" sx={{ color: '#666', mb: 2 }}>
+                    Complete initDataUnsafe object:
+                  </Typography>
+                  <Box
+                    sx={{
+                      backgroundColor: 'rgba(0,0,0,0.05)',
+                      borderRadius: 2,
+                      padding: 2,
+                      fontFamily: 'monospace',
+                      fontSize: '0.8rem',
+                      maxHeight: '200px',
+                      overflow: 'auto',
+                    }}
+                  >
+                    <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                      {JSON.stringify(webApp.initDataUnsafe, null, 2)}
+                    </pre>
+                  </Box>
+                </Box>
+              </Box>
+
               <Box
                 sx={{
                   display: 'flex',
