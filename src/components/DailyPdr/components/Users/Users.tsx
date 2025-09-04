@@ -1,47 +1,79 @@
 import { Box } from '@mui/material';
 import { useGame } from '../../../../providers/GameProvider';
-import { useMemo } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import User from './components/User';
 import SelectedAnimation from '../../../Roulette/components/SelectedAnimation';
+import DetectingAnimation from '../DetectingAnimation';
 
 function Users() {
   const { gameState } = useGame();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(window.innerWidth);
 
-  const usersWithPositions = useMemo(() => {
-    return gameState?.users.map((user, i, arr) => {
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      const windowWidth = window.innerWidth;
+      const boxHeight = containerRef.current.offsetHeight;
+      const result = Math.min(windowWidth, boxHeight);
+      setWidth(result);
+    }
+  }, [containerRef]);
+
+  const usersLength = useMemo(() => {
+    return gameState?.users.length ?? 0;
+  }, [gameState?.users.length]);
+
+  const userPositions = useMemo(() => {
+    const arr = new Array(usersLength).fill(0);
+    return arr.map((_, i) => {
       const totalUsers = arr.length;
       const angleStep = (2 * Math.PI) / totalUsers;
-      const angle = i * angleStep - Math.PI / 2; // Start from top (-90 degrees)
+      const angle = i * angleStep - Math.PI / 2;
 
-      // Calculate position on circle (radius is 35% of container)
-      const radius = 50; // percentage of container
-      const centerX = 50; // center of container
-      const centerY = 50; // center of container
+      const windowWidth = width;
+      const radius = (windowWidth - 100) / 2;
 
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
+      const max = 200 / usersLength;
+      const randomOffset = (Math.random() - 0.5) * max;
+
+      const x = radius * Math.cos(angle) + randomOffset;
+      const y = radius * Math.sin(angle) + randomOffset;
 
       return {
-        ...user,
         x,
         y,
       };
     });
-  }, [gameState]);
+  }, [usersLength, width]);
+
+  const positions = useMemo(() => {
+    return userPositions?.map((el) => ({
+      x: el.x,
+      y: el.y,
+    }));
+  }, [userPositions]);
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         position: 'absolute',
-        width: '100%',
+        width: `${width}px`,
         height: '100%',
+        aspectRatio: '1/1',
+        // border: '1px solid blue',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      {usersWithPositions?.map((user, i) => {
-        return <User key={i} user={user} x={user.x} y={user.y} />;
+      {gameState?.users?.map((user, i) => {
+        return <User key={i} user={user} x={userPositions?.[i]?.x ?? 0} y={userPositions?.[i]?.y ?? -100} />;
       })}
 
       <SelectedAnimation />
+
+      {positions && <DetectingAnimation positions={positions} />}
     </Box>
   );
 }

@@ -7,9 +7,9 @@ function User({ user, x, y }: { user: GameUser; x: number; y: number }) {
     <Box
       sx={{
         position: 'absolute',
-        left: `${x}%`,
-        top: `${y}%`,
-        transform: 'translate(-50%, -50%)',
+        left: '50%',
+        top: '50%',
+        transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
         zIndex: 5,
         display: 'flex',
         flexDirection: 'column',

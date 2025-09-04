@@ -2,7 +2,6 @@ import { Box } from '@mui/material';
 import TouchButton from './components/TouchButton';
 import Users from './components/Users/Users';
 import ChatMessages from './components/ChatMessages';
-import DetectingAnimation from './components/DetectingAnimation';
 import ConnectionOverlay from '../Roulette/components/ConnectionOverlay';
 
 function DailyPdr() {
@@ -31,17 +30,16 @@ function DailyPdr() {
           alignItems: 'center',
           // justifyContent: 'flex-end',
           justifyContent: 'center',
-          padding: '70px 30px 10px',
+          padding: '90px 0px 10px',
           // border: '1px solid blue',
         }}
       >
         <Box
           sx={{
             // border: '1px solid white',
-            maxWidth: '800px',
             borderRadius: '50%',
             width: '100%',
-            aspectRatio: '1/1',
+            flexGrow: 1,
             backgroundColor: 'transparent',
             display: 'flex',
             alignItems: 'center',
@@ -51,7 +49,6 @@ function DailyPdr() {
         >
           <TouchButton />
           <Users />
-          <DetectingAnimation />
         </Box>
       </Box>
       <ChatMessages />
