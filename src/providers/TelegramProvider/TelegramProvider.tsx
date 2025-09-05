@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, type ReactNode } from 'react
 import type { WebApp, WebAppUser } from 'telegram-web-app';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useError } from '../ErrorProvider';
+import { Box, Typography } from '@mui/material';
 
 interface TelegramContextType {
   webApp: WebApp | null;
@@ -115,8 +116,30 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     telegramUser,
     initData,
   };
+  // chat_instance: "7314173329677974956"
 
-  return <TelegramContext.Provider value={value}>{children}</TelegramContext.Provider>;
+  // chat_type: "sender"
+  return (
+    <TelegramContext.Provider value={value}>
+      <Box
+        sx={{
+          position: 'fixed',
+          zIndex: 999999,
+          top: '80px',
+          left: '20px',
+          background: 'white',
+          padding: '10px',
+        }}
+      >
+        <Typography>chat_type: {webApp?.initDataUnsafe.chat_type}</Typography>
+        <Typography>chat_instance: {webApp?.initDataUnsafe.chat_instance}</Typography>
+        <Typography>
+          chat: {webApp?.initDataUnsafe.chat && <pre>{JSON.stringify(webApp.initDataUnsafe.chat)}</pre>}
+        </Typography>
+      </Box>
+      {children}
+    </TelegramContext.Provider>
+  );
 };
 
 export { TelegramContext };
