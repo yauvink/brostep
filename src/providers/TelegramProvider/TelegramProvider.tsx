@@ -85,11 +85,11 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
             break;
           }
           case 'private': {
-            setAppError('1v1 fights are not allowed yet, please use in chat.  TODO add link send to chat');
+            setAppError(`1v1 fights are not allowed yet, please use in chat.  TODO add link send to chat. chat_type: ${webApp.initDataUnsafe.chat_type}. chat_instance: ${webApp.initDataUnsafe.chat_instance}`);
             break;
           }
           default: {
-            setAppError('Are you crazy? Use in chat. TODO add link send to chat ');
+            setAppError(`Are you crazy? Use in chat. TODO add link send to chat. chat_type: ${webApp.initDataUnsafe.chat_type}. chat_instance: ${webApp.initDataUnsafe.chat_instance}`);
           }
         }
       }
