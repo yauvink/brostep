@@ -56,6 +56,7 @@ interface GameContextType {
   isSocketConnected: boolean;
   joinedGameId: string | null;
   detectedUserId: string | null;
+  setDetectedUserId: (userId: string | null) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -191,6 +192,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     isSocketConnected,
     joinedGameId,
     detectedUserId,
+    setDetectedUserId
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

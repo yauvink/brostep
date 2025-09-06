@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useMemo, useState } from 'react';
 import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
@@ -13,21 +13,20 @@ function TouchButton() {
     return gameState?.currentState !== 'idle';
   }, [gameState]);
 
-
   const currentUser = useMemo(() => {
     return gameState?.users.find((user) => user.telegramId === telegramUser?.id);
   }, [gameState, telegramUser]);
 
   const [timeout, setTimeout] = useState<string | null>(null);
 
+  // console.log('currentUser.lastDetectedAt',currentUser?.lastDetectedAt);
   useEffect(() => {
     const checkTimeRemaining = () => {
       if (!currentUser || !currentUser.lastDetectedAt) {
         setTimeout(null);
         return;
       }
-
-      const GAME_TOUCH_TIMEOUT = 15000;
+      const GAME_TOUCH_TIMEOUT = 25000;
       const timeDiff = new Date().getTime() - currentUser.lastDetectedAt;
       const remainingTime = GAME_TOUCH_TIMEOUT - timeDiff;
 
@@ -54,16 +53,17 @@ function TouchButton() {
     return (
       <Button
         sx={{
-          backgroundColor: 'red',
           borderRadius: '50%',
           height: '100px',
+          backgroundColor: 'grey',
           width: '100px',
           zIndex: 200,
           fontWeight: 900,
+          lineHeight: 1.4,
         }}
         variant="contained"
       >
-        <CircularProgress sx={{ color: 'white' }} />
+        {t('button')}
       </Button>
     );
   }

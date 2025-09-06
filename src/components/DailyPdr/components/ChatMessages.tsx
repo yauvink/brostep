@@ -73,7 +73,7 @@ function ChatMessages() {
         display: 'flex',
         // flexGrow: 1,
         flexDirection: 'column',
-        padding: '10px',
+        padding: '10px 10px 20px',
         minHeight: '200px',
         maxHeight: '200px',
         overflow: 'auto',

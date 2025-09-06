@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 function ScoreChangeAnimation({ currentUser }: { currentUser: GameUser }) {
   console.log('currentUser', currentUser);
-  const { detectedUserId, gameState } = useGame();
+  const { detectedUserId, gameState, setDetectedUserId } = useGame();
   const [showAnimation, setShowAnimation] = useState(false);
   const { t } = useTranslation();
 
@@ -16,13 +16,16 @@ function ScoreChangeAnimation({ currentUser }: { currentUser: GameUser }) {
     }
   }, [detectedUserId, currentUser, gameState]);
 
+  const handleAnimationEnd = () => {
+    setShowAnimation(false);
+    setDetectedUserId(null);
+  };
+
   if (!showAnimation) return null;
 
   return (
     <Box
-      onAnimationEnd={() => {
-        setShowAnimation(false);
-      }}
+      onAnimationEnd={handleAnimationEnd}
       sx={{
         borderRadius: '50%',
         position: 'absolute',

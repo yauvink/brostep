@@ -18,18 +18,8 @@ interface TelegramProviderProps {
   children: ReactNode;
 }
 
-const DEV_USER_MOCK: WebAppUser = {
-  allows_write_to_pm: true,
-  first_name: 'Dev_admin',
-  id: 111111111,
-  language_code: 'en',
-  last_name: '',
-  photo_url: 'https://gravatar.com/avatar/ed9aeeed8a2c68aa053a8c8a3c870c5d?s=400&d=robohash&r=x',
-  username: 'dev_admin',
-};
-
 const DEV_INIT_DATA_MOCK =
-"user=%7B%22id%22%3A392009623%2C%22first_name%22%3A%22Yauhen%22%2C%22last_name%22%3A%22Vink%22%2C%22username%22%3A%22yauvink%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg%22%7D&chat_instance=-7856053354140742542&chat_type=supergroup&auth_date=1757186029&signature=QZ6rBys9w8yYc41GX8NDBgTsxEZmjYpOOoOVT2__YJ8R12fMyozyAZvXFhR7E9KiROo4b1PbX9_rZtjwe12yAA&hash=604ecb349c6a679d6abb5d258e7006bb56fd46f84cc7e3038d7548a6debf90ea"
+  'user=%7B%22id%22%3A392009623%2C%22first_name%22%3A%22Yauhen%22%2C%22last_name%22%3A%22Vink%22%2C%22username%22%3A%22yauvink%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg%22%7D&chat_instance=-7856053354140742542&chat_type=supergroup&auth_date=1757186029&signature=QZ6rBys9w8yYc41GX8NDBgTsxEZmjYpOOoOVT2__YJ8R12fMyozyAZvXFhR7E9KiROo4b1PbX9_rZtjwe12yAA&hash=604ecb349c6a679d6abb5d258e7006bb56fd46f84cc7e3038d7548a6debf90ea';
 
 // const DEV_CHAT_INSTANCE_ID_MOCK = '68b5959a40ec022e1db093aa';
 const DEV_CHAT_INSTANCE_ID_MOCK = '-7856053354140742542';
@@ -58,8 +48,13 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     if (webApp) {
       if (import.meta.env.DEV) {
         setInitData(DEV_INIT_DATA_MOCK);
-        setTelegramUser(DEV_USER_MOCK);
         setChatInstanceId(DEV_CHAT_INSTANCE_ID_MOCK);
+
+        const userRaw = new URLSearchParams(DEV_INIT_DATA_MOCK).get('user');
+        if (userRaw) {
+          const user = JSON.parse(decodeURIComponent(userRaw));
+          setTelegramUser(user);
+        }
       } else {
         try {
           const rawInitData = retrieveRawInitData();
