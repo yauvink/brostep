@@ -45,7 +45,7 @@ interface GameState {
 interface ChatMessage {
   id?: string;
   timestamp: number;
-  type: 'user' | 'sys' | 'app';
+  type: 'sys' | 'app';
   message: string;
 }
 

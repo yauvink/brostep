@@ -1,6 +1,7 @@
 import { Paper, Typography } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useRef } from 'react';
+import { GameMessageType } from '../../../constants/app.constants';
 
 function ChatMessages() {
   const { chatMessages } = useGame();
@@ -12,6 +13,38 @@ function ChatMessages() {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [chatMessages]);
+
+  const parseChatMessage = (message: string) => {
+    try {
+      const parsed = JSON.parse(message);
+      const {
+        type,
+        template,
+        userName,
+        selectedUserName,
+        isSame,
+      }: { type: GameMessageType; template: number; userName?: string; selectedUserName?: string; isSame?: boolean } =
+        parsed;
+      console.log('type', type);
+      console.log('template', template);
+      console.log('userName', userName);
+      console.log('selectedUserName', selectedUserName);
+      console.log('isSame', isSame);
+      switch (type) {
+        case GameMessageType.DETECT_START: {
+          return `DETECT_START`;
+        }
+        case GameMessageType.DETECT_FINISHED: {
+          return 'DETECT_FINISHED';
+        }
+        case GameMessageType.JOIN_GAME: {
+          return 'JOIN_GAME';
+        }
+      }
+    } catch {
+      return message;
+    }
+  };
 
   return (
     <Paper
@@ -38,21 +71,11 @@ function ChatMessages() {
             sx={{
               textAlign: 'left',
               fontWeight: 'bold',
-              color: item.message.includes('достает свое')
-                ? 'black'
-                : item.message.includes('grew from size')
-                ? 'blue'
-                : item.type === 'app'
-                ? '#666'
-                : item.type === 'user'
-                ? '#4caf50'
-                : item.type === 'sys'
-                ? '#ff9800'
-                : '#666',
+              color: item.type === 'app' ? 'green' : item.type === 'sys' ? '#ff9870' : '#666',
             }}
           >
-            [{item.type.slice(0, 3).toUpperCase()}] {new Date(item.timestamp).toLocaleString().split(',')[1]}:{' '}
-            <span style={{ fontStyle: 'italic', fontWeight: 'normal' }}>{item.message}</span>
+            [{new Date(item.timestamp).toLocaleString().split(',')[1].replaceAll(' ', '')}]:{' '}
+            <span style={{ fontStyle: 'italic', fontWeight: 'normal' }}>{parseChatMessage(item.message)}</span>
           </Typography>
         ))}
     </Paper>
