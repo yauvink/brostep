@@ -25,7 +25,7 @@ function TouchButton() {
         return;
       }
 
-      const GAME_TOUCH_TIMEOUT = 10000;
+      const GAME_TOUCH_TIMEOUT = 15000;
       const timeDiff = new Date().getTime() - currentUser.lastDetectedAt;
       const remainingTime = GAME_TOUCH_TIMEOUT - timeDiff;
 
