@@ -44,8 +44,6 @@ function ChatMessages() {
                 ? 'blue'
                 : item.type === 'app'
                 ? '#666'
-                : item.type === 'user'
-                ? '#4caf50'
                 : item.type === 'sys'
                 ? '#ff9800'
                 : '#666',

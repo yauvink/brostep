@@ -1,6 +1,6 @@
 import { Person } from '@mui/icons-material';
-import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@mui/material';
-import { APP_VIEW } from '../../constants/app.constants';
+import { AppBar, Avatar, IconButton, Toolbar, Typography, Select, MenuItem, FormControl } from '@mui/material';
+import { APP_VIEW, AppLanguages } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import { iOsPadding } from '../../utils/browser';
@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next';
 
 function AppHeader() {
   const { telegramUser } = useTelegram();
-  const { setAppView } = useApp();
-  const { t } = useTranslation();
+  const { setAppView, handleChangeAppLanguage } = useApp();
+  const { t, i18n } = useTranslation();
 
   return (
     <AppBar
@@ -28,6 +28,43 @@ function AppHeader() {
         <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold', lineHeight: 'normal' }}>
           {t('gameTitle')}
         </Typography>
+        <FormControl
+          sx={{
+            marginRight: '10px',
+            minWidth: 80,
+          }}
+          size="small"
+        >
+          <Select
+            value={i18n.language}
+            onChange={(e) => handleChangeAppLanguage(e.target.value as AppLanguages)}
+            sx={{
+              color: '#333',
+              border: '2px solid rgba(0,0,0,0.1)',
+              borderRadius: '25px',
+              height: '50px',
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '& .MuiSelect-select': {
+                padding: '12px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+            }}
+          >
+            <MenuItem value={AppLanguages.EN}>EN</MenuItem>
+            <MenuItem value={AppLanguages.RU}>RU</MenuItem>
+          </Select>
+        </FormControl>
+
         <IconButton
           color="inherit"
           onClick={() => setAppView(APP_VIEW.LEADERBOARD)}

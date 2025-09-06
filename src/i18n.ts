@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import ru from './locales/ru.json';
 import { AppLanguages } from './constants/app.constants';
+import { STORAGE_KEYS } from './constants/storage';
 
 const resources = {
   en: {
@@ -13,11 +14,13 @@ const resources = {
   }
 };
 
+const selectedLanguage = window.localStorage.getItem(STORAGE_KEYS.APP_LANGUAGE) ?? AppLanguages.EN;
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: AppLanguages.EN, // default language
+    lng: selectedLanguage, // default language
     fallbackLng: AppLanguages.EN,
 
     interpolation: {

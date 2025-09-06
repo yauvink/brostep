@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { authenticate, renewRefreshToken } from '../services/requests.tsx';
 import { useError } from '../providers/ErrorProvider/useError.ts';
-
-const ACCESS_TOKEN_KEY = 'accessToken';
-const REFRESH_TOKEN_KEY = 'refreshToken';
+import { STORAGE_KEYS } from '../constants/storage.tsx';
 
 export interface AuthState {
   accessToken: string | null;
@@ -26,8 +24,8 @@ export const useAuth = (initData: string | null) => {
 
     getTokens(initData)
       .then((res) => {
-        localStorage.setItem(REFRESH_TOKEN_KEY, res.data.refreshToken);
-        localStorage.setItem(ACCESS_TOKEN_KEY, res.data.accessToken);
+        localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN_KEY, res.data.refreshToken);
+        localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN_KEY, res.data.accessToken);
         setAuthState({
           accessToken: res.data.accessToken,
           refreshToken: res.data.refreshToken,
@@ -59,7 +57,7 @@ export const useAuth = (initData: string | null) => {
 };
 
 async function getTokens(initData: string) {
-  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+  const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN_KEY);
 
   try {
     if (refreshToken) return await renewRefreshToken(refreshToken);
