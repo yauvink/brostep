@@ -42,7 +42,7 @@ interface GameState {
   users: GameUser[];
 }
 
-interface ChatMessage {
+export interface ChatMessage {
   id?: string;
   timestamp: number;
   type: 'sys' | 'app';

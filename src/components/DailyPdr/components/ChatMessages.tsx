@@ -3,6 +3,7 @@ import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useRef } from 'react';
 import { GameMessageType } from '../../../constants/app.constants';
 import { useTranslation } from 'react-i18next';
+import type { ChatMessage } from '../../../providers/GameProvider/GameProvider';
 
 function ChatMessages() {
   const { chatMessages } = useGame();
@@ -16,9 +17,9 @@ function ChatMessages() {
     }
   }, [chatMessages]);
 
-  const parseChatMessage = (message: string) => {
+  const parseChatMessage = (chatMessage: ChatMessage) => {
     try {
-      const parsed = JSON.parse(message);
+      const parsed = JSON.parse(chatMessage.message);
       const {
         type,
         template,
@@ -30,21 +31,34 @@ function ChatMessages() {
 
       switch (type) {
         case GameMessageType.DETECT_START: {
-          return t(`chatMessages.detectStart.${template}`, { userName });
+          return {
+            ...chatMessage,
+            message: t(`chatMessages.detectStart.${template}`, { userName }),
+          };
         }
         case GameMessageType.DETECT_FINISHED: {
           if (isSame) {
-            return t(`chatMessages.detectFinishedSameUser.${template}`, { userName });
+            return {
+              ...chatMessage,
+              message: t(`chatMessages.detectFinishedSameUser.${template}`, { userName }),
+            };
           } else {
-            return t(`chatMessages.detectFinished.${template}`, { userName: selectedUserName });
+            return {
+              ...chatMessage,
+              message: t(`chatMessages.detectFinished.${template}`, { userName: selectedUserName }),
+            };
           }
         }
         case GameMessageType.JOIN_GAME: {
-          return t(`chatMessages.joinGame.${template}`, { userName });
+          return {
+            ...chatMessage,
+            message: t(`chatMessages.joinGame.${template}`, { userName }),
+            joinGame: true,
+          };
         }
       }
     } catch {
-      return message;
+      return chatMessage;
     }
   };
 
@@ -68,33 +82,50 @@ function ChatMessages() {
     >
       {chatMessages
         .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
-        .map((item, index) => (
-          <Typography key={index} sx={{ textAlign: 'left', lineHeight: 'normal' }}>
-            <Typography
-              component="span"
-              sx={{
-                color: item.type === 'app' ? 'green' : item.type === 'sys' ? '#666' : '#666',
-                lineHeight: 'normal',
-                fontWeight: 'bold',
-              }}
-            >
-              [{new Date(item.timestamp).toLocaleString().split(',')[1].replaceAll(' ', '')}]:{' '}
-              {/* <span style={{ fontStyle: 'italic', fontWeight: 'normal' }}>{parseChatMessage(item.message)}</span> */}
+        .map((item, index) => {
+          const parsedMessage = parseChatMessage(item);
+
+          return (
+            <Typography key={index} sx={{ textAlign: 'left', lineHeight: 'normal' }}>
+              <Typography
+                component="span"
+                sx={{
+                  color:
+                    'joinGame' in parsedMessage && parsedMessage.joinGame
+                      ? 'blue'
+                      : parsedMessage.type === 'app'
+                      ? 'green'
+                      : parsedMessage.type === 'sys'
+                      ? '#666'
+                      : '#666',
+                  lineHeight: 'normal',
+                  fontWeight: 'bold',
+                }}
+              >
+                [{new Date(parsedMessage.timestamp).toLocaleString().split(',')[1].replaceAll(' ', '')}]:{' '}
+              </Typography>
+              <Typography
+                component="span"
+                sx={{
+                  color:
+                    'joinGame' in parsedMessage && parsedMessage.joinGame
+                      ? 'blue'
+                      : parsedMessage.type === 'app'
+                      ? 'green'
+                      : parsedMessage.type === 'sys'
+                      ? '#666'
+                      : '#666',
+                  lineHeight: 'normal',
+                  fontStyle: 'italic',
+                  b: {
+                    color: 'joinGame' in parsedMessage && parsedMessage.joinGame ? 'blue' : '#ff9800',
+                  },
+                }}
+                dangerouslySetInnerHTML={{ __html: parsedMessage.message }}
+              ></Typography>
             </Typography>
-            <Typography
-              component="span"
-              sx={{
-                color: item.type === 'app' ? 'green' : item.type === 'sys' ? '#666' : '#666',
-                lineHeight: 'normal',
-                fontStyle: 'italic',
-                b: {
-                  color: '#ff9800',
-                },
-              }}
-              dangerouslySetInnerHTML={{ __html: parseChatMessage(item.message) }}
-            ></Typography>
-          </Typography>
-        ))}
+          );
+        })}
     </Paper>
   );
 }
