@@ -52,7 +52,7 @@ interface GameState {
 interface ChatMessage {
   id?: string;
   timestamp: number;
-  type: 'user' | 'system' | 'app';
+  type: 'user' | 'sys' | 'app';
   message: string;
 }
 

@@ -46,7 +46,7 @@ function ChatMessages() {
                 ? '#666'
                 : item.type === 'user'
                 ? '#4caf50'
-                : item.type === 'system'
+                : item.type === 'sys'
                 ? '#ff9800'
                 : '#666',
             }}

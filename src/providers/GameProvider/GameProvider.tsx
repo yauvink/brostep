@@ -21,11 +21,6 @@ export interface SelectedCompleteData {
   };
 }
 
-export interface LastMessagesData {
-  messages: ChatMessage[];
-  timestamp: number;
-}
-
 export interface GameUser {
   id: string;
   telegramId: number;
@@ -50,7 +45,7 @@ interface GameState {
 interface ChatMessage {
   id?: string;
   timestamp: number;
-  type: 'user' | 'system' | 'app';
+  type: 'user' | 'sys' | 'app';
   message: string;
 }
 
@@ -107,13 +102,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setGameState(data);
       });
 
-      // socketInstance.on('last_messages', (data: LastMessagesData) => {
-      //   console.log('last_messages', data);
-      //   setChatMessages((prev) => [...prev, ...data.messages]);
-      // });
+      socketInstance.on('last_messages', (data: ChatMessage[]) => {
+        // console.log('last_messages', data);
+        setChatMessages((prev) => [...prev, ...data]);
+      });
 
       socketInstance.on('chat_message', (data: ChatMessage) => {
-        console.log('chat_message', data);
+        // console.log('chat_message', data);
         setChatMessages((prev) => [...prev, data]);
       });
     },
@@ -121,6 +116,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   );
 
   const touchButton = useCallback(() => {
+    console.log('socket', socket);
+    console.log('socket.connected', socket.connected);
     if (!socket || !socket.connected) {
       addChatMessage({
         type: 'app',
