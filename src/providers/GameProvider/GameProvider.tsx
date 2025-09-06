@@ -70,7 +70,7 @@ interface GameProviderProps {
 }
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const { webApp } = useTelegram();
+  const { webApp, chatInstanceId } = useTelegram();
   const { authState } = useApp();
   const [socket, setSocket] = useState<any | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
@@ -78,47 +78,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
-  const GAME_ROOM_ID = '68b5959a40ec022e1db093aa';
-
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
   }, []);
-
-  const connect = useCallback(() => {
-    if (socket) {
-      socket.disconnect();
-    }
-
-    // addLog({
-    //   type: 'app',
-    //   message: 'Attempting to connect to server...',
-    //   timestamp: Date.now(),
-    // });
-
-    try {
-      // Dynamic import to avoid TypeScript issues
-      import('socket.io-client').then(({ io }: any) => {
-        const newSocket = io(import.meta.env.VITE_API_BACKEND_ENDPOINT, {
-          transports: ['websocket', 'polling'],
-          timeout: 10000,
-          forceNew: true,
-          auth: { token: authState.accessToken },
-        });
-
-        setSocket(newSocket);
-        setupSocketHandlers(newSocket);
-
-        newSocket.emit('join_game', { gameId: GAME_ROOM_ID });
-      });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      addChatMessage({
-        type: 'app',
-        message: `❌ Connection error: ${errorMessage}`,
-        timestamp: Date.now(),
-      });
-    }
-  }, [socket, addChatMessage, authState]);
 
   const setupSocketHandlers = useCallback(
     (socketInstance: any) => {
@@ -177,16 +139,32 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   // Auto-connect on mount
   useEffect(() => {
-    if (authState.accessToken) {
-      connect();
+    if (authState.accessToken && chatInstanceId) {
+      try {
+        // Dynamic import to avoid TypeScript issues
+        import('socket.io-client').then(({ io }: any) => {
+          const newSocket = io(import.meta.env.VITE_API_BACKEND_ENDPOINT, {
+            transports: ['websocket', 'polling'],
+            timeout: 10000,
+            forceNew: true,
+            auth: { token: authState.accessToken },
+          });
 
-      return () => {
-        if (socket) {
-          socket.disconnect();
-        }
-      };
+          setSocket(newSocket);
+          setupSocketHandlers(newSocket);
+
+          newSocket.emit('join_game', { gameId: chatInstanceId });
+        });
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        addChatMessage({
+          type: 'app',
+          message: `❌ Connection error: ${errorMessage}`,
+          timestamp: Date.now(),
+        });
+      }
     }
-  }, [authState]);
+  }, [authState, chatInstanceId]);
 
   // Send activity periodically
   // useEffect(() => {

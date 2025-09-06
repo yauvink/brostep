@@ -21,8 +21,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const { initData } = useTelegram();
   const { authState } = useAuth(initData);
 
-  console.log('===================== authState.accessToken =====================');
-  console.log(authState.accessToken);
+  // console.log('===================== authState.accessToken =====================');
+  // console.log(authState.accessToken);
 
   const value: AppContextType = {
     authState,
