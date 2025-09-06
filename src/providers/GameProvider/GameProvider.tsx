@@ -83,11 +83,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const setupSocketHandlers = useCallback(
     (socketInstance: any) => {
       socketInstance.on('connect', () => {
-        addChatMessage({
-          type: 'app',
-          message: '✅ Connected to server successfully',
-          timestamp: Date.now(),
-        });
         setIsSocketConnected(true);
         socketInstance.emit('join_game', { chatInstanceId });
       });
@@ -119,6 +114,11 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socketInstance.on('game_joined', (data: string) => {
         // console.log('game_joined', data);
         setJoinedGameId(data);
+        addChatMessage({
+          type: 'app',
+          message: '✅ Connected to game room ',
+          timestamp: Date.now(),
+        });
       });
 
       socketInstance.on('detected', (data: string) => {
