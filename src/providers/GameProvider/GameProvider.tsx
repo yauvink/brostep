@@ -40,6 +40,7 @@ interface GameState {
   onlineUsers: number;
   currentState: 'idle' | 'detecting';
   users: GameUser[];
+  GAME_DAILY_TOUCH_LIMIT?: boolean
 }
 
 export interface ChatMessage {

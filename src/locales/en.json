@@ -2,6 +2,7 @@
   "gameTitle": "Daily pidor",
   "detected": "PIDOR",
   "button": "DO NOT TOUCH!",
+  "comeBackTomorrow": "Come back tomorrow",
   "chatMessages": {
     "detectStart": {
       "1": "<b>{{userName}}</b> is pressing the fucking button",

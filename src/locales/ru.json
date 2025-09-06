@@ -2,6 +2,7 @@
   "gameTitle": "Пидор дня",
   "detected": "ПИДОР",
   "button": "НЕ ТРОГАТЬ!",
+  "comeBackTomorrow": "Приходи завтра",
   "chatMessages": {
     "detectStart": {
       "1": "<b>{{userName}}</b> жмет на ебучую кнопку",

@@ -5,7 +5,6 @@ import { useGame } from '../../../../../providers/GameProvider';
 import { useTranslation } from 'react-i18next';
 
 function ScoreChangeAnimation({ currentUser }: { currentUser: GameUser }) {
-  console.log('currentUser', currentUser);
   const { detectedUserId, gameState, setDetectedUserId } = useGame();
   const [showAnimation, setShowAnimation] = useState(false);
   const { t } = useTranslation();

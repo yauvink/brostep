@@ -3,6 +3,7 @@ import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useMemo, useState } from 'react';
 import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
 import { useTranslation } from 'react-i18next';
+import { isToday } from '../../../utils/date';
 
 function TouchButton() {
   const { telegramUser } = useTelegram();
@@ -17,29 +18,20 @@ function TouchButton() {
     return gameState?.users.find((user) => user.telegramId === telegramUser?.id);
   }, [gameState, telegramUser]);
 
-  const [timeout, setTimeout] = useState<string | null>(null);
+  const [isTouchedToday, setTouchedToday] = useState(true);
 
   // console.log('currentUser.lastDetectedAt',currentUser?.lastDetectedAt);
   useEffect(() => {
+    if (gameState?.GAME_DAILY_TOUCH_LIMIT !== undefined && gameState?.GAME_DAILY_TOUCH_LIMIT === false) {
+      setTouchedToday(false);
+      return;
+    }
+
     const checkTimeRemaining = () => {
-      if (!currentUser || !currentUser.lastDetectedAt) {
-        setTimeout(null);
-        return;
+      if (currentUser) {
+        const isTouchedToday = isToday(currentUser.lastDetectedAt || 0);
+        setTouchedToday(isTouchedToday);
       }
-      const GAME_TOUCH_TIMEOUT = 25000;
-      const timeDiff = new Date().getTime() - currentUser.lastDetectedAt;
-      const remainingTime = GAME_TOUCH_TIMEOUT - timeDiff;
-
-      if (remainingTime <= 0) {
-        setTimeout(null);
-        return;
-      }
-
-      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-      const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      setTimeout(timeString);
     };
 
     checkTimeRemaining();
@@ -47,7 +39,7 @@ function TouchButton() {
     const interval = setInterval(checkTimeRemaining, 1000);
 
     return () => clearInterval(interval);
-  }, [gameState]);
+  }, [gameState, currentUser]);
 
   if (isDetecting) {
     return (
@@ -68,7 +60,7 @@ function TouchButton() {
     );
   }
 
-  if (timeout) {
+  if (isTouchedToday) {
     return (
       <Box
         sx={{
@@ -85,9 +77,7 @@ function TouchButton() {
           lineHeight: 1.2,
         }}
       >
-        Your timeout:
-        <br />
-        {timeout}
+        {t('comeBackTomorrow')}
       </Box>
     );
   }
