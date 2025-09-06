@@ -1,3 +1,4 @@
+import React from 'react';
 import { Person } from '@mui/icons-material';
 import { AppBar, Avatar, IconButton, Toolbar, Typography, Select, MenuItem, FormControl } from '@mui/material';
 import { APP_VIEW, AppLanguages } from '../../constants/app.constants';
@@ -112,4 +113,5 @@ function AppHeader() {
     </AppBar>
   );
 }
-export default AppHeader;
+
+export default React.memo(AppHeader);

@@ -1,5 +1,6 @@
 {
   "gameTitle": "Daily pidor",
+  "detected": "PIDOR",
   "button": "DO NOT TOUCH!",
   "chatMessages": {
     "detectStart": {

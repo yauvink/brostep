@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import ConnectionOverlay from './components/ConnectionOverlay';
+import ConnectionOverlay from '../DailyPdr/components/ConnectionOverlay';
 import TouchButton from './components/TouchButton';
 import SpinnerAnimation from './components/SpinnerAnimation';
 import ChatMessages from './components/ChatMessages';

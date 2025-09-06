@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import TouchButton from './components/TouchButton';
 import Users from './components/Users/Users';
 import ChatMessages from './components/ChatMessages';
-import ConnectionOverlay from '../Roulette/components/ConnectionOverlay';
+import ConnectionOverlay from './components/ConnectionOverlay';
 
 function DailyPdr() {
   return (

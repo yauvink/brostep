@@ -53,8 +53,6 @@ interface GameContextType {
   gameState: GameState | null;
   chatMessages: ChatMessage[];
   touchButton: () => void;
-  selectedCompleteData: SelectedCompleteData | null;
-  setSelectedCompleteData: (v: SelectedCompleteData | null) => void;
   isSocketConnected: boolean;
   joinedGameId: string | null;
   detectedUserId: string | null;
@@ -72,7 +70,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<any | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [gameState, setGameState] = useState<GameState | null>(null);
-  const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
@@ -133,8 +130,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   );
 
   const touchButton = useCallback(() => {
-    console.log('socket', socket);
-    console.log('socket.connected', socket.connected);
     if (!socket || !socket.connected) {
       addChatMessage({
         type: 'app',
@@ -193,8 +188,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     gameState,
     chatMessages,
     touchButton,
-    selectedCompleteData,
-    setSelectedCompleteData,
     isSocketConnected,
     joinedGameId,
     detectedUserId,
