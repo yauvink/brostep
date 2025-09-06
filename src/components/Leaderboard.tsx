@@ -3,20 +3,21 @@ import { ArrowBack } from '@mui/icons-material';
 import { useApp } from '../providers/AppProvider';
 import { APP_VIEW } from '../constants/app.constants';
 import { iOsPadding } from '../utils/browser';
+import { useGame } from '../providers/GameProvider';
+import { useMemo } from 'react';
 
 function Leaderboard() {
   const { setAppView } = useApp();
-  // const { gameState } = useGame();
+  const { gameState } = useGame();
 
-  // const tableValues = useMemo(() => {
-  //   const data = gameState?.users.map((user) => ({
-  //     name: `${user.first_name} ${user.last_name}`,
-  //     size: `${user.size} cm`,
-  //     points: user.points,
-  //   }));
+  const tableValues = useMemo(() => {
+    const data = gameState?.users.map((user) => ({
+      name: `${user.firstName} ${user.lastName}`,
+      points: user.count,
+    }));
 
-  //   return data?.sort((a, b) => b.points - a.points);
-  // }, [gameState]);
+    return data?.sort((a, b) => b.points - a.points);
+  }, [gameState]);
 
   return (
     <Box
@@ -95,7 +96,7 @@ function Leaderboard() {
               </Typography>
               <Box sx={{ minWidth: '70px' }}>Points</Box>
             </Box>
-            {/* {tableValues?.map((el, i, arr) => (
+            {tableValues?.map((el, i, arr) => (
               <Box
                 key={i}
                 sx={{
@@ -115,7 +116,9 @@ function Leaderboard() {
                     border: '1px solid yellow',
                     borderRadius: '50%',
                     height: '30px',
-                    color: 'black',
+                    color: 'yellow',
+                    fontWeight: 900,
+                    textShadow: '1px 2px 2px black'
                   }}
                 >
                   {i + 1}
@@ -131,7 +134,7 @@ function Leaderboard() {
                 </Typography>
                 <Box sx={{ minWidth: '70px' }}>{el.points}</Box>
               </Box>
-            ))} */}
+            ))}
           </Box>
         </Box>
       </Box>

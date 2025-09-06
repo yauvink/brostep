@@ -112,10 +112,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       //   setChatMessages((prev) => [...prev, ...data.messages]);
       // });
 
-      // socketInstance.on('chat_message', (data: ChatMessage) => {
-      //   console.log('chat_message', data);
-      //   setChatMessages((prev) => [...prev, data]);
-      // });
+      socketInstance.on('chat_message', (data: ChatMessage) => {
+        console.log('chat_message', data);
+        setChatMessages((prev) => [...prev, data]);
+      });
     },
     [addChatMessage]
   );
