@@ -2,10 +2,12 @@ import { Box, Button, CircularProgress } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useMemo, useState } from 'react';
 import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
+import { useTranslation } from 'react-i18next';
 
 function TouchButton() {
   const { telegramUser } = useTelegram();
   const { gameState, touchButton } = useGame();
+  const { t } = useTranslation();
 
   const isDetecting = useMemo(() => {
     return gameState?.currentState !== 'idle';
@@ -104,7 +106,7 @@ function TouchButton() {
       }}
       variant="contained"
     >
-      do not touch!
+      {t('button')}
     </Button>
   );
 }

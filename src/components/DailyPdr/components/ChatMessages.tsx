@@ -73,8 +73,9 @@ function ChatMessages() {
             <Typography
               component="span"
               sx={{
-                color: item.type === 'app' ? 'green' : item.type === 'sys' ? '#ff9870' : '#666',
+                color: item.type === 'app' ? 'green' : item.type === 'sys' ? '#666' : '#666',
                 lineHeight: 'normal',
+                fontWeight: 'bold',
               }}
             >
               [{new Date(item.timestamp).toLocaleString().split(',')[1].replaceAll(' ', '')}]:{' '}
@@ -83,7 +84,7 @@ function ChatMessages() {
             <Typography
               component="span"
               sx={{
-                color: item.type === 'app' ? 'green' : item.type === 'sys' ? '#ff9870' : '#666',
+                color: item.type === 'app' ? 'green' : item.type === 'sys' ? '#666' : '#666',
                 lineHeight: 'normal',
                 fontStyle: 'italic',
                 b: {

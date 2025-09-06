@@ -1,3 +1,35 @@
 {
-  "gameTitle": "Daily pidor"
+  "gameTitle": "Daily pidor",
+  "button": "DO NOT TOUCH!",
+  "chatMessages": {
+    "detectStart": {
+      "1": "<b>{{userName}}</b> is pressing the fucking button",
+      "2": "<b>{{userName}}</b> starts the search",
+      "3": "<b>{{userName}}</b> begins to search",
+      "4": "<b>{{userName}}</b> wants to know who's the pidor here",
+      "5": "<b>{{userName}}</b> pressed the button"
+    },
+    "detectFinished": {
+      "1": "Recognition completed, <b>{{userName}}</b> is the pidor",
+      "2": "That was easy, the pidor is <b>{{userName}}</b>",
+      "3": "The search can't be wrong, the pidor is <b>{{userName}}</b>",
+      "4": "Got caught! The pidor is <b>{{userName}}</b>",
+      "5": "Tried to run away but we found him, the pidor is <b>{{userName}}</b>"
+    },
+
+    "detectFinishedSameUser": {
+      "1": "You're the pidor yourself, <b>{{userName}}</b>",
+      "2": "Shoots himself in the foot, <b>{{userName}}</b> is the pidor",
+      "3": "We told you not to press, <b>{{userName}}</b> is the pidor",
+      "4": "Pidor detected - <b>{{userName}}</b>, will you touch the button again?",
+      "5": "Recognition completed, the pidor was online - <b>{{userName}}</b>"
+    },
+    "joinGame": {
+      "1": "<b>{{userName}}</b> joined the game",
+      "2": "<b>{{userName}}</b> joined the game",
+      "3": "<b>{{userName}}</b> joined the game",
+      "4": "<b>{{userName}}</b> joined the game",
+      "5": "<b>{{userName}}</b> joined the game"
+    }
+  }
 }
