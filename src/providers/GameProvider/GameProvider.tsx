@@ -98,7 +98,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       });
 
       socketInstance.on('game_state_update', (data: GameState) => {
-        console.log('game_state_update', data);
+        // console.log('game_state_update', data);
         setGameState(data);
       });
 
