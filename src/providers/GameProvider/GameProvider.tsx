@@ -56,6 +56,8 @@ interface GameContextType {
   selectedCompleteData: SelectedCompleteData | null;
   setSelectedCompleteData: (v: SelectedCompleteData | null) => void;
   isSocketConnected: boolean;
+  joinedGameId: string | null;
+  detectedUserId: string | null;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -72,6 +74,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [selectedCompleteData, setSelectedCompleteData] = useState<SelectedCompleteData | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
+  const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
 
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
@@ -86,6 +90,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           timestamp: Date.now(),
         });
         setIsSocketConnected(true);
+
+        socketInstance.emit('join_game', { gameId: chatInstanceId });
       });
 
       socketInstance.on('disconnect', (reason: string) => {
@@ -111,8 +117,20 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         // console.log('chat_message', data);
         setChatMessages((prev) => [...prev, data]);
       });
+
+      socketInstance.on('game_joined', (data: string) => {
+        // console.log('game_joined', data);
+        setJoinedGameId(data);
+      });
+
+      socketInstance.on('detected', (data: string) => {
+        // console.log('detected', data);
+        setDetectedUserId(data);
+      });
+
+
     },
-    [addChatMessage]
+    [addChatMessage, chatInstanceId]
   );
 
   const touchButton = useCallback(() => {
@@ -149,8 +167,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
           setSocket(newSocket);
           setupSocketHandlers(newSocket);
-
-          newSocket.emit('join_game', { gameId: chatInstanceId });
         });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -181,6 +197,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     selectedCompleteData,
     setSelectedCompleteData,
     isSocketConnected,
+    joinedGameId,
+    detectedUserId,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

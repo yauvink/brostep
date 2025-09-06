@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 
 function ConnectionOverlay() {
-  const { isSocketConnected } = useGame();
+  const { isSocketConnected, joinedGameId } = useGame();
 
-  if (isSocketConnected) return null;
+  if (isSocketConnected && joinedGameId !== null) return null;
 
   return (
     <Box
@@ -25,7 +25,7 @@ function ConnectionOverlay() {
       }}
     >
       <span className="loader"></span>
-      <Typography>{'Connecting to the game...'}</Typography>
+      <Typography>{isSocketConnected ? 'Joining the game...' : 'Connecting to the server...'}</Typography>
     </Box>
   );
 }
