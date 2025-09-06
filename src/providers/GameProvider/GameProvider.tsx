@@ -90,8 +90,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           timestamp: Date.now(),
         });
         setIsSocketConnected(true);
-
-        socketInstance.emit('join_game', { gameId: chatInstanceId });
+        socketInstance.emit('join_game', { chatInstanceId });
       });
 
       socketInstance.on('disconnect', (reason: string) => {
