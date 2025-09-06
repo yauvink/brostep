@@ -150,7 +150,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           setSocket(newSocket);
           setupSocketHandlers(newSocket);
 
-          newSocket.emit('join_game', { gameId: chatInstanceId });
+          newSocket.emit('join_game', { chatInstanceId });
         });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
