@@ -5,10 +5,12 @@ import { useApp } from '../../providers/AppProvider';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import { iOsPadding } from '../../utils/browser';
 import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
+import { useTranslation } from 'react-i18next';
 
 function AppHeader() {
   const { telegramUser } = useTelegram();
   const { setAppView } = useApp();
+  const { t } = useTranslation();
 
   return (
     <AppBar
@@ -24,7 +26,7 @@ function AppHeader() {
     >
       <Toolbar sx={{ height: '70px' }}>
         <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold', lineHeight: 'normal' }}>
-          Пидор дня
+          {t('gameTitle')}
         </Typography>
         <IconButton
           color="inherit"

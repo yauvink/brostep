@@ -11,3 +11,8 @@ export enum GameMessageType {
   DETECT_FINISHED = 'df',
   JOIN_GAME = 'jg',
 }
+
+export enum AppLanguages {
+  EN = 'en',
+  RU = 'ru',
+}
