@@ -10,7 +10,7 @@ interface TelegramContextType {
   webApp: WebApp | null;
   telegramUser: WebAppUser | null;
   initData: string | null;
-  chatInstanceId: string | null;
+  telegramChatId: string | null;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -22,8 +22,8 @@ interface TelegramProviderProps {
 const DEV_INIT_DATA_MOCK =
   'user=%7B%22id%22%3A392009623%2C%22first_name%22%3A%22Yauhen%22%2C%22last_name%22%3A%22Vink%22%2C%22username%22%3A%22yauvink%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg%22%7D&chat_instance=-7856053354140742542&chat_type=supergroup&auth_date=1757186029&signature=QZ6rBys9w8yYc41GX8NDBgTsxEZmjYpOOoOVT2__YJ8R12fMyozyAZvXFhR7E9KiROo4b1PbX9_rZtjwe12yAA&hash=604ecb349c6a679d6abb5d258e7006bb56fd46f84cc7e3038d7548a6debf90ea';
 
-// const DEV_CHAT_INSTANCE_ID_MOCK = '68b5959a40ec022e1db093aa';
-const DEV_CHAT_INSTANCE_ID_MOCK = '-7856053354140742542';
+// const DEV_CHAT_INSTANCE_ID_MOCK = '-7856053354140742542';
+const DEV_CHAT_INSTANCE_ID_MOCK = '-1003086441484';
 
 export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) => {
   const [webApp, setWebApp] = useState<WebApp | null>(null);
@@ -31,7 +31,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   const [telegramUser, setTelegramUser] = useState<WebAppUser | null>(null);
   const [initData, setInitData] = useState<string | null>(null);
-  const [chatInstanceId, setChatInstanceId] = useState<string | null>(null);
+  const [telegramChatId, setTelegramChatId] = useState<string | null>(null);
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
@@ -49,7 +49,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     if (webApp) {
       if (import.meta.env.DEV) {
         setInitData(DEV_INIT_DATA_MOCK);
-        setChatInstanceId(DEV_CHAT_INSTANCE_ID_MOCK);
+        setTelegramChatId(DEV_CHAT_INSTANCE_ID_MOCK);
 
         const userRaw = new URLSearchParams(DEV_INIT_DATA_MOCK).get('user');
         if (userRaw) {
@@ -76,27 +76,16 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
           }
         }
 
-        switch (webApp.initDataUnsafe.chat_type) {
-          case 'group':
-          case 'supergroup': {
-            const chatInstanceId = webApp.initDataUnsafe.chat_instance;
-            if (!chatInstanceId) {
-              setAppError('Cant find your chat id to start your game');
-            } else {
-              setChatInstanceId(String(chatInstanceId));
-            }
-            break;
-          }
-          case 'private': {
-            setAppError(
-              `1v1 fights are not allowed yet, please use in chat.  TODO add link send to chat. chat_type: ${webApp.initDataUnsafe.chat_type}. chat_instance: ${webApp.initDataUnsafe.chat_instance}`
-            );
-            break;
-          }
-          default: {
-            setAppError(
-              `Are you crazy? Use in chat. TODO add link send to chat. chat_type: ${webApp.initDataUnsafe.chat_type}. chat_instance: ${webApp.initDataUnsafe.chat_instance}`
-            );
+        const startParam = webApp.initDataUnsafe.start_param;
+        // const startParam = 'chat_-321313123__test_stuX321o90'
+        if (startParam) {
+          const values = startParam.split('__');
+          const chatParam = values.find((value) => value.startsWith('chat_'));
+          if (chatParam) {
+            const chatId = chatParam.replace('chat_', '');
+            setTelegramChatId(chatId);
+          } else {
+            setAppError('Cant find your chat id to start your game, please open via link in chat');
           }
         }
       }
@@ -125,11 +114,12 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     webApp,
     telegramUser,
     initData,
-    chatInstanceId,
+    telegramChatId,
   };
 
-  return <TelegramContext.Provider value={value}>
-     <Box
+  return (
+    <TelegramContext.Provider value={value}>
+      <Box
         sx={{
           position: 'fixed',
           zIndex: 999999,
@@ -139,9 +129,12 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
           padding: '10px',
         }}
       >
-      <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
+        <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
+        <div>telegramChatId: {telegramChatId}</div>
       </Box>
-      {children}</TelegramContext.Provider>;
+      {children}
+    </TelegramContext.Provider>
+  );
 };
 
 export { TelegramContext };

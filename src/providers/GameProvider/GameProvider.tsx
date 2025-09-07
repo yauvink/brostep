@@ -67,7 +67,7 @@ interface GameProviderProps {
 }
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const { webApp, chatInstanceId } = useTelegram();
+  const { webApp, telegramChatId } = useTelegram();
   const { authState } = useApp();
   const [socket, setSocket] = useState<any | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
@@ -84,7 +84,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     (socketInstance: any) => {
       socketInstance.on('connect', () => {
         setIsSocketConnected(true);
-        socketInstance.emit('join_game', { chatInstanceId });
+        socketInstance.emit('join_game', { telegramChatId });
       });
 
       socketInstance.on('disconnect', (reason: string) => {
@@ -128,7 +128,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
 
     },
-    [addChatMessage, chatInstanceId]
+    [addChatMessage, telegramChatId]
   );
 
   const touchButton = useCallback(() => {
@@ -150,7 +150,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   // Auto-connect on mount
   useEffect(() => {
-    if (authState.accessToken && chatInstanceId) {
+    if (authState.accessToken && telegramChatId) {
       try {
         // Dynamic import to avoid TypeScript issues
         import('socket.io-client').then(({ io }: any) => {
@@ -173,7 +173,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         });
       }
     }
-  }, [authState, chatInstanceId]);
+  }, [authState, telegramChatId]);
 
   // Send activity periodically
   // useEffect(() => {
