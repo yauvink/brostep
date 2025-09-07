@@ -10,7 +10,7 @@ interface TelegramContextType {
   webApp: WebApp | null;
   telegramUser: WebAppUser | null;
   initData: string | null;
-  telegramChatId: string | null;
+  gameRoomId: string | null;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -31,7 +31,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   const [telegramUser, setTelegramUser] = useState<WebAppUser | null>(null);
   const [initData, setInitData] = useState<string | null>(null);
-  const [telegramChatId, setTelegramChatId] = useState<string | null>(null);
+  const [gameRoomId, setGameRoomId] = useState<string | null>(null);
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
@@ -49,7 +49,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     if (webApp) {
       if (import.meta.env.DEV) {
         setInitData(DEV_INIT_DATA_MOCK);
-        setTelegramChatId(DEV_CHAT_INSTANCE_ID_MOCK);
+        setGameRoomId(DEV_CHAT_INSTANCE_ID_MOCK);
 
         const userRaw = new URLSearchParams(DEV_INIT_DATA_MOCK).get('user');
         if (userRaw) {
@@ -80,10 +80,10 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
         // const startParam = 'chat_-321313123__test_stuX321o90'
         if (startParam) {
           const values = startParam.split('__');
-          const chatParam = values.find((value) => value.startsWith('chat_'));
+          const chatParam = values.find((value) => value.startsWith('gameroom_'));
           if (chatParam) {
-            const chatId = chatParam.replace('chat_', '');
-            setTelegramChatId(chatId);
+            const chatId = chatParam.replace('gameroom_', '');
+            setGameRoomId(chatId);
           } else {
             setAppError('Cant find your chat id to start your game, please open via link in chat');
           }
@@ -114,7 +114,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     webApp,
     telegramUser,
     initData,
-    telegramChatId,
+    gameRoomId,
   };
 
   return (
@@ -130,7 +130,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
         }}
       >
         <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
-        <div>telegramChatId: {telegramChatId}</div>
+        <div>gameRoomId: {gameRoomId}</div>
       </Box>
       {children}
     </TelegramContext.Provider>
