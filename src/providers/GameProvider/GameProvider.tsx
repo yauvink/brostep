@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, type ReactNode, useCallback } from 'react';
 import { useTelegram } from '../TelegramProvider/useTelegram';
 import { useApp } from '../AppProvider';
+import { useError } from '../ErrorProvider';
 
 export interface SelectedCompleteData {
   type: 'user_selected';
@@ -40,7 +41,7 @@ interface GameState {
   onlineUsers: number;
   currentState: 'idle' | 'detecting';
   users: GameUser[];
-  GAME_DAILY_TOUCH_LIMIT?: boolean
+  GAME_DAILY_TOUCH_LIMIT?: boolean;
 }
 
 export interface ChatMessage {
@@ -75,6 +76,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
+  const { setAppError } = useError();
 
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
@@ -121,12 +123,14 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         });
       });
 
+      socketInstance.on('join_error', (data: string) => {
+        setAppError(data);
+      });
+
       socketInstance.on('detected', (data: string) => {
         // console.log('detected', data);
         setDetectedUserId(data);
       });
-
-
     },
     [addChatMessage, gameRoomId]
   );
@@ -193,7 +197,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     isSocketConnected,
     joinedGameId,
     detectedUserId,
-    setDetectedUserId
+    setDetectedUserId,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
