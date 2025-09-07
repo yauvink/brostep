@@ -123,8 +123,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         });
       });
 
-      socketInstance.on('join_error', (data: string) => {
-        setAppError(data);
+      socketInstance.on('join_error', (data: { message: string }) => {
+        // console.log('data',data);
+        setAppError(`Room ${gameRoomId}. ${data.message}`);
       });
 
       socketInstance.on('detected', (data: string) => {
