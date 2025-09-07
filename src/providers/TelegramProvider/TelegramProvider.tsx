@@ -4,6 +4,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useError } from '../ErrorProvider';
 import { STORAGE_KEYS } from '../../constants/storage';
 import i18n from '../../i18n';
+import { Box } from '@mui/material';
 
 interface TelegramContextType {
   webApp: WebApp | null;
@@ -127,7 +128,20 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     chatInstanceId,
   };
 
-  return <TelegramContext.Provider value={value}>{children}</TelegramContext.Provider>;
+  return <TelegramContext.Provider value={value}>
+     <Box
+        sx={{
+          position: 'fixed',
+          zIndex: 999999,
+          top: '80px',
+          left: '20px',
+          background: 'white',
+          padding: '10px',
+        }}
+      >
+      <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
+      </Box>
+      {children}</TelegramContext.Provider>;
 };
 
 export { TelegramContext };
