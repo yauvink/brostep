@@ -4,7 +4,6 @@ import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useError } from '../ErrorProvider';
 import { STORAGE_KEYS } from '../../constants/storage';
 import i18n from '../../i18n';
-import { Box } from '@mui/material';
 
 interface TelegramContextType {
   webApp: WebApp | null;
@@ -119,7 +118,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   return (
     <TelegramContext.Provider value={value}>
-      <Box
+      {/* <Box
         sx={{
           position: 'fixed',
           zIndex: 999999,
@@ -131,7 +130,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
       >
         <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
         <div>gameRoomId: {gameRoomId}</div>
-      </Box>
+      </Box> */}
       {children}
     </TelegramContext.Provider>
   );
