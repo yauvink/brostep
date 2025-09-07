@@ -84,7 +84,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     (socketInstance: any) => {
       socketInstance.on('connect', () => {
         setIsSocketConnected(true);
-        socketInstance.emit('join_game', { telegramChatId });
+        socketInstance.emit('join_game', { chatInstanceId: telegramChatId });
       });
 
       socketInstance.on('disconnect', (reason: string) => {
