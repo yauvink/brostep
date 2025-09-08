@@ -1,14 +1,16 @@
 import { Box, Typography, AppBar, Toolbar, IconButton } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useApp } from '../providers/AppProvider';
-import { APP_VIEW } from '../constants/app.constants';
+import { APP_VIEW, GAME_NAME } from '../constants/app.constants';
 import { iOsPadding } from '../utils/browser';
 import { useGame } from '../providers/GameProvider';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Leaderboard() {
   const { setAppView } = useApp();
   const { gameState } = useGame();
+  const { t } = useTranslation();
 
   const tableValues = useMemo(() => {
     const data = gameState?.users.map((user) => ({
@@ -56,7 +58,7 @@ function Leaderboard() {
               <ArrowBack />
             </IconButton>
             <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
-              Leaderboard
+          {t('leaderboard', {gameName: GAME_NAME})}
             </Typography>
           </Toolbar>
         </AppBar>

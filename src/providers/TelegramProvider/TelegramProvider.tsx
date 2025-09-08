@@ -19,10 +19,9 @@ interface TelegramProviderProps {
 }
 
 const DEV_INIT_DATA_MOCK =
-  'user=%7B%22id%22%3A392009623%2C%22first_name%22%3A%22Yauhen%22%2C%22last_name%22%3A%22Vink%22%2C%22username%22%3A%22yauvink%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg%22%7D&chat_instance=-7856053354140742542&chat_type=supergroup&auth_date=1757186029&signature=QZ6rBys9w8yYc41GX8NDBgTsxEZmjYpOOoOVT2__YJ8R12fMyozyAZvXFhR7E9KiROo4b1PbX9_rZtjwe12yAA&hash=604ecb349c6a679d6abb5d258e7006bb56fd46f84cc7e3038d7548a6debf90ea';
+"user=%7B%22id%22%3A392009623%2C%22first_name%22%3A%22Yauhen%22%2C%22last_name%22%3A%22Vink%22%2C%22username%22%3A%22yauvink%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaW36sxyCsc7SF6iHHuDQCOXXA-gOtXB8OwbMe0HK3XQ.svg%22%7D&chat_instance=3828060977390171335&chat_type=supergroup&start_param=gameroom_68bddc5c6473e99e27a274a6&auth_date=1757275438&signature=Z3onBjv8RxtHWnL9zUt6IPBbCBSKtd8k_xJm6WDtM9qEHFzXlN6dNf_tFRfj1T2WmMKS3zR7xkpEz3LL6Ah2Dw&hash=de0db14b9d25abba78135d56ff83193bbd4797df3529e1ef4d5dff6185e20b30"
 
-// const DEV_CHAT_INSTANCE_ID_MOCK = '-7856053354140742542';
-const DEV_CHAT_INSTANCE_ID_MOCK = '-1003086441484';
+const DEV_CHAT_INSTANCE_ID_MOCK = '68bdd7fcc3d313961f7a78c5';
 
 export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) => {
   const [webApp, setWebApp] = useState<WebApp | null>(null);

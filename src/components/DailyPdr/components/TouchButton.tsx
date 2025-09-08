@@ -29,8 +29,14 @@ function TouchButton() {
 
     const checkTimeRemaining = () => {
       if (currentUser) {
-        const isTouchedToday = isToday(currentUser.lastDetectedAt || 0);
-        setTouchedToday(isTouchedToday);
+        if (currentUser.lastDetectedAt) {
+          const serverOffset = 2 * 60 * 60 * 1000;
+          const serverDate = currentUser.lastDetectedAt - serverOffset;
+          const isTouchedToday = isToday(serverDate);
+          setTouchedToday(isTouchedToday);
+        } else {
+          setTouchedToday(false);
+        }
       }
     };
 
