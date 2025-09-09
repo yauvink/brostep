@@ -41,7 +41,9 @@ interface GameState {
   onlineUsers: number;
   currentState: 'idle' | 'detecting';
   users: GameUser[];
-  GAME_DAILY_TOUCH_LIMIT?: boolean;
+  chatTitle: string;
+  chatType: string;
+  gameType: 'friendly_fire' | 'daily';
 }
 
 export interface ChatMessage {
@@ -77,7 +79,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
   const { setAppError } = useError();
-
+  console.log('gameState', gameState);
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
   }, []);

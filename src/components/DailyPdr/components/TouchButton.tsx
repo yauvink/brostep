@@ -18,33 +18,41 @@ function TouchButton() {
     return gameState?.users.find((user) => user.telegramId === telegramUser?.id);
   }, [gameState, telegramUser]);
 
-  const [isTouchedToday, setTouchedToday] = useState(true);
+  const [isCanTouch, setCanTouch] = useState(true);
 
   // console.log('currentUser.lastDetectedAt',currentUser?.lastDetectedAt);
   useEffect(() => {
-    if (gameState?.GAME_DAILY_TOUCH_LIMIT !== undefined && gameState?.GAME_DAILY_TOUCH_LIMIT === false) {
-      setTouchedToday(false);
-      return;
-    }
+    if (gameState) {
+      switch (gameState.gameType) {
+        case 'friendly_fire':
+          {
+            console.log('1',1);
+            setCanTouch(true);
+          break;
+          }
+        case 'daily': {
+          console.log('2',2);
+          const checkTimeRemaining = () => {
+            if (currentUser) {
+              if (currentUser.lastDetectedAt) {
+                const serverOffset = 2 * 60 * 60 * 1000;
+                const serverDate = currentUser.lastDetectedAt - serverOffset;
+                const isTouchedToday = isToday(serverDate);
+                setCanTouch(isTouchedToday);
+              } else {
+                setCanTouch(false);
+              }
+            }
+          };
 
-    const checkTimeRemaining = () => {
-      if (currentUser) {
-        if (currentUser.lastDetectedAt) {
-          const serverOffset = 2 * 60 * 60 * 1000;
-          const serverDate = currentUser.lastDetectedAt - serverOffset;
-          const isTouchedToday = isToday(serverDate);
-          setTouchedToday(isTouchedToday);
-        } else {
-          setTouchedToday(false);
+          checkTimeRemaining();
+
+          const interval = setInterval(checkTimeRemaining, 1000);
+
+          return () => clearInterval(interval);
         }
       }
-    };
-
-    checkTimeRemaining();
-
-    const interval = setInterval(checkTimeRemaining, 1000);
-
-    return () => clearInterval(interval);
+    }
   }, [gameState, currentUser]);
 
   if (isDetecting) {
@@ -66,7 +74,7 @@ function TouchButton() {
     );
   }
 
-  if (isTouchedToday) {
+  if (!isCanTouch) {
     return (
       <Box
         sx={{

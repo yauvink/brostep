@@ -3,6 +3,7 @@ import TouchButton from './components/TouchButton';
 import Users from './components/Users/Users';
 import ChatMessages from './components/ChatMessages';
 import ConnectionOverlay from './components/ConnectionOverlay';
+import NavBar from './components/NavBar';
 
 function DailyPdr() {
   return (
@@ -30,10 +31,11 @@ function DailyPdr() {
           alignItems: 'center',
           // justifyContent: 'flex-end',
           justifyContent: 'center',
-          padding: '90px 0px 10px',
+          padding: '72px 0px 10px',
           // border: '1px solid blue',
         }}
       >
+        <NavBar />
         <Box
           sx={{
             // border: '1px solid white',

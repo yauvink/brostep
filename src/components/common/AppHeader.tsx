@@ -19,7 +19,7 @@ function AppHeader() {
       sx={{
         paddingTop: `${iOsPadding()}px`,
         // backgroundColor: 'transparent',
-        backgroundColor: 'rgba(255,255,255,0.6)',
+        backgroundColor: 'rgba(255,255,255,1)',
         backdropFilter: 'blur(10px)',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
         borderBottom: '1px solid rgba(0,0,0,0.1)',
