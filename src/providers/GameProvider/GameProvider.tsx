@@ -74,7 +74,7 @@ interface GameProviderProps {
 }
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const { webApp, gameRoomId } = useTelegram();
+  const { webApp, paramsGameRoomId } = useTelegram();
   const { authState } = useApp();
   const [socket, setSocket] = useState<any | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
@@ -89,20 +89,20 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   console.log('gameState', gameState);
 
   useEffect(() => {
-    if (gameRoomId) {
-      setSelectedGameRoom(gameRoomId);
+    if (paramsGameRoomId) {
+      setSelectedGameRoom(paramsGameRoomId);
     }
-  }, [gameRoomId]);
+  }, [paramsGameRoomId]);
 
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
   }, []);
 
   const setupSocketHandlers = useCallback(
-    (socketInstance: any) => {
+    (socketInstance: any, gameRoomId: string) => {
       socketInstance.on('connect', () => {
         setIsSocketConnected(true);
-        socketInstance.emit('join_game', { gameRoomId: selectedGameRoom });
+        socketInstance.emit('join_game', { gameRoomId });
       });
 
       socketInstance.on('disconnect', (reason: string) => {
@@ -141,7 +141,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       socketInstance.on('join_error', (data: { message: string }) => {
         // console.log('data',data);
-        setAppError(`Room ${selectedGameRoom}. ${data.message}`);
+        setAppError(`Room ${gameRoomId}. ${data.message}`);
       });
 
       socketInstance.on('detected', (data: string) => {
@@ -149,7 +149,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setDetectedUserId(data);
       });
     },
-    [addChatMessage, selectedGameRoom]
+    [addChatMessage, setAppError]
   );
 
   const touchButton = useCallback(() => {
@@ -169,8 +169,19 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     }
   }, [socket, addChatMessage, webApp]);
 
-  // Auto-connect on mount
+  // Auto-connect on mount and reconnect when selectedGameRoom changes
   useEffect(() => {
+    // Clean up previous socket connection
+    if (socket) {
+      socket.disconnect();
+      setSocket(null);
+      setIsSocketConnected(false);
+      setGameState(null);
+      setJoinedGameId(null);
+      setDetectedUserId(null);
+      setChatMessages([]);
+    }
+
     if (authState.accessToken && selectedGameRoom) {
       try {
         // Dynamic import to avoid TypeScript issues
@@ -183,7 +194,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           });
 
           setSocket(newSocket);
-          setupSocketHandlers(newSocket);
+          setupSocketHandlers(newSocket, selectedGameRoom);
         });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -194,6 +205,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         });
       }
     }
+
+    // Cleanup function
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
   }, [authState, selectedGameRoom]);
 
   useEffect(() => {
