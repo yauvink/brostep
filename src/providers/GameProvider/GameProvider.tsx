@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, type ReactNode, useCallback 
 import { useTelegram } from '../TelegramProvider/useTelegram';
 import { useApp } from '../AppProvider';
 import { useError } from '../ErrorProvider';
+import { getRooms } from '../../services/requests';
 
 export interface SelectedCompleteData {
   type: 'user_selected';
@@ -61,6 +62,9 @@ interface GameContextType {
   joinedGameId: string | null;
   detectedUserId: string | null;
   setDetectedUserId: (userId: string | null) => void;
+  rooms: Array<{ id: string; title: string }>;
+  setSelectedGameRoom: (gameRoomId: string | null) => void;
+  selectedGameRoom: string | null;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -75,11 +79,21 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<any | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [gameState, setGameState] = useState<GameState | null>(null);
+  const [selectedGameRoom, setSelectedGameRoom] = useState<string | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
+  const [rooms, setRooms] = useState<Array<{ id: string; title: string }>>([]);
   const { setAppError } = useError();
+
   console.log('gameState', gameState);
+
+  useEffect(() => {
+    if (gameRoomId) {
+      setSelectedGameRoom(gameRoomId);
+    }
+  }, [gameRoomId]);
+
   const addChatMessage = useCallback((chatMessage: ChatMessage) => {
     setChatMessages((prev) => [...prev, chatMessage]);
   }, []);
@@ -88,7 +102,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     (socketInstance: any) => {
       socketInstance.on('connect', () => {
         setIsSocketConnected(true);
-        socketInstance.emit('join_game', { gameRoomId: gameRoomId });
+        socketInstance.emit('join_game', { gameRoomId: selectedGameRoom });
       });
 
       socketInstance.on('disconnect', (reason: string) => {
@@ -116,7 +130,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       });
 
       socketInstance.on('game_joined', (data: string) => {
-        // console.log('game_joined', data);
+        console.log('game_joined', data);
         setJoinedGameId(data);
         addChatMessage({
           type: 'app',
@@ -127,7 +141,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       socketInstance.on('join_error', (data: { message: string }) => {
         // console.log('data',data);
-        setAppError(`Room ${gameRoomId}. ${data.message}`);
+        setAppError(`Room ${selectedGameRoom}. ${data.message}`);
       });
 
       socketInstance.on('detected', (data: string) => {
@@ -135,7 +149,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setDetectedUserId(data);
       });
     },
-    [addChatMessage, gameRoomId]
+    [addChatMessage, selectedGameRoom]
   );
 
   const touchButton = useCallback(() => {
@@ -157,7 +171,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   // Auto-connect on mount
   useEffect(() => {
-    if (authState.accessToken && gameRoomId) {
+    if (authState.accessToken && selectedGameRoom) {
       try {
         // Dynamic import to avoid TypeScript issues
         import('socket.io-client').then(({ io }: any) => {
@@ -180,7 +194,15 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         });
       }
     }
-  }, [authState, gameRoomId]);
+  }, [authState, selectedGameRoom]);
+
+  useEffect(() => {
+    if (authState.accessToken) {
+      getRooms(authState.accessToken).then((res) => {
+        setRooms(res.data);
+      });
+    }
+  }, [authState]);
 
   // Send activity periodically
   // useEffect(() => {
@@ -201,6 +223,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     joinedGameId,
     detectedUserId,
     setDetectedUserId,
+    rooms,
+    setSelectedGameRoom,
+    selectedGameRoom,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

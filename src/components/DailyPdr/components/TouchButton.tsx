@@ -26,12 +26,10 @@ function TouchButton() {
       switch (gameState.gameType) {
         case 'friendly_fire':
           {
-            console.log('1',1);
             setCanTouch(true);
           break;
           }
         case 'daily': {
-          console.log('2',2);
           const checkTimeRemaining = () => {
             if (currentUser) {
               if (currentUser.lastDetectedAt) {

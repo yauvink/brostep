@@ -1,27 +1,34 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 
 function NavBar() {
-  const { gameState } = useGame();
-  // const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const { rooms, setSelectedGameRoom, selectedGameRoom } = useGame();
 
-  const tabs = useMemo(() => {
-    if (!gameState) return [];
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    return [
-      {
-        label: gameState.chatTitle,
-        value: gameState.id,
-      },
-      {
-        label: 'Add',
-        value: 'add',
-      },
-    ];
-  }, [gameState]);
+  const userRooms = useMemo(() => {
+    // return rooms.sort((a) => (a.id === selectedGameRoom ? -1 : 1));
+    return rooms;
+  }, [rooms, selectedGameRoom]);
 
-  console.log('tabs', tabs);
+  const handleTabClick = (tabValue: string, buttonElement: HTMLElement) => {
+    setSelectedGameRoom(tabValue);
+
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const buttonRect = buttonElement.getBoundingClientRect();
+
+      // Calculate the scroll position to center the button
+      const scrollLeft = buttonElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
+
+      container.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <Box
@@ -30,38 +37,41 @@ function NavBar() {
         width: '100%',
       }}
     >
-      <Typography
-        sx={{
-          fontSize: '20px',
-          fontWeight: 'bold',
-          color: 'white',
-          textAlign: 'left',
-          padding: '10px',
-        }}
-      >
-        {gameState?.chatTitle}
-      </Typography>
-      {/* <Box
+      <Box
+        ref={scrollContainerRef}
         sx={{
           display: 'flex',
-          borderBottom: '5px solid grey',
-          // gap: '10px',
+          gap: '10px',
+          padding: '10px 20px',
+          overflowX: 'auto',
+          transform: 'rotateX(180deg)',
+          '& > *': {
+            transform: 'rotateX(180deg)',
+          },
         }}
       >
-        {tabs.map((tab) => (
-          <Box
-            key={tab.value}
+        <Button
+          variant={'contained'}
+          sx={{
+            minWidth: 'max-content',
+            backgroundColor: 'green',
+          }}
+        >
+          Add +
+        </Button>
+        {userRooms.map((room) => (
+          <Button
+            key={room.id}
+            variant={selectedGameRoom === room.id ? 'contained' : 'outlined'}
+            onClick={(e) => handleTabClick(room.id, e.currentTarget)}
             sx={{
-              border: '1px solid red',
-              padding: '10px',
-              borderTopLeftRadius: '10px',
-              borderTopRightRadius: '10px',
+              minWidth: 'max-content',
             }}
           >
-            {tab.label}
-          </Box>
+            {room.title}
+          </Button>
         ))}
-      </Box> */}
+      </Box>
     </Box>
   );
 }

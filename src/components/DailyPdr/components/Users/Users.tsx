@@ -31,7 +31,7 @@ function Users() {
       const angle = i * angleStep - Math.PI / 2;
 
       const windowWidth = width;
-      const radius = (windowWidth - 100) / 2;
+      const radius = (windowWidth - 120) / 2;
 
       const max = 200 / usersLength;
       const randomOffset = (Math.random() - 0.5) * max;

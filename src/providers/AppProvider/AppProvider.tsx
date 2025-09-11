@@ -1,7 +1,7 @@
-import React, { createContext, useState, type ReactNode } from 'react';
+import React, { createContext, useEffect, useState, type ReactNode } from 'react';
 import { useTelegram } from '../TelegramProvider/useTelegram';
 // import { ToastContainer, toast } from 'react-toastify';
-import { APP_VIEW, AppLanguages } from '../../constants/app.constants';
+import { APP_VIEW, AppLanguages, GAME_NAME } from '../../constants/app.constants';
 import { useAuth, type AuthState } from '../../hooks/useAuth.tsx';
 import { useTranslation } from 'react-i18next';
 import { STORAGE_KEYS } from '../../constants/storage.tsx';
@@ -27,6 +27,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   // console.log('===================== authState.accessToken =====================');
   // console.log(authState.accessToken);
+
+  useEffect(() => {
+    document.title = i18n.t('gameTitle', { gameName: GAME_NAME });
+  }, [i18n]);
 
   const handleChangeAppLanguage = (language: AppLanguages) => {
     i18n.changeLanguage(language);
