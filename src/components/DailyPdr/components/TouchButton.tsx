@@ -36,7 +36,7 @@ function TouchButton() {
                 const serverOffset = 2 * 60 * 60 * 1000;
                 const serverDate = currentUser.lastDetectedAt - serverOffset;
                 const isTouchedToday = isToday(serverDate);
-                setCanTouch(isTouchedToday);
+                setCanTouch(!isTouchedToday);
               } else {
                 setCanTouch(false);
               }
