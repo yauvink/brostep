@@ -38,7 +38,7 @@ function TouchButton() {
                 const isTouchedToday = isToday(serverDate);
                 setCanTouch(!isTouchedToday);
               } else {
-                setCanTouch(false);
+                setCanTouch(true);
               }
             }
           };
