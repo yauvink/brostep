@@ -8,26 +8,27 @@ function NavBar() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const userRooms = useMemo(() => {
-    // return rooms.sort((a) => (a.id === selectedGameRoom ? -1 : 1));
-    return rooms;
+    return rooms.sort((a) => (a.id === selectedGameRoom ? -1 : 1));
+    // return rooms;
   }, [rooms, selectedGameRoom]);
 
   const handleTabClick = (tabValue: string, buttonElement: HTMLElement) => {
     setSelectedGameRoom(tabValue);
+    console.log('buttonElement', buttonElement);
 
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const containerRect = container.getBoundingClientRect();
-      const buttonRect = buttonElement.getBoundingClientRect();
+    // if (scrollContainerRef.current) {
+    //   const container = scrollContainerRef.current;
+    //   const containerRect = container.getBoundingClientRect();
+    //   const buttonRect = buttonElement.getBoundingClientRect();
 
-      // Calculate the scroll position to center the button
-      const scrollLeft = buttonElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
+    //   // Calculate the scroll position to center the button
+    //   const scrollLeft = buttonElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
 
-      container.scrollTo({
-        left: scrollLeft,
-        behavior: 'smooth',
-      });
-    }
+    //   container.scrollTo({
+    //     left: scrollLeft,
+    //     behavior: 'smooth',
+    //   });
+    // }
   };
 
   return (
