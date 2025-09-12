@@ -2,33 +2,33 @@ import { Box, Button } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useMemo, useRef } from 'react';
 
-function NavBar() {
+function NavBar({ onAddGame }: { onAddGame: () => void }) {
   const { rooms, setSelectedGameRoom, selectedGameRoom } = useGame();
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const userRooms = useMemo(() => {
-    return rooms.sort((a) => (a.id === selectedGameRoom ? -1 : 1));
-    // return rooms;
-  }, [rooms, selectedGameRoom]);
+    // return rooms.sort((a) => (a.id === selectedGameRoom ? -1 : 1));
+    return rooms;
+  }, [rooms]);
 
   const handleTabClick = (tabValue: string, buttonElement: HTMLElement) => {
     setSelectedGameRoom(tabValue);
     console.log('buttonElement', buttonElement);
 
-    // if (scrollContainerRef.current) {
-    //   const container = scrollContainerRef.current;
-    //   const containerRect = container.getBoundingClientRect();
-    //   const buttonRect = buttonElement.getBoundingClientRect();
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const buttonRect = buttonElement.getBoundingClientRect();
 
-    //   // Calculate the scroll position to center the button
-    //   const scrollLeft = buttonElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
+      // Calculate the scroll position to center the button
+      const scrollLeft = buttonElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
 
-    //   container.scrollTo({
-    //     left: scrollLeft,
-    //     behavior: 'smooth',
-    //   });
-    // }
+      container.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth',
+      });
+    }
   };
 
   return (
@@ -52,6 +52,7 @@ function NavBar() {
         }}
       >
         <Button
+          onClick={onAddGame}
           variant={'contained'}
           sx={{
             minWidth: 'max-content',

@@ -4,8 +4,11 @@ import Users from './components/Users/Users';
 import ChatMessages from './components/ChatMessages';
 import ConnectionOverlay from './components/ConnectionOverlay';
 import NavBar from './components/NavBar';
+import AddGame from '../AddGame';
+import { useState } from 'react';
 
 function DailyPdr() {
+  const [isAddGameOpen, setIsAddGameOpen] = useState(false);
   return (
     <Box
       sx={{
@@ -20,6 +23,7 @@ function DailyPdr() {
         // border: '1px solid red',
       }}
     >
+      {isAddGameOpen && <AddGame onClose={() => setIsAddGameOpen(false)} />}
       <ConnectionOverlay />
 
       <Box
@@ -35,7 +39,7 @@ function DailyPdr() {
           // border: '1px solid blue',
         }}
       >
-        <NavBar />
+        <NavBar onAddGame={() => setIsAddGameOpen(true)} />
         <Box
           sx={{
             // border: '1px solid white',
