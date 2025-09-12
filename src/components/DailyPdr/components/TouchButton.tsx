@@ -3,7 +3,7 @@ import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useMemo, useState } from 'react';
 import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
 import { useTranslation } from 'react-i18next';
-import { isToday } from '../../../utils/date';
+import { formatTimeLeft, getTimeUntilNextDailyReset, isToday } from '../../../utils/date';
 
 function TouchButton() {
   const { telegramUser } = useTelegram();
@@ -19,26 +19,38 @@ function TouchButton() {
   }, [gameState, telegramUser]);
 
   const [isCanTouch, setCanTouch] = useState(true);
+  const [timeLeftString, setTimeLeftString] = useState('');
 
   // console.log('currentUser.lastDetectedAt',currentUser?.lastDetectedAt);
   useEffect(() => {
     if (gameState) {
       switch (gameState.gameType) {
-        case 'friendly_fire':
-          {
-            setCanTouch(true);
+        case 'friendly_fire': {
+          setCanTouch(true);
+          setTimeLeftString('');
           break;
-          }
+        }
         case 'daily': {
           const checkTimeRemaining = () => {
-            if (currentUser) {
+            if (currentUser && gameState.serverTimezoneOffset !== undefined) {
               if (currentUser.lastDetectedAt) {
-                const serverOffset = 2 * 60 * 60 * 1000;
-                const serverDate = currentUser.lastDetectedAt - serverOffset;
-                const isTouchedToday = isToday(serverDate);
-                setCanTouch(!isTouchedToday);
+                const currentTime = Date.now();
+                const isTouchedToday = isToday(currentUser.lastDetectedAt, currentTime, gameState.serverTimezoneOffset);
+
+                if (isTouchedToday) {
+                  const timeUntilReset = getTimeUntilNextDailyReset(currentTime, gameState.serverTimezoneOffset);
+                  const timeLeftString = formatTimeLeft(timeUntilReset);
+                  setTimeLeftString(timeLeftString);
+                  setCanTouch(false);
+                } else {
+                  // User hasn't touched today, can touch now
+                  setCanTouch(true);
+                  setTimeLeftString('');
+                }
               } else {
+                // User never touched, can touch now
                 setCanTouch(true);
+                setTimeLeftString('');
               }
             }
           };
@@ -82,14 +94,18 @@ function TouchButton() {
           backgroundColor: 'grey',
           fontWeight: 900,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
           zIndex: 200,
           lineHeight: 1.2,
+          textAlign: 'center',
+          fontSize: '12px',
         }}
       >
-        {t('comeBackTomorrow')}
+        <div>{t('comeBackTomorrow')}</div>
+        {timeLeftString && <div style={{ fontSize: '10px', marginTop: '2px' }}>{timeLeftString}</div>}
       </Box>
     );
   }
