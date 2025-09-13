@@ -25,25 +25,7 @@ export const renewRefreshToken = (refreshToken: string): Promise<AxiosResponse<T
   return http.post(url, { refreshToken });
 };
 
-let test = false;
-
 export const getGames = (): Promise<AxiosResponse<Array<{ id: string; chatTitle: string }>>> => {
   const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/games`;
-
-  if (!test) {
-    test = true;
-
-    const callback = () => {
-      setTimeout(async () => {
-        await getGames();
-        callback();
-      }, 1000);
-    }
-    callback();
-  }
-
-  return http.get(url).then((data) => {
-    console.log('============== getGames', data);
-    return data;
-  })
+  return http.get(url);
 };
