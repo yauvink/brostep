@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, type ReactNode, useCallback 
 import { useTelegram } from '../TelegramProvider/useTelegram';
 import { useApp } from '../AppProvider';
 import { useError } from '../ErrorProvider';
-import { getRooms } from '../../services/requests';
+import { getGames } from '../../services/requests';
 
 export interface SelectedCompleteData {
   type: 'user_selected';
@@ -62,7 +62,7 @@ interface GameContextType {
   joinedGameId: string | null;
   detectedUserId: string | null;
   setDetectedUserId: (userId: string | null) => void;
-  rooms: Array<{ id: string; title: string }>;
+  rooms: Array<{ id: string; chatTitle: string }>;
   setSelectedGameRoom: (gameRoomId: string | null) => void;
   selectedGameRoom: string | null;
 }
@@ -83,7 +83,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
-  const [rooms, setRooms] = useState<Array<{ id: string; title: string }>>([]);
+  const [rooms, setRooms] = useState<Array<{ id: string; chatTitle: string }>>([]);
   const { setAppError } = useError();
 
   console.log('gameState', gameState);
@@ -212,15 +212,16 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         socket.disconnect();
       }
     };
-  }, [authState, selectedGameRoom]);
+  }, [authState.authenticated, selectedGameRoom]);
 
   useEffect(() => {
-    if (authState.accessToken) {
-      getRooms(authState.accessToken).then((res) => {
+    if (authState.authenticated) {
+      console.log('token: getGames');
+      getGames().then((res) => {
         setRooms(res.data);
       });
     }
-  }, [authState]);
+  }, [authState.authenticated]);
 
   // Send activity periodically
   // useEffect(() => {

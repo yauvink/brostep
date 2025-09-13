@@ -70,7 +70,7 @@ function NavBar({ onAddGame }: { onAddGame: () => void }) {
               minWidth: 'max-content',
             }}
           >
-            {room.title}
+            {room.chatTitle}
           </Button>
         ))}
       </Box>
