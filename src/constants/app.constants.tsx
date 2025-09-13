@@ -9,7 +9,6 @@ export const GAME_NAME = 'P̷I̷D̷O̷R̷';
 export const APP_VIEW = {
   MAIN: 'MAIN',
   PROFILE: 'PROFILE',
-  LEADERBOARD: 'LEADERBOARD',
 };
 
 export const ALLOWED_PLATFORMS = ['ios', 'android'];

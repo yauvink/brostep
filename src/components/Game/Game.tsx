@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import AddGame from '../AddGame';
 import { useState } from 'react';
 import SpinnerAnimation from '../common/SpinnerAnimation';
+import Leaderboard from './components/Leaderboard';
 
 function Game() {
   const [isAddGameOpen, setIsAddGameOpen] = useState(false);
@@ -54,6 +55,10 @@ function Game() {
             position: 'relative',
           }}
         >
+
+          <Leaderboard />
+
+
           <TouchButton />
           <SpinnerAnimation />
           <Users />

@@ -3,7 +3,6 @@ import { Person } from '@mui/icons-material';
 import { AppBar, Avatar, IconButton, Toolbar, Typography, Select, MenuItem, FormControl } from '@mui/material';
 import { APP_VIEW, AppLanguages, GAME_NAME } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import { iOsPadding } from '../../utils/browser';
 import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
 import { useTranslation } from 'react-i18next';
@@ -65,25 +64,6 @@ function AppHeader() {
             <MenuItem value={AppLanguages.RU}>RU</MenuItem>
           </Select>
         </FormControl>
-
-        <IconButton
-          color="inherit"
-          onClick={() => setAppView(APP_VIEW.LEADERBOARD)}
-          sx={{
-            color: '#333',
-            padding: 0,
-            border: '2px solid rgba(0,0,0,0.1)',
-
-            width: '50px',
-            height: '50px',
-            marginRight: '10px',
-            '&:hover': {
-              backgroundColor: 'rgba(0,0,0,0.1)',
-            },
-          }}
-        >
-          <LeaderboardIcon />
-        </IconButton>
         <IconButton
           color="inherit"
           onClick={() => setAppView(APP_VIEW.PROFILE)}

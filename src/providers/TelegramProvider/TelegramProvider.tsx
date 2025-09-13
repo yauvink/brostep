@@ -75,7 +75,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
         }
 
         const startParam = webApp.initDataUnsafe.start_param;
-        // const startParam = 'chat_-321313123__test_stuX321o90'
+        // const startParam = 'gameroom_8x123fa67s__chat_-321313123__test_stuX321o90'
         if (startParam) {
           const values = startParam.split('__');
           const chatParam = values.find((value) => value.startsWith('gameroom_'));
@@ -115,24 +115,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     paramsGameRoomId,
   };
 
-  return (
-    <TelegramContext.Provider value={value}>
-      {/* <Box
-        sx={{
-          position: 'fixed',
-          zIndex: 999999,
-          top: '80px',
-          left: '20px',
-          background: 'white',
-          padding: '10px',
-        }}
-      >
-        <div>initDataUnsafe.start_param: {webApp?.initDataUnsafe.start_param}</div>
-        <div>paramsGameRoomId: {paramsGameRoomId}</div>
-      </Box> */}
-      {children}
-    </TelegramContext.Provider>
-  );
+  return <TelegramContext.Provider value={value}>{children}</TelegramContext.Provider>;
 };
 
 export { TelegramContext };
