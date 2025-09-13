@@ -6,6 +6,7 @@ import ConnectionOverlay from './components/ConnectionOverlay';
 import NavBar from './components/NavBar';
 import AddGame from '../AddGame';
 import { useState } from 'react';
+import SpinnerAnimation from '../common/SpinnerAnimation';
 
 function DailyPdr() {
   const [isAddGameOpen, setIsAddGameOpen] = useState(false);
@@ -54,6 +55,7 @@ function DailyPdr() {
           }}
         >
           <TouchButton />
+          <SpinnerAnimation />
           <Users />
         </Box>
       </Box>

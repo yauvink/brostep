@@ -2,8 +2,8 @@ import { Box } from '@mui/material';
 import { useGame } from '../../../../providers/GameProvider';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import User from './components/User';
-import SelectedAnimation from '../../../Roulette/components/SelectedAnimation';
 import DetectingAnimation from '../DetectingAnimation';
+import SelectedAnimation from '../../../common/SelectedAnimation';
 
 function Users() {
   const { gameState } = useGame();
@@ -33,8 +33,9 @@ function Users() {
       const windowWidth = width;
       const radius = (windowWidth - 120) / 2;
 
-      const max = 200 / usersLength;
-      const randomOffset = (Math.random() - 0.5) * max;
+      // const max = 200 / usersLength;
+      // const randomOffset = (Math.random() - 0.5) * max;
+      const randomOffset = 0;
 
       const x = radius * Math.cos(angle) + randomOffset;
       const y = radius * Math.sin(angle) + randomOffset;

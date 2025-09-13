@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
-import { useGame } from '../../../providers/GameProvider';
 import { useMemo } from 'react';
-import arrow_cropped from '../../../assets/arrow_cropped.png';
+import arrow_cropped from '../../assets/arrow_cropped.png';
+import { useGame } from '../../providers/GameProvider';
 
 function SpinnerAnimation() {
   const { gameState } = useGame();
