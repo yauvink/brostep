@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useGame } from '../../../../providers/GameProvider';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import User from './components/User';
-import DetectingAnimation from '../DetectingAnimation';
+// import DetectingAnimation from '../DetectingAnimation';
 import SelectedAnimation from '../../../common/SelectedAnimation';
 
 function Users() {
@@ -48,12 +48,12 @@ function Users() {
     });
   }, [usersLength, width]);
 
-  const positions = useMemo(() => {
-    return userPositions?.map((el) => ({
-      x: el.x,
-      y: el.y,
-    }));
-  }, [userPositions]);
+  // const positions = useMemo(() => {
+  //   return userPositions?.map((el) => ({
+  //     x: el.x,
+  //     y: el.y,
+  //   }));
+  // }, [userPositions]);
 
   return (
     <Box
@@ -75,7 +75,7 @@ function Users() {
 
       <SelectedAnimation />
 
-      {positions && <DetectingAnimation positions={positions} />}
+      {/* {positions && <DetectingAnimation positions={positions} />} */}
     </Box>
   );
 }

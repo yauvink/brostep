@@ -10,14 +10,16 @@ export interface AuthState {
   hasError: boolean;
 }
 
+export const DEFAULT_AUTH_STATE: AuthState = {
+  accessToken: null,
+  refreshToken: null,
+  isLoading: false,
+  hasError: false,
+}
+
 export const useAuth = (initData: string | null) => {
   const { setAppError } = useError();
-  const [authState, setAuthState] = useState<AuthState>({
-    accessToken: null,
-    refreshToken: null,
-    isLoading: false,
-    hasError: false,
-  });
+  const [authState, setAuthState] = useState<AuthState>(DEFAULT_AUTH_STATE);
 
   const updateTokens = async (initData: string) => {
     setAuthState((prev) => ({ ...prev, isLoading: true }));

@@ -33,5 +33,11 @@
       "4": "<b>{{userName}}</b> joined the game",
       "5": "<b>{{userName}}</b> joined the game"
     }
+  },
+  "terms": {
+    "accept": "Accept",
+    "decline": "Decline",
+    "haveANiceDay": "Have a nice day!",
+    "terms": "I understand that this game is for entertainment purposes only and I am not liable for any damages or injuries that may occur as a result of playing this game. Also I proof that Im pidor, just because I don't read the terms."
   }
 }
