@@ -1,6 +1,6 @@
 {
-  "name": "PDR CHECK",
-  "short_name": "PDR CHECK",
+  "name": "Weekly pdr",
+  "short_name": "Weekly pdr",
   "description": "A modern web application",
   "start_url": "/",
   "display": "standalone",

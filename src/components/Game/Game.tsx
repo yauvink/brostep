@@ -8,7 +8,7 @@ import AddGame from '../AddGame';
 import { useState } from 'react';
 import SpinnerAnimation from '../common/SpinnerAnimation';
 
-function DailyPdr() {
+function Game() {
   const [isAddGameOpen, setIsAddGameOpen] = useState(false);
   return (
     <Box
@@ -64,4 +64,4 @@ function DailyPdr() {
   );
 }
 
-export default DailyPdr;
+export default Game;

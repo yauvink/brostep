@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useApp } from '../providers/AppProvider';
 import AppHeader from './common/AppHeader';
-import DailyPdr from './DailyPdr/DailyPdr';
+import Game from './Game/Game';
 
 function Main() {
   const { authState } = useApp();
@@ -17,9 +17,7 @@ function Main() {
   return (
     <Box sx={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <AppHeader />
-      {/* <Game /> */}
-      {/* <Roulette /> */}
-      <DailyPdr />
+      <Game />
     </Box>
   );
 }
