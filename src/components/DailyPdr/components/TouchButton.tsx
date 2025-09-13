@@ -32,13 +32,12 @@ function TouchButton() {
         }
         case 'daily': {
           const checkTimeRemaining = () => {
-            if (currentUser && gameState.serverTimezoneOffset !== undefined) {
+            if (currentUser) {
               if (currentUser.lastDetectedAt) {
-                const currentTime = Date.now();
-                const isTouchedToday = isToday(currentUser.lastDetectedAt, currentTime, gameState.serverTimezoneOffset);
+                const isTouchedToday = isToday(currentUser.lastDetectedAt);
 
                 if (isTouchedToday) {
-                  const timeUntilReset = getTimeUntilNextDailyReset(currentTime, gameState.serverTimezoneOffset);
+                  const timeUntilReset = getTimeUntilNextDailyReset();
                   const timeLeftString = formatTimeLeft(timeUntilReset);
                   setTimeLeftString(timeLeftString);
                   setCanTouch(false);

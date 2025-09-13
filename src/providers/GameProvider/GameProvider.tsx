@@ -38,7 +38,6 @@ export interface GameUser {
 
 interface GameState {
   id: string;
-  serverTimezoneOffset: number;
   totalUsers: number;
   onlineUsers: number;
   currentState: 'idle' | 'detecting';
