@@ -5,12 +5,13 @@ import ChatMessages from './components/ChatMessages';
 import ConnectionOverlay from './components/ConnectionOverlay';
 import NavBar from './components/NavBar';
 import AddGame from '../AddGame';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import SpinnerAnimation from '../common/SpinnerAnimation';
 import Leaderboard from './components/Leaderboard';
 
 function Game() {
   const [isAddGameOpen, setIsAddGameOpen] = useState(false);
+
   return (
     <Box
       sx={{
@@ -69,4 +70,4 @@ function Game() {
   );
 }
 
-export default Game;
+export default memo(Game);

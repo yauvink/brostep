@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Box } from '@mui/material';
 import { useApp } from '../providers/AppProvider';
 import AppHeader from './common/AppHeader';
@@ -21,4 +22,5 @@ function Main() {
     </Box>
   );
 }
-export default Main;
+
+export default memo(Main);

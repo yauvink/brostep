@@ -1,28 +1,21 @@
 import { Box, Button } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
-import { useMemo, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function NavBar({ onAddGame }: { onAddGame: () => void }) {
   const { rooms, setSelectedGameRoom, selectedGameRoom } = useGame();
-
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const userRooms = useMemo(() => {
-    // return rooms.sort((a) => (a.id === selectedGameRoom ? -1 : 1));
-    return rooms;
-  }, [rooms]);
-
-  const handleTabClick = (tabValue: string, buttonElement: HTMLElement) => {
-    setSelectedGameRoom(tabValue);
-    console.log('buttonElement', buttonElement);
-
-    if (scrollContainerRef.current) {
+  const scrollToRoom = (roomId: string) => {
+    const roomElement = document.getElementById(`room-${roomId}`);
+    if (roomElement && scrollContainerRef.current) {
       const container = scrollContainerRef.current;
       const containerRect = container.getBoundingClientRect();
-      const buttonRect = buttonElement.getBoundingClientRect();
+      const buttonRect = roomElement.getBoundingClientRect();
 
       // Calculate the scroll position to center the button
-      const scrollLeft = buttonElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
+      const scrollLeft = roomElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
 
       container.scrollTo({
         left: scrollLeft,
@@ -30,6 +23,18 @@ function NavBar({ onAddGame }: { onAddGame: () => void }) {
       });
     }
   };
+
+  const handleTabClick = (tabValue: string) => {
+    setSelectedGameRoom(tabValue);
+    scrollToRoom(tabValue);
+  };
+
+  useEffect(() => {
+    if (selectedGameRoom && isFirstLoad && rooms.length > 0) {
+      setIsFirstLoad(false);
+      scrollToRoom(selectedGameRoom);
+    }
+  }, [rooms, selectedGameRoom, isFirstLoad]);
 
   return (
     <Box
@@ -61,11 +66,12 @@ function NavBar({ onAddGame }: { onAddGame: () => void }) {
         >
           Add +
         </Button>
-        {userRooms.map((room) => (
+        {rooms.map((room) => (
           <Button
             key={room.id}
+            id={`room-${room.id}`}
             variant={selectedGameRoom === room.id ? 'contained' : 'outlined'}
-            onClick={(e) => handleTabClick(room.id, e.currentTarget)}
+            onClick={() => handleTabClick(room.id)}
             sx={{
               minWidth: 'max-content',
             }}

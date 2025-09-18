@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { AppProvider, useApp } from './providers/AppProvider';
 import { TelegramProvider } from './providers/TelegramProvider/TelegramProvider';
 import { ErrorProvider, useError } from './providers/ErrorProvider';
@@ -7,7 +8,7 @@ import Profile from './components/Profile';
 import ErrorScreen from './components/ErrorScreen';
 import { GameProvider } from './providers/GameProvider/GameProvider';
 
-const View = () => {
+const View = memo(() => {
   const { appView } = useApp();
   const { appError } = useError();
   if (appError) return <ErrorScreen />;
@@ -21,7 +22,7 @@ const View = () => {
       return <Main />;
     }
   }
-};
+});
 
 function App() {
   return (

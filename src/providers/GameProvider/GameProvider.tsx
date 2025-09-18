@@ -130,7 +130,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       });
 
       socketInstance.on('game_joined', (data: string) => {
-        console.log('game_joined', data);
+        // console.log('game_joined', data);
         setJoinedGameId(data);
         addChatMessage({
           type: 'app',
@@ -216,7 +216,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (authState.authenticated) {
-      console.log('token: getGames');
       getGames().then((res) => {
         setRooms(res.data);
       });
