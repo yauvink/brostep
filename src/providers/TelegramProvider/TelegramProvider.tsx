@@ -40,7 +40,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   useEffect(() => {
     if (webApp) {
-        if (import.meta.env.VITE_USE_MOCK_DATA === 'true') {
+        if (import.meta.env.DEV) {
         setInitData(import.meta.env.VITE_MOCK_INIT_DATA);
         setParamsGameRoomId(import.meta.env.VITE_MOCK_CHAT_INSTANCE_ID);
 
