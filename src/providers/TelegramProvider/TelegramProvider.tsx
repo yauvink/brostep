@@ -28,12 +28,10 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
-
     if (app) {
       app.ready();
       app.setHeaderColor('#0E111B');
       app.setBackgroundColor('#0E111B');
-
       setWebApp(app);
     }
   }, [setAppError]);
@@ -41,6 +39,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
   useEffect(() => {
     if (webApp) {
         if (import.meta.env.DEV) {
+          console.log('>>> use mock data');
         setInitData(import.meta.env.VITE_MOCK_INIT_DATA);
         setParamsGameRoomId(import.meta.env.VITE_MOCK_CHAT_INSTANCE_ID);
 
