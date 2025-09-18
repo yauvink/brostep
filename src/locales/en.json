@@ -5,33 +5,53 @@
   "comeBackTomorrow": "Come back tomorrow",
   "chatMessages": {
     "detectStart": {
-      "1": "<b>{{userName}}</b> is pressing the fucking button",
-      "2": "<b>{{userName}}</b> starts the search",
-      "3": "<b>{{userName}}</b> begins to search",
-      "4": "<b>{{userName}}</b> wants to know who's the {{gameName}} here",
-      "5": "<b>{{userName}}</b> pressed the button"
+      "1": "<b>{{userName}}</b> is pressing the red button (in vain?)",
+      "2": "<b>{{userName}}</b> launched the {{gameName}} detector",
+      "3": "Here we go — <b>{{userName}}</b> starts the hunt",
+      "4": "<b>{{userName}}</b> checks who's the {{gameName}} today",
+      "5": "Button activated, thanks to <b>{{userName}}</b>",
+      "6": "<b>{{userName}}</b> thinks they control the process (they don't)",
+      "7": "Scanning initiated, <b>{{userName}}</b> is to blame",
+      "8": "Random selection launched by <b>{{userName}}</b>",
+      "9": "Attention! <b>{{userName}}</b> pulled the lever",
+      "10": "<b>{{userName}}</b> spins the wheel of fate"
     },
     "detectFinished": {
-      "1": "Recognition completed, <b>{{userName}}</b> is the {{gameName}}",
-      "2": "That was easy, the {{gameName}} is <b>{{userName}}</b>",
-      "3": "The search can't be wrong, the {{gameName}} is <b>{{userName}}</b>",
-      "4": "Got caught! The {{gameName}} is <b>{{userName}}</b>",
-      "5": "Tried to run away but we found him, the {{gameName}} is <b>{{userName}}</b>"
+      "1": "Algorithm decided: {{gameName}} is <b>{{userName}}</b>",
+      "2": "Drumroll... and it's <b>{{userName}}</b> — the {{gameName}}",
+      "3": "Detector never lies: {{gameName}} → <b>{{userName}}</b>",
+      "4": "Who would have doubted... {{gameName}} is <b>{{userName}}</b>",
+      "5": "Nothing personal, just random: <b>{{userName}}</b> is the {{gameName}}",
+      "6": "Today the stars pointed to: {{gameName}} = <b>{{userName}}</b>",
+      "7": "Random generator said: <b>{{userName}}</b> is the {{gameName}}",
+      "8": "All cards revealed, {{gameName}} = <b>{{userName}}</b>",
+      "9": "The choice fell on <b>{{userName}}</b>. They are the {{gameName}}",
+      "10": "The button decided fate: <b>{{userName}}</b> is the {{gameName}}"
     },
 
     "detectFinishedSameUser": {
-      "1": "You're the {{gameName}} yourself, <b>{{userName}}</b>",
-      "2": "The only {{gameName}} here is you, <b>{{userName}}</b>",
-      "3": "We told you not to press, <b>{{userName}}</b> is the {{gameName}}",
-      "4": "{{gameName}} detected - <b>{{userName}}</b>, will you touch the button again?",
-      "5": "Recognition completed, the {{gameName}} was online - <b>{{userName}}</b>"
+      "1": "Congratulations, <b>{{userName}}</b>, you ratted yourself out",
+      "2": "What a lucky guy, <b>{{userName}}</b> is the {{gameName}}",
+      "3": "Button doesn't forgive: {{gameName}} is you, <b>{{userName}}</b>",
+      "4": "Trap activated: <b>{{userName}}</b> became the {{gameName}}",
+      "5": "Just pressed — and immediately {{gameName}}. It's fate, <b>{{userName}}</b>",
+      "6": "System is trolling: {{gameName}} turned out to be <b>{{userName}}</b>",
+      "7": "Oops, you walked into your own trap - <b>{{userName}}</b> = {{gameName}}",
+      "8": "You were calculated instantly: {{gameName}} → <b>{{userName}}</b>",
+      "9": "You thought you were clever? No. {{gameName}} is <b>{{userName}}</b>",
+      "10": "Inglorious ending: <b>{{userName}}</b> became the {{gameName}} themselves"
     },
     "joinGame": {
-      "1": "<b>{{userName}}</b> joined the game",
-      "2": "<b>{{userName}}</b> joined the game",
-      "3": "<b>{{userName}}</b> joined the game",
-      "4": "<b>{{userName}}</b> joined the game",
-      "5": "<b>{{userName}}</b> joined the game"
+      "1": "<b>{{userName}}</b> entered the game, applause",
+      "2": "New participant detected: <b>{{userName}}</b>",
+      "3": "Hello again: <b>{{userName}}</b> is in the game",
+      "4": "<b>{{userName}}</b> appears on the battlefield",
+      "5": "<b>{{userName}}</b> bursts into the game",
+      "6": "Another brave soul — <b>{{userName}}</b>",
+      "7": "<b>{{userName}}</b> decided to test their fate",
+      "8": "Door slammed, <b>{{userName}}</b> entered",
+      "9": "New player spotted in lobby: <b>{{userName}}</b>",
+      "10": "Crowd cheers: <b>{{userName}}</b> is now with us"
     }
   },
   "terms": {
