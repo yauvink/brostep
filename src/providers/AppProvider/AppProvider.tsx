@@ -6,6 +6,7 @@ import { DEFAULT_AUTH_STATE, useAuth, type AuthState } from '../../hooks/useAuth
 import { useTranslation } from 'react-i18next';
 import { STORAGE_KEYS } from '../../constants/storage.tsx';
 import AcceptTerms from '../../components/AcceptTerms.tsx';
+import { getUserLanguage, updateUserLanguage } from '../../services/requests.tsx';
 
 interface AppContextType {
   authState: AuthState;
@@ -34,12 +35,31 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   // console.log(authState.accessToken);
 
   useEffect(() => {
+    if (authState.authenticated) {
+      getUserLanguage()
+        .then((res) => {
+          i18n.changeLanguage(res.data.languageCode);
+          window.localStorage.setItem(STORAGE_KEYS.APP_LANGUAGE, res.data.languageCode);
+        })
+        .catch((err) => {
+          console.error('get language error', err);
+        });
+    }
+  }, [authState.authenticated, i18n]);
+
+  useEffect(() => {
     document.title = i18n.t('gameTitle', { gameName: GAME_NAME });
   }, [i18n]);
 
-  const handleChangeAppLanguage = (language: LanguageCode) => {
-    i18n.changeLanguage(language);
-    window.localStorage.setItem(STORAGE_KEYS.APP_LANGUAGE, language);
+  const handleChangeAppLanguage = (newLanguage: LanguageCode) => {
+    updateUserLanguage(newLanguage)
+      .then((res) => {
+        i18n.changeLanguage(res.data.languageCode);
+        window.localStorage.setItem(STORAGE_KEYS.APP_LANGUAGE, res.data.languageCode);
+      })
+      .catch((err) => {
+        console.error('update language error', err);
+      });
   };
 
   const handleAcceptTerms = () => {
@@ -62,8 +82,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       ) : (
         <AcceptTerms
           handleAcceptTerms={handleAcceptTerms}
-          handleChangeAppLanguage={handleChangeAppLanguage}
-          i18n={i18n}
         />
       )}
       {/* <ToastContainer

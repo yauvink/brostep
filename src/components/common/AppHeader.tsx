@@ -1,16 +1,17 @@
 import React from 'react';
 import { Person } from '@mui/icons-material';
-import { AppBar, Avatar, IconButton, Toolbar, Typography, Select, MenuItem, FormControl } from '@mui/material';
-import { APP_VIEW, LanguageCode, GAME_NAME } from '../../constants/app.constants';
+import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@mui/material';
+import { APP_VIEW, GAME_NAME } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
 import { iOsPadding } from '../../utils/browser';
 import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
 import { useTranslation } from 'react-i18next';
+import LanguageSelect from './LanguageSelect';
 
 function AppHeader() {
   const { telegramUser } = useTelegram();
-  const { setAppView, handleChangeAppLanguage } = useApp();
-  const { t, i18n } = useTranslation();
+  const { setAppView } = useApp();
+  const { t } = useTranslation();
 
   return (
     <AppBar
@@ -26,44 +27,9 @@ function AppHeader() {
     >
       <Toolbar sx={{ height: '70px' }}>
         <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold', lineHeight: 'normal' }}>
-          {t('gameTitle', {gameName: GAME_NAME})}
+          {t('gameTitle', { gameName: GAME_NAME })}
         </Typography>
-        <FormControl
-          sx={{
-            marginRight: '10px',
-            minWidth: 80,
-          }}
-          size="small"
-        >
-          <Select
-            value={i18n.language}
-            onChange={(e) => handleChangeAppLanguage(e.target.value as LanguageCode)}
-            sx={{
-              color: '#333',
-              border: '2px solid rgba(0,0,0,0.1)',
-              borderRadius: '25px',
-              height: '50px',
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-              '& .MuiSelect-select': {
-                padding: '12px 14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
-            }}
-          >
-            <MenuItem value={LanguageCode.EN}>EN</MenuItem>
-            <MenuItem value={LanguageCode.RU}>RU</MenuItem>
-          </Select>
-        </FormControl>
+        <LanguageSelect />
         <IconButton
           color="inherit"
           onClick={() => setAppView(APP_VIEW.PROFILE)}

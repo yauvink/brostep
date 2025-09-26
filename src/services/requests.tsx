@@ -39,7 +39,7 @@ export interface UpdateLanguageResponse {
   languageCode: LanguageCode;
 }
 
-export const getLanguage = (): Promise<AxiosResponse<UpdateLanguageResponse>> => {
+export const getUserLanguage = (): Promise<AxiosResponse<UpdateLanguageResponse>> => {
   const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/users/language`;
   return http.get(url);
 };
