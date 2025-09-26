@@ -3,6 +3,7 @@ import { useTelegram } from '../TelegramProvider/useTelegram';
 import { useApp } from '../AppProvider';
 import { useError } from '../ErrorProvider';
 import { getGames } from '../../services/requests';
+import type { LanguageCode } from '../../constants/app.constants';
 
 export interface SelectedCompleteData {
   type: 'user_selected';
@@ -34,6 +35,7 @@ export interface GameUser {
   count: number;
   lastDetectedAt: number | null;
   isOnline: boolean;
+  languageCode: LanguageCode;
 }
 
 interface GameState {

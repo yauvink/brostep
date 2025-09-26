@@ -1,7 +1,7 @@
 import React from 'react';
 import { Person } from '@mui/icons-material';
 import { AppBar, Avatar, IconButton, Toolbar, Typography, Select, MenuItem, FormControl } from '@mui/material';
-import { APP_VIEW, AppLanguages, GAME_NAME } from '../../constants/app.constants';
+import { APP_VIEW, LanguageCode, GAME_NAME } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
 import { iOsPadding } from '../../utils/browser';
 import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
@@ -37,7 +37,7 @@ function AppHeader() {
         >
           <Select
             value={i18n.language}
-            onChange={(e) => handleChangeAppLanguage(e.target.value as AppLanguages)}
+            onChange={(e) => handleChangeAppLanguage(e.target.value as LanguageCode)}
             sx={{
               color: '#333',
               border: '2px solid rgba(0,0,0,0.1)',
@@ -60,8 +60,8 @@ function AppHeader() {
               },
             }}
           >
-            <MenuItem value={AppLanguages.EN}>EN</MenuItem>
-            <MenuItem value={AppLanguages.RU}>RU</MenuItem>
+            <MenuItem value={LanguageCode.EN}>EN</MenuItem>
+            <MenuItem value={LanguageCode.RU}>RU</MenuItem>
           </Select>
         </FormControl>
         <IconButton

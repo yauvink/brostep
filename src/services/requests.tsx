@@ -1,5 +1,6 @@
 import type { AxiosResponse } from 'axios';
 import { http } from '../http';
+import { LanguageCode } from '../constants/app.constants';
 
 export interface AccessTokenResponse {
   accessToken: string;
@@ -29,3 +30,23 @@ export const getGames = (): Promise<AxiosResponse<Array<{ id: string; chatTitle:
   const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/games`;
   return http.get(url);
 };
+
+export interface UpdateLanguageRequest {
+  languageCode: LanguageCode;
+}
+
+export interface UpdateLanguageResponse {
+  languageCode: LanguageCode;
+}
+
+export const getLanguage = (): Promise<AxiosResponse<UpdateLanguageResponse>> => {
+  const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/users/language`;
+  return http.get(url);
+};
+
+export const updateUserLanguage = (languageCode: LanguageCode): Promise<AxiosResponse<UpdateLanguageResponse>> => {
+  const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/users/language`;
+  return http.put(url, { languageCode });
+};
+
+

@@ -19,7 +19,7 @@ export enum GameMessageType {
   JOIN_GAME = 'jg',
 }
 
-export enum AppLanguages {
-  EN = 'en',
+export enum LanguageCode {
   RU = 'ru',
+  EN = 'en'
 }

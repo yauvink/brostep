@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState, type ReactNode } from 'react';
 import { useTelegram } from '../TelegramProvider/useTelegram';
 // import { ToastContainer, toast } from 'react-toastify';
-import { APP_VIEW, AppLanguages, GAME_NAME } from '../../constants/app.constants';
+import { APP_VIEW, LanguageCode, GAME_NAME } from '../../constants/app.constants';
 import { DEFAULT_AUTH_STATE, useAuth, type AuthState } from '../../hooks/useAuth.tsx';
 import { useTranslation } from 'react-i18next';
 import { STORAGE_KEYS } from '../../constants/storage.tsx';
@@ -11,7 +11,7 @@ interface AppContextType {
   authState: AuthState;
   appView: string;
   setAppView: (view: string) => void;
-  handleChangeAppLanguage: (language: AppLanguages) => void;
+  handleChangeAppLanguage: (language: LanguageCode) => void;
   handleAcceptTerms: () => void;
 }
 
@@ -37,7 +37,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     document.title = i18n.t('gameTitle', { gameName: GAME_NAME });
   }, [i18n]);
 
-  const handleChangeAppLanguage = (language: AppLanguages) => {
+  const handleChangeAppLanguage = (language: LanguageCode) => {
     i18n.changeLanguage(language);
     window.localStorage.setItem(STORAGE_KEYS.APP_LANGUAGE, language);
   };

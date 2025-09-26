@@ -1,6 +1,6 @@
 import { Box, Button, FormControl, MenuItem, Select, Typography } from '@mui/material';
 import { useState } from 'react';
-import { AppLanguages } from '../constants/app.constants';
+import { LanguageCode } from '../constants/app.constants';
 import type { i18n } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +10,7 @@ function AcceptTerms({
   i18n,
 }: {
   handleAcceptTerms: () => void;
-  handleChangeAppLanguage: (language: AppLanguages) => void;
+  handleChangeAppLanguage: (language: LanguageCode) => void;
   i18n: i18n;
 }) {
   const [isNotAccepted, setIsNotAccepted] = useState(false);
@@ -56,7 +56,7 @@ function AcceptTerms({
             >
               <Select
                 value={i18n.language}
-                onChange={(e) => handleChangeAppLanguage(e.target.value as AppLanguages)}
+                onChange={(e) => handleChangeAppLanguage(e.target.value as LanguageCode)}
                 sx={{
                   color: '#333',
                   border: '2px solid rgba(0,0,0,0.1)',
@@ -79,8 +79,8 @@ function AcceptTerms({
                   },
                 }}
               >
-                <MenuItem value={AppLanguages.EN}>EN</MenuItem>
-                <MenuItem value={AppLanguages.RU}>RU</MenuItem>
+                <MenuItem value={LanguageCode.EN}>EN</MenuItem>
+                <MenuItem value={LanguageCode.RU}>RU</MenuItem>
               </Select>
             </FormControl>
           </Box>

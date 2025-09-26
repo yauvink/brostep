@@ -90,7 +90,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     const now = Date.now();
     const ONE_DAY = 86400;
 
-    if (now - ONE_DAY >= prevTS) {
+    if ((now - ONE_DAY >= prevTS) && !import.meta.env.DEV) {
       try {
         webApp?.requestWriteAccess((success) => {
           console.log('requestWriteAccess success', success);

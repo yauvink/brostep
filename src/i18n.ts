@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import ru from './locales/ru.json';
-import { AppLanguages } from './constants/app.constants';
+import { LanguageCode } from './constants/app.constants';
 import { STORAGE_KEYS } from './constants/storage';
 
 const resources = {
@@ -14,14 +14,14 @@ const resources = {
   }
 };
 
-const selectedLanguage = window.localStorage.getItem(STORAGE_KEYS.APP_LANGUAGE) ?? AppLanguages.EN;
+const selectedLanguage = window.localStorage.getItem(STORAGE_KEYS.APP_LANGUAGE) ?? LanguageCode.EN;
 
 i18n
   .use(initReactI18next)
   .init({
     resources,
     lng: selectedLanguage, // default language
-    fallbackLng: AppLanguages.EN,
+    fallbackLng: LanguageCode.EN,
 
     interpolation: {
       escapeValue: false // react already does escaping
