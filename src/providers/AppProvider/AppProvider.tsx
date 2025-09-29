@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState, type ReactNode } from 'react';
 import { useTelegram } from '../TelegramProvider/useTelegram';
 // import { ToastContainer, toast } from 'react-toastify';
-import { APP_VIEW, LanguageCode, GAME_NAME } from '../../constants/app.constants';
+import { APP_VIEW, LanguageCode } from '../../constants/app.constants';
 import { DEFAULT_AUTH_STATE, useAuth, type AuthState } from '../../hooks/useAuth.tsx';
 import { useTranslation } from 'react-i18next';
 import { STORAGE_KEYS } from '../../constants/storage.tsx';
@@ -29,7 +29,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   );
   const { initData } = useTelegram();
   const { authState } = useAuth(initData);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // console.log('===================== authState.accessToken =====================');
   // console.log(authState.accessToken);
@@ -48,8 +48,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, [authState.authenticated, i18n]);
 
   useEffect(() => {
-    document.title = i18n.t('gameTitle', { gameName: GAME_NAME });
-  }, [i18n]);
+    document.title = i18n.t('gameTitle', { gameName: t('gameName') });
+  }, [i18n, t]);
 
   const handleChangeAppLanguage = (newLanguage: LanguageCode) => {
     updateUserLanguage(newLanguage)
@@ -77,13 +77,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   return (
     <AppContext.Provider value={value}>
-      {isTermsAccepted ? (
-        children
-      ) : (
-        <AcceptTerms
-          handleAcceptTerms={handleAcceptTerms}
-        />
-      )}
+      {isTermsAccepted ? children : <AcceptTerms handleAcceptTerms={handleAcceptTerms} />}
       {/* <ToastContainer
         position="top-center"
         autoClose={5000}

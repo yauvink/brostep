@@ -1,7 +1,7 @@
 import { Paper, Typography } from '@mui/material';
 import { useGame } from '../../../providers/GameProvider';
 import { useEffect, useRef } from 'react';
-import { GAME_NAME, GameMessageType } from '../../../constants/app.constants';
+import { GameMessageType } from '../../../constants/app.constants';
 import { useTranslation } from 'react-i18next';
 import type { ChatMessage } from '../../../providers/GameProvider/GameProvider';
 
@@ -33,26 +33,29 @@ function ChatMessages() {
         case GameMessageType.DETECT_START: {
           return {
             ...chatMessage,
-            message: t(`chatMessages.detectStart.${template}`, { userName, gameName: GAME_NAME }),
+            message: t(`chatMessages.detectStart.${template}`, { userName, gameName: t('gameName') }),
           };
         }
         case GameMessageType.DETECT_FINISHED: {
           if (isSame) {
             return {
               ...chatMessage,
-              message: t(`chatMessages.detectFinishedSameUser.${template}`, { userName, gameName: GAME_NAME }),
+              message: t(`chatMessages.detectFinishedSameUser.${template}`, { userName, gameName: t('gameName') }),
             };
           } else {
             return {
               ...chatMessage,
-              message: t(`chatMessages.detectFinished.${template}`, { userName: selectedUserName, gameName: GAME_NAME }),
+              message: t(`chatMessages.detectFinished.${template}`, {
+                userName: selectedUserName,
+                gameName: t('gameName'),
+              }),
             };
           }
         }
         case GameMessageType.JOIN_GAME: {
           return {
             ...chatMessage,
-            message: t(`chatMessages.joinGame.${template}`, { userName, gameName: GAME_NAME }),
+            message: t(`chatMessages.joinGame.${template}`, { userName, gameName: t('gameName') }),
             joinGame: true,
           };
         }

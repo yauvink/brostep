@@ -4,7 +4,6 @@ import { useGame } from '../../../providers/GameProvider';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
-import { GAME_NAME } from '../../../constants/app.constants';
 
 function Leaderboard() {
   const { gameState } = useGame();
@@ -97,7 +96,7 @@ function Leaderboard() {
         }}
       >
         <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
-          {t('leaderboard', { gameName: GAME_NAME })}
+          {t('leaderboard', { gameName: t('gameName') })}
         </Typography>
         <Box
           sx={{

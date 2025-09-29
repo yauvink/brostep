@@ -1,7 +1,7 @@
 import React from 'react';
 import { Person } from '@mui/icons-material';
 import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@mui/material';
-import { APP_VIEW, GAME_NAME } from '../../constants/app.constants';
+import { APP_VIEW } from '../../constants/app.constants';
 import { useApp } from '../../providers/AppProvider';
 import { iOsPadding } from '../../utils/browser';
 import { useTelegram } from '../../providers/TelegramProvider/useTelegram';
@@ -27,7 +27,7 @@ function AppHeader() {
     >
       <Toolbar sx={{ height: '70px' }}>
         <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold', lineHeight: 'normal' }}>
-          {t('gameTitle', { gameName: GAME_NAME })}
+          {t('gameTitle', { gameName: t('gameName') })}
         </Typography>
         <LanguageSelect />
         <IconButton

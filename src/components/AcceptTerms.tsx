@@ -40,7 +40,7 @@ function AcceptTerms({ handleAcceptTerms }: { handleAcceptTerms: () => void }) {
           >
             <LanguageSelect />
           </Box>
-          <Typography>{t('terms.terms')}</Typography>
+          <Typography>{t('terms.terms', { gameName: t('gameName') })}</Typography>
           <Box height={30}></Box>
 
           <Button

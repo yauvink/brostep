@@ -2,11 +2,12 @@ import { Box } from '@mui/material';
 import type { GameUser } from '../../../../../providers/GameProvider/GameProvider';
 import { memo, useEffect, useState } from 'react';
 import { useGame } from '../../../../../providers/GameProvider';
-import { GAME_NAME } from '../../../../../constants/app.constants';
+import { useTranslation } from 'react-i18next';
 
 function ScoreChangeAnimation({ currentUser }: { currentUser: GameUser }) {
   const { detectedUserId, gameState, setDetectedUserId } = useGame();
   const [showAnimation, setShowAnimation] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (detectedUserId === currentUser.id && gameState && gameState.currentState === 'idle') {
@@ -38,7 +39,7 @@ function ScoreChangeAnimation({ currentUser }: { currentUser: GameUser }) {
         alignItems: 'center',
       }}
     >
-      {GAME_NAME}
+      {t('gameName')}
     </Box>
   );
 }

@@ -38,8 +38,8 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
 
   useEffect(() => {
     if (webApp) {
-        if (import.meta.env.DEV) {
-          console.log('>>> use mock data');
+      if (import.meta.env.DEV) {
+        console.log('>>> use mock data');
         setInitData(import.meta.env.VITE_MOCK_INIT_DATA);
         setParamsGameRoomId(import.meta.env.VITE_MOCK_CHAT_INSTANCE_ID);
 
@@ -90,7 +90,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     const now = Date.now();
     const ONE_DAY = 86400;
 
-    if ((now - ONE_DAY >= prevTS) && !import.meta.env.DEV) {
+    if (now - ONE_DAY >= prevTS && !import.meta.env.DEV) {
       try {
         webApp?.requestWriteAccess((success) => {
           console.log('requestWriteAccess success', success);

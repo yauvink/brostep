@@ -65,6 +65,8 @@ function AddGame({ onClose }: { onClose: () => void }) {
           }}
         >
           Coming soon...
+          <br />
+          <button>чтоб у бота держались штаны и сервер стоял</button>
         </Box>
       </Box>
     </Box>
