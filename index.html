@@ -1,161 +1,161 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png" />
+    <link rel="icon" type="image/png" sizes="196x196" href="/favicon-196x196.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-  <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png" />
-  <link rel="icon" type="image/png" sizes="196x196" href="/favicon-196x196.png" />
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
 
-  <!-- Apple Touch Icons -->
-  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
-  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
-  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
-  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
-  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
-  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
-  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#a8e6cf" />
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
 
-  <!-- Microsoft Tiles -->
-  <meta name="msapplication-TileColor" content="#a8e6cf" />
-  <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
-  <meta name="msapplication-config" content="/browserconfig.xml" />
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
 
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="/manifest.json" />
-
-  <!-- Theme Colors -->
-  <meta name="theme-color" content="#a8e6cf" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Brostep" />
-  <style>
-    #root {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-      background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
-    }
-
-    .loading-screen {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loader {
-      transform: rotateZ(45deg);
-      perspective: 1000px;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      color: #fff;
-    }
-
-    .loader:before,
-    .loader:after {
-      content: '';
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: inherit;
-      height: inherit;
-      border-radius: 50%;
-      transform: rotateX(70deg);
-      animation: 1s spin linear infinite;
-    }
-
-    .loader:after {
-      color: #114488;
-      transform: rotateY(70deg);
-      animation-delay: .4s;
-    }
-
-    @keyframes rotate {
-      0% {
-        transform: translate(-50%, -50%) rotateZ(0deg);
+    <!-- Theme Colors -->
+    <meta name="theme-color" content="#a8e6cf" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Brostep" />
+    <style>
+      #root {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      100% {
-        transform: translate(-50%, -50%) rotateZ(360deg);
-      }
-    }
+      body {
+        margin: 0;
+        padding: 0;
+        /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+        /* background: linear-gradient(135deg, #8fa2f2 0%, #9b6fc4 100%); */
+        background: linear-gradient(135deg, #d6defd 0%, #e0c8f0 100%);
 
-    @keyframes rotateccw {
-      0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-
-      100% {
-        transform: translate(-50%, -50%) rotate(-360deg);
-      }
-    }
-
-    @keyframes spin {
-
-      0%,
-      100% {
-        box-shadow: .2em 0px 0 0px currentcolor;
+        /* background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%); */
       }
 
-      12% {
-        box-shadow: .2em .2em 0 0 currentcolor;
+      .loading-screen {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      25% {
-        box-shadow: 0 .2em 0 0px currentcolor;
+      .loader {
+        transform: rotateZ(45deg);
+        perspective: 1000px;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        color: #fff;
       }
 
-      37% {
-        box-shadow: -.2em .2em 0 0 currentcolor;
+      .loader:before,
+      .loader:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        border-radius: 50%;
+        transform: rotateX(70deg);
+        animation: 1s spin linear infinite;
       }
 
-      50% {
-        box-shadow: -.2em 0 0 0 currentcolor;
+      .loader:after {
+        color: #114488;
+        transform: rotateY(70deg);
+        animation-delay: 0.4s;
       }
 
-      62% {
-        box-shadow: -.2em -.2em 0 0 currentcolor;
+      @keyframes rotate {
+        0% {
+          transform: translate(-50%, -50%) rotateZ(0deg);
+        }
+
+        100% {
+          transform: translate(-50%, -50%) rotateZ(360deg);
+        }
       }
 
-      75% {
-        box-shadow: 0px -.2em 0 0 currentcolor;
+      @keyframes rotateccw {
+        0% {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        100% {
+          transform: translate(-50%, -50%) rotate(-360deg);
+        }
       }
 
-      87% {
-        box-shadow: .2em -.2em 0 0 currentcolor;
+      @keyframes spin {
+        0%,
+        100% {
+          box-shadow: 0.2em 0px 0 0px currentcolor;
+        }
+
+        12% {
+          box-shadow: 0.2em 0.2em 0 0 currentcolor;
+        }
+
+        25% {
+          box-shadow: 0 0.2em 0 0px currentcolor;
+        }
+
+        37% {
+          box-shadow: -0.2em 0.2em 0 0 currentcolor;
+        }
+
+        50% {
+          box-shadow: -0.2em 0 0 0 currentcolor;
+        }
+
+        62% {
+          box-shadow: -0.2em -0.2em 0 0 currentcolor;
+        }
+
+        75% {
+          box-shadow: 0px -0.2em 0 0 currentcolor;
+        }
+
+        87% {
+          box-shadow: 0.2em -0.2em 0 0 currentcolor;
+        }
       }
-    }
-  </style>
+    </style>
 
-  <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
-</head>
+    <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+  </head>
 
-<body>
-  <div id="root">
-    <div class="loading-screen">
-      <span class="loader"></span>
+  <body>
+    <div id="root">
+      <div class="loading-screen">
+        <span class="loader"></span>
+      </div>
     </div>
-  </div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
