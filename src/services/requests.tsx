@@ -49,8 +49,7 @@ export const updateUserLanguage = (languageCode: LanguageCode): Promise<AxiosRes
   return http.put(url, { languageCode });
 };
 
-// Statistics
-export interface User {
+export interface StatsUser {
   id: string;
   telegramId: number;
   telegramUsername?: string;
@@ -64,7 +63,7 @@ export interface User {
 }
 
 export interface GameScore {
-  user: User;
+  user: StatsUser;
   score: number;
 }
 
@@ -114,4 +113,35 @@ export const getWeeklyStats = (
     import.meta.env.VITE_API_BACKEND_ENDPOINT
   }/api/games/${gameId}/scores?type=weekly&year=${year}&week=${week}`;
   return http.get(url);
+};
+
+export const leaveGameRoom = (gameRoomId: string): Promise<AxiosResponse<void>> => {
+  console.log('leaveGameRoom', gameRoomId);
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve({
+  //       data: { success: true } as any,
+  //       status: 200,
+  //       statusText: 'OK',
+  //       headers: {},
+  //       config: {} as any,
+  //     });
+  //   }, 2000);
+  // });
+  return new Promise((_, reject) => {
+    setTimeout(() => {
+      reject({
+        isAxiosError: true,
+        response: {
+          data: { message: 'Nothing for now, coming soon...' },
+          status: 500,
+          statusText: 'Internal Server Error',
+          headers: {},
+          config: {} as any,
+        },
+        message: 'Mocked leaveGameRoom error',
+        config: {} as any,
+      });
+    }, 1000);
+  });
 };

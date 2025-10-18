@@ -8,6 +8,7 @@ import AddGame from '../AddGame';
 import { useState, memo } from 'react';
 import SpinnerAnimation from '../common/SpinnerAnimation';
 import Leaderboard from './components/Leaderboard/Leaderboard';
+import Menu from './components/Menu/Menu';
 
 function Game() {
   const [isAddGameOpen, setIsAddGameOpen] = useState(false);
@@ -57,6 +58,7 @@ function Game() {
           }}
         >
           <Leaderboard />
+          <Menu />
 
           <TouchButton />
           <SpinnerAnimation />

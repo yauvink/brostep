@@ -94,5 +94,14 @@
   "total": "Total",
   "yearly": "Yearly",
   "monthly": "Monthly",
-  "weekly": "Weekly"
+  "weekly": "Weekly",
+  "menu": {
+    "changeColor": "Randomly change the game color",
+    "leaveGame": "Leave the game",
+    "confirmLeaveTitle": "Leave the game",
+    "confirmLeaveMessage": "Are you sure you want to leave this game?",
+    "leave": "Leave",
+    "stay": "Stay",
+    "leaveError": "Failed to leave the game. Please try again."
+  }
 }

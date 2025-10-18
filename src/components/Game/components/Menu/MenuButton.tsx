@@ -1,22 +1,20 @@
 import { Box, IconButton } from '@mui/material';
 
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import MenuIcon from '@mui/icons-material/Menu';
 
-function LeaderboardButton({ onClick }: { onClick: () => void }) {
+function MenuButton({ onClick }: { onClick: (event: React.MouseEvent<HTMLElement>) => void }) {
   return (
     <Box
       sx={{
         position: 'absolute',
         top: '10px',
-        left: '20px',
-        zIndex: 900,
+        right: '20px',
+        zIndex: 100,
       }}
     >
       <IconButton
         color="inherit"
-        onClick={() => {
-          onClick();
-        }}
+        onClick={onClick}
         sx={{
           color: '#333',
           padding: 0,
@@ -30,10 +28,10 @@ function LeaderboardButton({ onClick }: { onClick: () => void }) {
           },
         }}
       >
-        <LeaderboardIcon />
+        <MenuIcon />
       </IconButton>
     </Box>
   );
 }
 
-export default LeaderboardButton;
+export default MenuButton;
