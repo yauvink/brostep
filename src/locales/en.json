@@ -90,5 +90,9 @@
     "decline": "Decline",
     "haveANiceDay": "Have a nice day!",
     "terms": "I understand and acknowledge that {{gameName}} is a fictional character with no relation to reality"
-  }
+  },
+  "total": "Total",
+  "yearly": "Yearly",
+  "monthly": "Monthly",
+  "weekly": "Weekly"
 }

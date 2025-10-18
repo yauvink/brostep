@@ -85,11 +85,12 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [selectedGameRoom, setSelectedGameRoom] = useState<string | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
+  const [isCanFetchRooms, setCanFetchRooms] = useState(false);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
   const [rooms, setRooms] = useState<Array<{ id: string; chatTitle: string }>>([]);
   const { setAppError } = useError();
 
-  console.log('gameState', gameState);
+  // console.log('gameState', gameState);
 
   useEffect(() => {
     if (paramsGameRoomId) {
@@ -135,6 +136,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socketInstance.on('game_joined', (data: string) => {
         // console.log('game_joined', data);
         setJoinedGameId(data);
+        setCanFetchRooms(true);
         addChatMessage({
           type: 'app',
           message: '✅ Connected to game room ',
@@ -218,24 +220,12 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }, [authState.authenticated, selectedGameRoom]);
 
   useEffect(() => {
-    // to be sure that user session created and will be returned in the response
-    if (authState.authenticated && isSocketConnected && joinedGameId) {
+    if (authState.authenticated && isCanFetchRooms) {
       getGames().then((res) => {
         setRooms(res.data);
       });
     }
-  }, [authState.authenticated, isSocketConnected, joinedGameId]);
-
-  // Send activity periodically
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (socket && socket.connected) {
-  //       socket.emit('user_activity', { timestamp: new Date().toISOString() });
-  //     }
-  //   }, 30000); // Every 30 seconds
-
-  //   return () => clearInterval(interval);
-  // }, [socket]);
+  }, [authState.authenticated, isCanFetchRooms]);
 
   const value: GameContextType = {
     gameState,

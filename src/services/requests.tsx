@@ -49,4 +49,69 @@ export const updateUserLanguage = (languageCode: LanguageCode): Promise<AxiosRes
   return http.put(url, { languageCode });
 };
 
+// Statistics
+export interface User {
+  id: string;
+  telegramId: number;
+  telegramUsername?: string;
+  firstName?: string;
+  lastName?: string;
+  photoUrl?: string;
+  languageCode: string;
+  marks: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
+export interface GameScore {
+  user: User;
+  score: number;
+}
+
+export type GameScoresResponse = GameScore[];
+
+export enum GameScoreType {
+  TOTAL = 'total',
+  YEARLY = 'yearly',
+  MONTHLY = 'monthly',
+  WEEKLY = 'weekly',
+}
+
+export interface StatisticsParams {
+  type?: GameScoreType;
+  year?: number;
+  month?: number;
+  week?: number;
+}
+
+export const getTotalStats = (gameId: string): Promise<AxiosResponse<GameScoresResponse>> => {
+  const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/games/${gameId}/scores?type=total`;
+  return http.get(url);
+};
+
+export const getYearlyStats = (gameId: string, year: number): Promise<AxiosResponse<GameScoresResponse>> => {
+  const url = `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/games/${gameId}/scores?type=yearly&year=${year}`;
+  return http.get(url);
+};
+
+export const getMonthlyStats = (
+  gameId: string,
+  year: number,
+  month: number
+): Promise<AxiosResponse<GameScoresResponse>> => {
+  const url = `${
+    import.meta.env.VITE_API_BACKEND_ENDPOINT
+  }/api/games/${gameId}/scores?type=monthly&year=${year}&month=${month}`;
+  return http.get(url);
+};
+
+export const getWeeklyStats = (
+  gameId: string,
+  year: number,
+  week: number
+): Promise<AxiosResponse<GameScoresResponse>> => {
+  const url = `${
+    import.meta.env.VITE_API_BACKEND_ENDPOINT
+  }/api/games/${gameId}/scores?type=weekly&year=${year}&week=${week}`;
+  return http.get(url);
+};

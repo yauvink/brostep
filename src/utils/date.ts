@@ -1,3 +1,5 @@
+import { getYear, getMonth, getWeek } from 'date-fns';
+
 export function isToday(timestamp: number): boolean {
   if (!timestamp || timestamp === 0) {
     return false;
@@ -6,15 +8,15 @@ export function isToday(timestamp: number): boolean {
   const date = new Date(timestamp);
   const today = new Date(Date.now());
 
-    // Convert to server timezone by adding the offset
-    const serverDate = new Date(date.getTime() + (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
-    const serverToday = new Date(today.getTime() + (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
+  // Convert to server timezone by adding the offset
+  const serverDate = new Date(date.getTime() + (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
+  const serverToday = new Date(today.getTime() + (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
 
-    return (
-      serverDate.getUTCDate() === serverToday.getUTCDate() &&
-      serverDate.getUTCMonth() === serverToday.getUTCMonth() &&
-      serverDate.getUTCFullYear() === serverToday.getUTCFullYear()
-    );
+  return (
+    serverDate.getUTCDate() === serverToday.getUTCDate() &&
+    serverDate.getUTCMonth() === serverToday.getUTCMonth() &&
+    serverDate.getUTCFullYear() === serverToday.getUTCFullYear()
+  );
 }
 
 export function formatTimeLeft(milliseconds: number): string {
@@ -31,17 +33,29 @@ export function formatTimeLeft(milliseconds: number): string {
 }
 
 export function getTimeUntilNextDailyReset(): number {
-    const currentTime = Date.now();
+  const currentTime = Date.now();
 
-    // Adjust current time to account for timezone offset
-    const adjustedCurrentTime = new Date(currentTime + (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
+  // Adjust current time to account for timezone offset
+  const adjustedCurrentTime = new Date(currentTime + (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
 
-    // Get the next midnight in server timezone
-    const nextMidnight = new Date(adjustedCurrentTime);
-    nextMidnight.setUTCHours(24, 0, 0, 0); // Set to next midnight UTC
+  // Get the next midnight in server timezone
+  const nextMidnight = new Date(adjustedCurrentTime);
+  nextMidnight.setUTCHours(24, 0, 0, 0); // Set to next midnight UTC
 
-    // Convert back to original timezone
-    const nextMidnightInOriginalTimezone = new Date(nextMidnight.getTime() - (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
+  // Convert back to original timezone
+  const nextMidnightInOriginalTimezone = new Date(nextMidnight.getTime() - (import.meta.env.VITE_TIMEZONE_UTC_OFFSET * 60 * 60 * 1000));
 
-    return nextMidnightInOriginalTimezone.getTime() - currentTime;
+  return nextMidnightInOriginalTimezone.getTime() - currentTime;
+}
+
+export function getCurrentYear(): number {
+  return getYear(new Date());
+}
+
+export function getCurrentMonth(): number {
+  return getMonth(new Date()) + 1; // date-fns returns 0-11, we need 1-12
+}
+
+export function getCurrentWeek(): number {
+  return getWeek(new Date(), { weekStartsOn: 1 });
 }
