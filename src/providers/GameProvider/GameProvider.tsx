@@ -36,6 +36,7 @@ export interface GameUser {
   lastDetectedAt: number | null;
   isOnline: boolean;
   languageCode: LanguageCode;
+  // marks: string[];
 }
 
 interface GameState {
@@ -217,12 +218,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }, [authState.authenticated, selectedGameRoom]);
 
   useEffect(() => {
-    if (authState.authenticated) {
+    // to be sure that user session created and will be returned in the response
+    if (authState.authenticated && isSocketConnected && joinedGameId) {
       getGames().then((res) => {
         setRooms(res.data);
       });
     }
-  }, [authState.authenticated]);
+  }, [authState.authenticated, isSocketConnected, joinedGameId]);
 
   // Send activity periodically
   // useEffect(() => {
