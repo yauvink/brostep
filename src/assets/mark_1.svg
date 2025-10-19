@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 200" width="160" height="200" role="img" aria-labelledby="title3 desc3">
+  <title id="title3">Rainbow shield badge</title>
+  <desc id="desc3">A shield-shaped badge filled with horizontal rainbow stripes and a white outline.</desc>
+
+  <!-- shield shape -->
+  <path d="M80 6 L138 36 L138 110 C138 152 108 180 80 194 C52 180 22 152 22 110 L22 36 Z"
+        fill="#ffffff" stroke="#000" stroke-opacity="0.06" stroke-width="2"/>
+
+  <!-- horizontal stripes clipped to shield -->
+  <clipPath id="shieldClip">
+    <path d="M80 6 L138 36 L138 110 C138 152 108 180 80 194 C52 180 22 152 22 110 L22 36 Z"/>
+  </clipPath>
+
+  <g clip-path="url(#shieldClip)">
+    <rect x="22" y="6" width="116" height="30" fill="#E40303"/>
+    <rect x="22" y="36" width="116" height="30" fill="#FF8C00"/>
+    <rect x="22" y="66" width="116" height="30" fill="#FFED00"/>
+    <rect x="22" y="96" width="116" height="30" fill="#008026"/>
+    <rect x="22" y="126" width="116" height="30" fill="#24408E"/>
+    <rect x="22" y="156" width="116" height="38" fill="#732982"/>
+  </g>
+
+  <!-- glossy highlight -->
+  <path d="M40 22 C55 12,105 12,120 22 C112 40,48 40,40 22" fill="#ffffff" fill-opacity="0.15" clip-path="url(#shieldClip)"/>
+</svg>

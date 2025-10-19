@@ -3,4 +3,5 @@ export const STORAGE_KEYS = {
   REFRESH_TOKEN_KEY: 'refreshToken',
   APP_LANGUAGE: 'appLanguage',
   TERMS_ACCEPTED: 'termsAccepted',
+  APP_COLOR: 'appColor',
 };

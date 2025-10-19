@@ -1,6 +1,8 @@
 import { Box, Typography, Toolbar, IconButton } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { iOsPadding } from '../utils/browser';
+import tgStars from '../assets/tg_stars.svg';
+import mark1 from '../assets/mark_1.svg';
 
 function AddGame({ onClose }: { onClose: () => void }) {
   return (
@@ -66,7 +68,8 @@ function AddGame({ onClose }: { onClose: () => void }) {
         >
           Coming soon...
           <br />
-          <button>чтоб у бота держались штаны и сервер стоял</button>
+          <img src={tgStars} alt="tg_stars" />
+          <img src={mark1} alt="mark_1" />
         </Box>
       </Box>
     </Box>

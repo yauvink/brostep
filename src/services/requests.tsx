@@ -133,7 +133,7 @@ export const leaveGameRoom = (gameRoomId: string): Promise<AxiosResponse<void>> 
       reject({
         isAxiosError: true,
         response: {
-          data: { message: 'Nothing for now, coming soon...' },
+          data: { message: 'You can`t leave now, coming soon...' },
           status: 500,
           statusText: 'Internal Server Error',
           headers: {},

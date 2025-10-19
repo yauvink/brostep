@@ -12,15 +12,17 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material';
-import { ExitToApp } from '@mui/icons-material';
+import { ExitToApp, Palette } from '@mui/icons-material';
 import MenuButton from './MenuButton';
 import { useTranslation } from 'react-i18next';
 import { leaveGameRoom } from '../../../../services/requests';
 import { useGame } from '../../../../providers/GameProvider';
+import { useApp } from '../../../../providers/AppProvider';
 
 function Menu() {
   const { t } = useTranslation();
   const { selectedGameRoom } = useGame();
+  const { handleChangeAppColor } = useApp();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -35,13 +37,8 @@ function Menu() {
     setAnchorEl(null);
   };
 
-  const handleItem1Click = () => {
-    // TODO: Implement Item 1 functionality
-    handleMenuClose();
-  };
-
-  const handleItem2Click = () => {
-    // TODO: Implement Item 2 functionality
+  const handleChangeColorClick = () => {
+    handleChangeAppColor();
     handleMenuClose();
   };
 
@@ -92,8 +89,10 @@ function Menu() {
           horizontal: 'right',
         }}
       >
-        <MenuItem onClick={handleItem1Click}>{t('menu.item1')}</MenuItem>
-        <MenuItem onClick={handleItem2Click}>{t('menu.item2')}</MenuItem>
+        <MenuItem onClick={handleChangeColorClick}>
+          <Palette sx={{ mr: 1 }} />
+          {t('menu.changeColor')}
+        </MenuItem>
         <Divider />
         <MenuItem
           onClick={handleLeaveClick}

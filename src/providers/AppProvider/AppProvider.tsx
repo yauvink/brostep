@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { STORAGE_KEYS } from '../../constants/storage.tsx';
 import AcceptTerms from '../../components/AcceptTerms.tsx';
 import { getUserLanguage, updateUserLanguage } from '../../services/requests.tsx';
+import { useAppColor } from '../../hooks/useAppColor';
 
 interface AppContextType {
   authState: AuthState;
@@ -14,6 +15,7 @@ interface AppContextType {
   setAppView: (view: string) => void;
   handleChangeAppLanguage: (language: LanguageCode) => void;
   handleAcceptTerms: () => void;
+  handleChangeAppColor: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -30,6 +32,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const { initData } = useTelegram();
   const { authState } = useAuth(initData);
   const { t, i18n } = useTranslation();
+  const { handleChangeAppColor } = useAppColor();
 
   // console.log('===================== authState.accessToken =====================');
   // console.log(authState.accessToken);
@@ -73,6 +76,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setAppView,
     handleChangeAppLanguage,
     handleAcceptTerms,
+    handleChangeAppColor,
   };
 
   return (
