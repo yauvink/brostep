@@ -103,5 +103,18 @@
     "leave": "Leave",
     "stay": "Stay",
     "leaveError": "Failed to leave the game. Please try again."
+  },
+  "addGame": {
+    "title": "Add game",
+    "customRoom": {
+      "title": "Create custom room",
+      "description": "Create your own game and invite any users you want by special link. Game type and timeouts can be selected.",
+      "price": "50 Stars"
+    },
+    "shield": {
+      "title": "Server helper shield",
+      "description": "Perhaps this shield may give you some immunity (no)",
+      "price": "1 Star"
+    }
   }
 }

@@ -3,6 +3,7 @@ import UserAvatar from '../../../../common/UserAvatar';
 import type { GameUser } from '../../../../../providers/GameProvider/GameProvider';
 import ScoreChangeAnimation from './ScoreChangeAnimation';
 import { memo } from 'react';
+import UserMarks from '../../../../common/UserMarks';
 
 function User({ user, x, y }: { user: GameUser; x: number; y: number }) {
   return (
@@ -21,6 +22,8 @@ function User({ user, x, y }: { user: GameUser; x: number; y: number }) {
       }}
     >
       <UserAvatar user={user} />
+
+      <UserMarks user={user} />
 
       <ScoreChangeAnimation currentUser={user} />
     </Box>

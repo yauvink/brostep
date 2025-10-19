@@ -36,7 +36,7 @@ export interface GameUser {
   lastDetectedAt: number | null;
   isOnline: boolean;
   languageCode: LanguageCode;
-  // marks: string[];
+  marks: string[];
 }
 
 interface GameState {

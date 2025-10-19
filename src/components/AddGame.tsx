@@ -1,10 +1,12 @@
-import { Box, Typography, Toolbar, IconButton } from '@mui/material';
+import { Box, Typography, Toolbar, IconButton, Paper, Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 import { iOsPadding } from '../utils/browser';
 import tgStars from '../assets/tg_stars.svg';
 import mark1 from '../assets/mark_1.svg';
 
 function AddGame({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -30,7 +32,6 @@ function AddGame({ onClose }: { onClose: () => void }) {
         }}
       >
         <Box
-          // position="static"
           sx={{
             paddingTop: `${iOsPadding()}px`,
             backgroundColor: 'lightgrey',
@@ -51,25 +52,191 @@ function AddGame({ onClose }: { onClose: () => void }) {
               <ArrowBack />
             </IconButton>
             <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
-              Add game
+              {t('addGame.title')}
             </Typography>
           </Toolbar>
         </Box>
         <Box
           sx={{
             // mt: `${iOsPadding() + 70}px`,
-            // padding: '20px',
+            padding: '20px',
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100%',
+            gap: '20px',
             color: 'black',
           }}
         >
-          Coming soon...
-          <br />
-          <img src={tgStars} alt="tg_stars" />
-          <img src={mark1} alt="mark_1" />
+          <Paper
+            elevation={3}
+            sx={{
+              width: '100%',
+              padding: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: '12px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 80,
+                  minWidth: 80,
+                  minHeight: 80,
+                  height: 80,
+                  maxHeight: 80,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '48px',
+                  flexShrink: 0,
+                }}
+              >
+                🎮
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '1.25rem',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.customRoom.title')}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '0.875rem',
+                    color: '#666',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.customRoom.description')}
+                </Typography>
+              </Box>
+            </Box>
+            <Button
+              disabled
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: '#0088cc',
+                color: 'white',
+                textTransform: 'none',
+                borderRadius: '8px',
+                padding: '10px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                '&:hover': {
+                  backgroundColor: '#006699',
+                },
+              }}
+            >
+              <img width={20} height={20} src={tgStars} alt="tg_stars" />
+              {t('addGame.customRoom.price')}
+            </Button>
+          </Paper>
+
+          <Paper
+            elevation={3}
+            sx={{
+              width: '100%',
+              padding: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: '12px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 80,
+                  minWidth: 80,
+                  minHeight: 80,
+                  height: 80,
+                  maxHeight: 80,
+                  display: 'flex',
+                }}
+              >
+                <img width={80} height={80} src={mark1} alt="mark_1" />
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '1.25rem',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.shield.title')}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '0.875rem',
+                    color: '#666',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.shield.description')}
+                </Typography>
+              </Box>
+            </Box>
+            <Button
+              disabled
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: '#0088cc',
+                color: 'white',
+                textTransform: 'none',
+                borderRadius: '8px',
+                padding: '10px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                '&:hover': {
+                  backgroundColor: '#006699',
+                },
+              }}
+            >
+              <img width={20} height={20} src={tgStars} alt="tg_stars" />
+              {t('addGame.shield.price')}
+            </Button>
+          </Paper>
         </Box>
       </Box>
     </Box>
