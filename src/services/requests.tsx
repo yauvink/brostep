@@ -145,3 +145,67 @@ export const leaveGameRoom = (gameRoomId: string): Promise<AxiosResponse<void>> 
     }, 1000);
   });
 };
+
+// Payment Types and Functions
+
+export interface CreateInvoiceRequest {
+  title: string;
+  description: string;
+  payload: string;
+  amount: number;
+}
+
+export interface CreateInvoiceResponse {
+  invoiceLink: string;
+}
+
+export interface CreateInvoiceLinkPayload {
+  title: string;
+  description: string;
+  payload: string;
+  currency: string;
+  prices: Array<{
+    label: string;
+    amount: number;
+  }>;
+}
+
+export class PaymentError extends Error {
+  constructor(message: string, public statusCode?: number) {
+    super(message);
+    this.name = 'PaymentError';
+  }
+}
+
+export async function createInvoiceLink(product: CreateInvoiceRequest): Promise<string> {
+  try {
+    const response: AxiosResponse<CreateInvoiceResponse> = await http.post(
+      `${import.meta.env.VITE_API_BACKEND_ENDPOINT}/api/payments/create-invoice-link`,
+      {
+        title: product.title,
+        description: product.description,
+        payload: product.payload,
+        currency: 'XTR',
+        prices: [
+          {
+            label: product.title,
+            amount: product.amount,
+          },
+        ],
+      }
+    );
+
+    return response.data.invoiceLink;
+  } catch (error: any) {
+    if (error.response) {
+      if (error.response.status === 401) {
+        throw new PaymentError('Unauthorized. Please log in again.', 401);
+      }
+      if (error.response.status === 400) {
+        throw new PaymentError('Invalid payment data.', 400);
+      }
+      throw new PaymentError('Failed to create payment.', error.response.status);
+    }
+    throw new PaymentError('Network error. Please check your connection.');
+  }
+}

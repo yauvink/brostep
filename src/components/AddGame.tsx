@@ -1,12 +1,68 @@
-import { Box, Typography, Toolbar, IconButton, Paper, Button } from '@mui/material';
+import { Box, Typography, Toolbar, IconButton, Paper, Button, CircularProgress } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { iOsPadding } from '../utils/browser';
 import tgStars from '../assets/tg_stars.svg';
 import mark1 from '../assets/mark_1.svg';
+import { useCallback, useState } from 'react';
+import { useApp } from '../providers/AppProvider/useApp';
+import { createInvoiceLink, PaymentError } from '../services/requests';
+import { openTelegramInvoice } from '../utils/telegram-payment';
 
 function AddGame({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
+  const { authState } = useApp();
+  const [loading, setLoading] = useState(false);
+
+  const handleBuyShield = useCallback(async () => {
+    if (loading || !authState.accessToken) return;
+
+    setLoading(true);
+
+    try {
+      // Create invoice link from backend
+      const invoiceLink = await createInvoiceLink({
+        title: t('addGame.shield.title'),
+        description: t('addGame.shield.description'),
+        payload: 'shield-protection',
+        amount: 1, // 1 Star
+      });
+
+      // Open payment in Telegram
+      openTelegramInvoice(invoiceLink, {
+        onSuccess: () => {
+          toast.success(t('payment.success'));
+          // Optionally refresh data or close the modal after a delay
+          setTimeout(() => {
+            onClose();
+          }, 2000);
+        },
+        onFailed: () => {
+          toast.error(t('payment.failed'));
+        },
+        onCancelled: () => {
+          // User cancelled, just reset loading state
+          console.log('Payment cancelled by user');
+        },
+      });
+    } catch (err) {
+      console.error('Payment error:', err);
+
+      if (err instanceof PaymentError) {
+        if (err.statusCode === 401) {
+          toast.error(t('payment.sessionExpired'));
+        } else {
+          toast.error(err.message);
+        }
+      } else {
+        toast.error(t('payment.createFailed'));
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [loading, authState.accessToken, t, onClose]);
+
   return (
     <Box
       sx={{
@@ -138,6 +194,7 @@ function AddGame({ onClose }: { onClose: () => void }) {
               sx={{
                 backgroundColor: '#0088cc',
                 color: 'white',
+                height: '56px',
                 textTransform: 'none',
                 borderRadius: '8px',
                 padding: '10px 24px',
@@ -215,10 +272,12 @@ function AddGame({ onClose }: { onClose: () => void }) {
               </Box>
             </Box>
             <Button
-              disabled
+              onClick={handleBuyShield}
+              disabled={loading}
               variant="contained"
               fullWidth
               sx={{
+                height: '56px',
                 backgroundColor: '#0088cc',
                 color: 'white',
                 textTransform: 'none',
@@ -233,8 +292,14 @@ function AddGame({ onClose }: { onClose: () => void }) {
                 },
               }}
             >
-              <img width={20} height={20} src={tgStars} alt="tg_stars" />
-              {t('addGame.shield.price')}
+              {loading ? (
+                <CircularProgress size={20} />
+              ) : (
+                <>
+                  <img width={20} height={20} src={tgStars} alt="tg_stars" />
+                  {t('addGame.shield.price')}
+                </>
+              )}
             </Button>
           </Paper>
         </Box>

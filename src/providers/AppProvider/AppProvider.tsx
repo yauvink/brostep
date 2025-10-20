@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState, type ReactNode } from 'react';
 import { useTelegram } from '../TelegramProvider/useTelegram';
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { APP_VIEW, LanguageCode } from '../../constants/app.constants';
 import { DEFAULT_AUTH_STATE, useAuth, type AuthState } from '../../hooks/useAuth.tsx';
 import { useTranslation } from 'react-i18next';
@@ -82,7 +82,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   return (
     <AppContext.Provider value={value}>
       {isTermsAccepted ? children : <AcceptTerms handleAcceptTerms={handleAcceptTerms} />}
-      {/* <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -95,7 +95,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         pauseOnHover
         theme="dark"
         // transition={Bounce}
-      /> */}
+      />
     </AppContext.Provider>
   );
 };
