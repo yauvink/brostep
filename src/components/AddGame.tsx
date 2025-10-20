@@ -9,11 +9,15 @@ import { useCallback, useState } from 'react';
 import { useApp } from '../providers/AppProvider/useApp';
 import { createInvoiceLink, PaymentError } from '../services/requests';
 import { openTelegramInvoice } from '../utils/telegram-payment';
+import { UserMark } from '../constants/app.constants';
+import { useGame } from '../providers/GameProvider';
 
 function AddGame({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
   const { authState } = useApp();
+  const { updateGameState } = useGame();
   const [loading, setLoading] = useState(false);
+  const [loadingServerHelper, setLoadingServerHelper] = useState(false);
 
   const handleBuyShield = useCallback(async () => {
     if (loading || !authState.accessToken) return;
@@ -25,7 +29,7 @@ function AddGame({ onClose }: { onClose: () => void }) {
       const invoiceLink = await createInvoiceLink({
         title: t('addGame.shield.title'),
         description: t('addGame.shield.description'),
-        payload: 'shield-protection',
+        payload: UserMark.SHIELD,
         amount: 1, // 1 Star
       });
 
@@ -33,6 +37,7 @@ function AddGame({ onClose }: { onClose: () => void }) {
       openTelegramInvoice(invoiceLink, {
         onSuccess: () => {
           toast.success(t('payment.success'));
+          updateGameState();
           // Optionally refresh data or close the modal after a delay
           setTimeout(() => {
             onClose();
@@ -62,6 +67,52 @@ function AddGame({ onClose }: { onClose: () => void }) {
       setLoading(false);
     }
   }, [loading, authState.accessToken, t, onClose]);
+
+  const handleBuyServerHelper = useCallback(async () => {
+    if (loadingServerHelper || !authState.accessToken) return;
+
+    setLoadingServerHelper(true);
+
+    try {
+      // Create invoice link from backend
+      const invoiceLink = await createInvoiceLink({
+        title: t('addGame.serverHelper.title'),
+        description: t('addGame.serverHelper.description'),
+        payload: UserMark.SERVER_HELPER,
+        amount: 2, // 2 Stars
+      });
+
+      // Open payment in Telegram
+      openTelegramInvoice(invoiceLink, {
+        onSuccess: () => {
+          toast.success(t('payment.success'));
+          setTimeout(() => {
+            onClose();
+          }, 2000);
+        },
+        onFailed: () => {
+          toast.error(t('payment.failed'));
+        },
+        onCancelled: () => {
+          console.log('Payment cancelled by user');
+        },
+      });
+    } catch (err) {
+      console.error('Payment error:', err);
+
+      if (err instanceof PaymentError) {
+        if (err.statusCode === 401) {
+          toast.error(t('payment.sessionExpired'));
+        } else {
+          toast.error(err.message);
+        }
+      } else {
+        toast.error(t('payment.createFailed'));
+      }
+    } finally {
+      setLoadingServerHelper(false);
+    }
+  }, [loadingServerHelper, authState.accessToken, t, onClose]);
 
   return (
     <Box
@@ -152,94 +203,6 @@ function AddGame({ onClose }: { onClose: () => void }) {
                   height: 80,
                   maxHeight: 80,
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '48px',
-                  flexShrink: 0,
-                }}
-              >
-                🎮
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: 'bold',
-                    fontSize: '1.25rem',
-                    textAlign: 'left',
-                  }}
-                >
-                  {t('addGame.customRoom.title')}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: '0.875rem',
-                    color: '#666',
-                    textAlign: 'left',
-                  }}
-                >
-                  {t('addGame.customRoom.description')}
-                </Typography>
-              </Box>
-            </Box>
-            <Button
-              disabled
-              variant="contained"
-              fullWidth
-              sx={{
-                backgroundColor: '#0088cc',
-                color: 'white',
-                height: '56px',
-                textTransform: 'none',
-                borderRadius: '8px',
-                padding: '10px 24px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                '&:hover': {
-                  backgroundColor: '#006699',
-                },
-              }}
-            >
-              <img width={20} height={20} src={tgStars} alt="tg_stars" />
-              {t('addGame.customRoom.price')}
-            </Button>
-          </Paper>
-
-          <Paper
-            elevation={3}
-            sx={{
-              width: '100%',
-              padding: '16px',
-              display: 'flex',
-              flexDirection: 'column',
-              borderRadius: '12px',
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '16px',
-                marginBottom: '16px',
-              }}
-            >
-              <Box
-                sx={{
-                  width: 80,
-                  minWidth: 80,
-                  minHeight: 80,
-                  height: 80,
-                  maxHeight: 80,
-                  display: 'flex',
                 }}
               >
                 <img width={80} height={80} src={mark1} alt="mark_1" />
@@ -300,6 +263,189 @@ function AddGame({ onClose }: { onClose: () => void }) {
                   {t('addGame.shield.price')}
                 </>
               )}
+            </Button>
+          </Paper>
+
+          <Paper
+            elevation={3}
+            sx={{
+              width: '100%',
+              padding: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: '12px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 80,
+                  minWidth: 80,
+                  minHeight: 80,
+                  height: 80,
+                  maxHeight: 80,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '48px',
+                  flexShrink: 0,
+                }}
+              >
+                🛠️
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '1.25rem',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.serverHelper.title')}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '0.875rem',
+                    color: '#666',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.serverHelper.description')}
+                </Typography>
+              </Box>
+            </Box>
+            <Button
+              onClick={handleBuyServerHelper}
+              disabled={loadingServerHelper}
+              variant="contained"
+              fullWidth
+              sx={{
+                height: '56px',
+                backgroundColor: '#0088cc',
+                color: 'white',
+                textTransform: 'none',
+                borderRadius: '8px',
+                padding: '10px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                '&:hover': {
+                  backgroundColor: '#006699',
+                },
+              }}
+            >
+              {loadingServerHelper ? (
+                <CircularProgress size={20} />
+              ) : (
+                <>
+                  <img width={20} height={20} src={tgStars} alt="tg_stars" />
+                  {t('addGame.serverHelper.price')}
+                </>
+              )}
+            </Button>
+          </Paper>
+
+          <Paper
+            elevation={3}
+            sx={{
+              width: '100%',
+              padding: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: '12px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 80,
+                  minWidth: 80,
+                  minHeight: 80,
+                  height: 80,
+                  maxHeight: 80,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '48px',
+                  flexShrink: 0,
+                }}
+              >
+                🎮
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '1.25rem',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.customRoom.title')}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '0.875rem',
+                    color: '#666',
+                    textAlign: 'left',
+                  }}
+                >
+                  {t('addGame.customRoom.description')}
+                </Typography>
+              </Box>
+            </Box>
+            <Button
+              disabled
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: '#0088cc',
+                color: 'white',
+                height: '56px',
+                textTransform: 'none',
+                borderRadius: '8px',
+                padding: '10px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                '&:hover': {
+                  backgroundColor: '#006699',
+                },
+              }}
+            >
+              <img width={20} height={20} src={tgStars} alt="tg_stars" />
+              {t('addGame.customRoom.price')}
             </Button>
           </Paper>
         </Box>

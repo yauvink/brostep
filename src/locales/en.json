@@ -115,10 +115,15 @@
       "title": "Server helper shield",
       "description": "Perhaps this shield may give you some immunity (no)",
       "price": "1 Star"
+    },
+    "serverHelper": {
+      "title": "Server helper",
+      "description": "Help support the server and get a special badge",
+      "price": "2 Stars"
     }
   },
   "payment": {
-    "success": "Payment successful! Your shield is being activated.",
+    "success": "Payment successful! Your purchase is being activated.",
     "failed": "Payment failed. Please try again.",
     "sessionExpired": "Session expired. Please restart the app.",
     "createFailed": "Failed to create payment. Please try again."

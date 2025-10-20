@@ -3,7 +3,7 @@ import { useTelegram } from '../TelegramProvider/useTelegram';
 import { useApp } from '../AppProvider';
 import { useError } from '../ErrorProvider';
 import { getGames } from '../../services/requests';
-import type { LanguageCode } from '../../constants/app.constants';
+import type { LanguageCode, UserMark } from '../../constants/app.constants';
 
 export interface SelectedCompleteData {
   type: 'user_selected';
@@ -36,7 +36,7 @@ export interface GameUser {
   lastDetectedAt: number | null;
   isOnline: boolean;
   languageCode: LanguageCode;
-  marks: string[];
+  marks: UserMark[];
 }
 
 interface GameState {
@@ -68,6 +68,7 @@ interface GameContextType {
   rooms: Array<{ id: string; chatTitle: string }>;
   setSelectedGameRoom: (gameRoomId: string | null) => void;
   selectedGameRoom: string | null;
+  updateGameState: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -174,6 +175,14 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     }
   }, [socket, addChatMessage, webApp]);
 
+  const updateGameState = useCallback(() => {
+    if (!socket || !socket.connected) {
+      return;
+    }
+
+    socket.emit('update_game_state');
+  }, [socket]);
+
   // Auto-connect on mount and reconnect when selectedGameRoom changes
   useEffect(() => {
     // Clean up previous socket connection
@@ -238,6 +247,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     rooms,
     setSelectedGameRoom,
     selectedGameRoom,
+    updateGameState,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

@@ -17,3 +17,8 @@ export enum LanguageCode {
   RU = 'ru',
   EN = 'en',
 }
+
+export enum UserMark {
+  SHIELD = 'shield',
+  SERVER_HELPER = 'server_helper',
+}
