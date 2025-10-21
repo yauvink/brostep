@@ -117,15 +117,16 @@
       "price": "1 Star"
     },
     "serverHelper": {
-      "title": "Server helper",
-      "description": "Help support the server and get a special badge",
-      "price": "2 Stars"
+      "title": "Server helper tools",
+      "description": "Help support the server and receive a special tool",
+      "price": "1 Star"
     }
   },
   "payment": {
-    "success": "Payment successful! Your purchase is being activated.",
-    "failed": "Payment failed. Please try again.",
-    "sessionExpired": "Session expired. Please restart the app.",
-    "createFailed": "Failed to create payment. Please try again."
+    "success": "All set! Thank you for your support!",
+    "failed": "Something went wrong. Please try again.",
+    "sessionExpired": "Time's up. Please restart the app.",
+    "createFailed": "Something went wrong. Please try again.",
+    "close": "Close"
   }
 }

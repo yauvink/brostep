@@ -1,12 +1,18 @@
-import React, { createContext, useState, useEffect, type ReactNode, useCallback } from 'react';
-import { useTelegram } from '../TelegramProvider/useTelegram';
-import { useApp } from '../AppProvider';
-import { useError } from '../ErrorProvider';
-import { getGames } from '../../services/requests';
-import type { LanguageCode, UserMark } from '../../constants/app.constants';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  type ReactNode,
+  useCallback,
+} from "react";
+import { useTelegram } from "../TelegramProvider/useTelegram";
+import { useApp } from "../AppProvider";
+import { useError } from "../ErrorProvider";
+import { getGames } from "../../services/requests";
+import type { LanguageCode, UserMark } from "../../constants/app.constants";
 
 export interface SelectedCompleteData {
-  type: 'user_selected';
+  type: "user_selected";
   timestamp: number;
   user: {
     telegram_id: number;
@@ -43,17 +49,17 @@ interface GameState {
   id: string;
   totalUsers: number;
   onlineUsers: number;
-  currentState: 'idle' | 'detecting';
+  currentState: "idle" | "detecting";
   users: GameUser[];
   chatTitle: string;
   chatType: string;
-  gameType: 'friendly_fire' | 'daily';
+  gameType: "friendly_fire" | "daily";
 }
 
 export interface ChatMessage {
   id?: string;
   timestamp: number;
-  type: 'sys' | 'app';
+  type: "sys" | "app";
   message: string;
 }
 
@@ -88,10 +94,12 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
   const [isCanFetchRooms, setCanFetchRooms] = useState(false);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
-  const [rooms, setRooms] = useState<Array<{ id: string; chatTitle: string }>>([]);
+  const [rooms, setRooms] = useState<Array<{ id: string; chatTitle: string }>>(
+    []
+  );
   const { setAppError } = useError();
 
-  // console.log('gameState', gameState);
+  console.log("gameState", gameState);
 
   useEffect(() => {
     if (paramsGameRoomId) {
@@ -105,52 +113,52 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   const setupSocketHandlers = useCallback(
     (socketInstance: any, gameRoomId: string) => {
-      socketInstance.on('connect', () => {
+      socketInstance.on("connect", () => {
         setIsSocketConnected(true);
-        socketInstance.emit('join_game', { gameRoomId });
+        socketInstance.emit("join_game", { gameRoomId });
       });
 
-      socketInstance.on('disconnect', (reason: string) => {
+      socketInstance.on("disconnect", (reason: string) => {
         addChatMessage({
-          type: 'app',
+          type: "app",
           message: `❌ Disconnected: ${reason}`,
           timestamp: Date.now(),
         });
         setIsSocketConnected(false);
       });
 
-      socketInstance.on('game_state_update', (data: GameState) => {
+      socketInstance.on("game_state_update", (data: GameState) => {
         // console.log('game_state_update', data);
         setGameState(data);
       });
 
-      socketInstance.on('last_messages', (data: ChatMessage[]) => {
+      socketInstance.on("last_messages", (data: ChatMessage[]) => {
         // console.log('last_messages', data);
         setChatMessages((prev) => [...prev, ...data]);
       });
 
-      socketInstance.on('chat_message', (data: ChatMessage) => {
+      socketInstance.on("chat_message", (data: ChatMessage) => {
         // console.log('chat_message', data);
         setChatMessages((prev) => [...prev, data]);
       });
 
-      socketInstance.on('game_joined', (data: string) => {
+      socketInstance.on("game_joined", (data: string) => {
         // console.log('game_joined', data);
         setJoinedGameId(data);
         setCanFetchRooms(true);
         addChatMessage({
-          type: 'app',
-          message: '✅ Connected to game room ',
+          type: "app",
+          message: "✅ Connected to game room ",
           timestamp: Date.now(),
         });
       });
 
-      socketInstance.on('join_error', (data: { message: string }) => {
+      socketInstance.on("join_error", (data: { message: string }) => {
         // console.log('data',data);
         setAppError(`Room ${gameRoomId}. ${data.message}`);
       });
 
-      socketInstance.on('detected', (data: string) => {
+      socketInstance.on("detected", (data: string) => {
         // console.log('detected', data);
         setDetectedUserId(data);
       });
@@ -161,17 +169,17 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const touchButton = useCallback(() => {
     if (!socket || !socket.connected) {
       addChatMessage({
-        type: 'app',
-        message: '❌ Cannot touch',
+        type: "app",
+        message: "❌ Cannot touch",
         timestamp: Date.now(),
       });
       return;
     }
 
-    socket.emit('detect');
+    socket.emit("detect");
 
     if (webApp) {
-      webApp.HapticFeedback.impactOccurred('heavy');
+      webApp.HapticFeedback.impactOccurred("heavy");
     }
   }, [socket, addChatMessage, webApp]);
 
@@ -179,8 +187,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     if (!socket || !socket.connected) {
       return;
     }
-
-    socket.emit('update_game_state');
+    console.log("updateGameState", Date.now());
+    socket.emit("update_game_state");
   }, [socket]);
 
   // Auto-connect on mount and reconnect when selectedGameRoom changes
@@ -199,9 +207,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     if (authState.accessToken && selectedGameRoom) {
       try {
         // Dynamic import to avoid TypeScript issues
-        import('socket.io-client').then(({ io }: any) => {
+        import("socket.io-client").then(({ io }: any) => {
           const newSocket = io(import.meta.env.VITE_API_BACKEND_ENDPOINT, {
-            transports: ['websocket', 'polling'],
+            transports: ["websocket", "polling"],
             timeout: 10000,
             forceNew: true,
             auth: { token: authState.accessToken },
@@ -211,9 +219,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           setupSocketHandlers(newSocket, selectedGameRoom);
         });
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error";
         addChatMessage({
-          type: 'app',
+          type: "app",
           message: `❌ Connection error: ${errorMessage}`,
           timestamp: Date.now(),
         });
