@@ -19,15 +19,19 @@ import { createInvoiceLink, PaymentError } from "../services/requests";
 import { openTelegramInvoice } from "../utils/telegram-payment";
 import { UserMark } from "../constants/app.constants";
 import { useGame } from "../providers/GameProvider";
-import SuccessPaymentModal from "./common/SuccessPaymentModal";
 
-function AddGame({ onClose }: { onClose: () => void }) {
+function AddGame({
+  onClose,
+  setSuccessPaymentModalOpen,
+}: {
+  onClose: () => void;
+  setSuccessPaymentModalOpen: (open: boolean) => void;
+}) {
   const { t } = useTranslation();
   const { authState } = useApp();
   const { updateGameState } = useGame();
   const [loading, setLoading] = useState(false);
   const [loadingServerHelper, setLoadingServerHelper] = useState(false);
-  const [successPaymentModalOpen, setSuccessPaymentModalOpen] = useState(false);
   const handleBuyShield = useCallback(async () => {
     if (loading || !authState.accessToken) return;
 
@@ -471,11 +475,6 @@ function AddGame({ onClose }: { onClose: () => void }) {
           </Paper>
         </Box>
       </Box>
-
-      <SuccessPaymentModal
-        open={successPaymentModalOpen}
-        onClose={() => setSuccessPaymentModalOpen(false)}
-      />
     </Box>
   );
 }
