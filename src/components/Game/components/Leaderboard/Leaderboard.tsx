@@ -1,4 +1,4 @@
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab } from "@mui/material";
 import {
   GameScoreType,
   getTotalStats,
@@ -6,15 +6,19 @@ import {
   getMonthlyStats,
   getYearlyStats,
   type GameScore,
-} from '../../../../services/requests';
-import LeaderboardTable from './Table';
-import { Box, Typography, IconButton } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import { useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import LeaderboardButton from './LeaderboardButton';
-import { useGame } from '../../../../providers/GameProvider';
-import { getCurrentYear, getCurrentMonth, getCurrentWeek } from '../../../../utils/date';
+} from "../../../../services/requests";
+import LeaderboardTable from "./Table";
+import { Box, Typography, IconButton } from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import LeaderboardButton from "./LeaderboardButton";
+import { useGame } from "../../../../providers/GameProvider";
+import {
+  getCurrentYear,
+  getCurrentMonth,
+  getCurrentWeek,
+} from "../../../../utils/date";
 
 interface ScoresState {
   [GameScoreType.TOTAL]?: GameScore[];
@@ -35,7 +39,9 @@ function Leaderboard() {
   const { selectedGameRoom } = useGame();
   const scoresFetchedGameRoomRef = useRef(selectedGameRoom);
   const [isOpen, setIsOpen] = useState(false);
-  const [scoreType, setScoreType] = useState<GameScoreType>(GameScoreType.WEEKLY);
+  const [scoreType, setScoreType] = useState<GameScoreType>(
+    GameScoreType.WEEKLY
+  );
   const [scores, setScores] = useState<ScoresState>({});
   const [loading, setLoading] = useState<LoadingState>({
     [GameScoreType.TOTAL]: false,
@@ -60,7 +66,11 @@ function Leaderboard() {
           response = await getYearlyStats(gameRoomId, currentYear);
           break;
         case GameScoreType.MONTHLY:
-          response = await getMonthlyStats(gameRoomId, currentYear, currentMonth);
+          response = await getMonthlyStats(
+            gameRoomId,
+            currentYear,
+            currentMonth
+          );
           break;
         case GameScoreType.WEEKLY:
           response = await getWeeklyStats(gameRoomId, currentYear, currentWeek);
@@ -76,7 +86,6 @@ function Leaderboard() {
 
   useEffect(() => {
     if (isOpen && selectedGameRoom) {
-      console.log('selectedGameRoom', 1, selectedGameRoom);
       if (scoresFetchedGameRoomRef.current !== selectedGameRoom) {
         setScores({});
         scoresFetchedGameRoomRef.current = selectedGameRoom;
@@ -102,31 +111,31 @@ function Leaderboard() {
   ) : (
     <Box
       sx={{
-        display: 'flex',
-        position: 'absolute',
+        display: "flex",
+        position: "absolute",
         zIndex: 900,
         top: 0,
         left: 10,
         right: 10,
         bottom: -200,
-        backgroundColor: 'rgba(255,255,255,0.95)',
+        backgroundColor: "rgba(255,255,255,0.95)",
       }}
     >
       <IconButton
         color="inherit"
         onClick={handleClose}
         sx={{
-          color: '#333',
+          color: "#333",
           padding: 0,
-          border: '2px solid rgba(0,0,0,0.1)',
-          position: 'absolute',
-          top: '10px',
-          right: '20px',
-          width: '50px',
-          height: '50px',
-          marginRight: '10px',
-          '&:hover': {
-            backgroundColor: 'rgba(0,0,0,0.1)',
+          border: "2px solid rgba(0,0,0,0.1)",
+          position: "absolute",
+          top: "10px",
+          right: "20px",
+          width: "50px",
+          height: "50px",
+          marginRight: "10px",
+          "&:hover": {
+            backgroundColor: "rgba(0,0,0,0.1)",
           },
         }}
       >
@@ -135,12 +144,15 @@ function Leaderboard() {
       <Box
         sx={{
           mt: `10px`,
-          padding: '20px',
-          width: '100%',
+          padding: "20px",
+          width: "100%",
         }}
       >
-        <Typography variant="h6" sx={{ color: '#333', flexGrow: 1, fontWeight: 'bold' }}>
-          {t('leaderboard', { gameName: t('gameName') })}
+        <Typography
+          variant="h6"
+          sx={{ color: "#333", flexGrow: 1, fontWeight: "bold" }}
+        >
+          {t("leaderboard", { gameName: t("gameName") })}
         </Typography>
 
         <Tabs
@@ -148,18 +160,21 @@ function Leaderboard() {
           onChange={(_, newValue) => setScoreType(newValue)}
           sx={{
             mb: 2,
-            '& .MuiTab-root': {
+            "& .MuiTab-root": {
               fontWeight: 600,
             },
           }}
           variant="fullWidth"
         >
-          <Tab label={t('weekly')} value={GameScoreType.WEEKLY} />
-          <Tab label={t('monthly')} value={GameScoreType.MONTHLY} />
-          <Tab label={t('yearly')} value={GameScoreType.YEARLY} />
-          <Tab label={t('total')} value={GameScoreType.TOTAL} />
+          <Tab label={t("weekly")} value={GameScoreType.WEEKLY} />
+          <Tab label={t("monthly")} value={GameScoreType.MONTHLY} />
+          <Tab label={t("yearly")} value={GameScoreType.YEARLY} />
+          <Tab label={t("total")} value={GameScoreType.TOTAL} />
         </Tabs>
-        <LeaderboardTable scores={scores[scoreType]} loading={loading[scoreType]} />
+        <LeaderboardTable
+          scores={scores[scoreType]}
+          loading={loading[scoreType]}
+        />
       </Box>
     </Box>
   );

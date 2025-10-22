@@ -1,6 +1,6 @@
 {
   "gameName": "FAGGO̷T",
-  "gameTitle": "Weekly {{gameName}}",
+  "gameTitle": "{{gameName}} of the week",
   "button": "DO NOT TOUCH!",
   "leaderboard": "{{gameName}}board",
   "comeBackTomorrow": "Come back tomorrow",
