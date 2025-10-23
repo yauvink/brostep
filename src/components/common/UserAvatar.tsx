@@ -1,9 +1,16 @@
-import { Box, Avatar, Typography } from '@mui/material';
-import { Person } from '@mui/icons-material';
-import type { GameUser } from '../../providers/GameProvider/GameProvider';
-
+import { Box, Avatar, Typography } from "@mui/material";
+import { Person } from "@mui/icons-material";
+import type { GameUser } from "../../providers/GameProvider/GameProvider";
+import InfoIcon from "@mui/icons-material/Info";
+import {
+  getLevelNameByLevel,
+  getUserLevelByScore,
+} from "../../constants/app.constants";
 function UserAvatar({ user }: { user: GameUser }) {
   const size = 70;
+
+  const level = getUserLevelByScore(user.interactions);
+  const levelName = getLevelNameByLevel(level);
 
   return (
     <Box
@@ -11,24 +18,24 @@ function UserAvatar({ user }: { user: GameUser }) {
         // border: '1px solid red',
         width: `${size}px`,
         minHeight: `${size}px`,
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography
         sx={{
           // border: '1px solid red',
           zIndex: 9,
-          position: 'absolute',
-          bottom: '5px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          color: 'white',
-          textShadow: '1px 1px 2px black, 0 0 1em black, 0 0 0.2em black',
-          lineHeight: '14px',
+          position: "absolute",
+          bottom: "-5px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          color: "white",
+          textShadow: "1px 1px 2px black, 0 0 1em black, 0 0 0.2em black",
+          lineHeight: "14px",
         }}
       >
-        {user.firstName}
+        {user.firstName} Lvl {level}
       </Typography>
 
       {user?.photoUrl ? (
@@ -36,12 +43,12 @@ function UserAvatar({ user }: { user: GameUser }) {
           src={user.photoUrl}
           alt="Profile"
           sx={{
-            backgroundColor: 'white',
+            backgroundColor: "white",
             width: size,
             height: size,
-            boxShadow: user.isOnline ? '0 0 10px 0 green' : '0 0 10px 0 grey',
-            border: user.isOnline ? '4px solid green' : '4px solid grey',
-            borderRadius: '50%',
+            boxShadow: user.isOnline ? "0 0 10px 0 green" : "0 0 10px 0 grey",
+            border: user.isOnline ? "4px solid green" : "4px solid grey",
+            borderRadius: "50%",
           }}
         />
       ) : (
@@ -49,47 +56,53 @@ function UserAvatar({ user }: { user: GameUser }) {
           sx={{
             width: size,
             height: size,
-            backgroundColor: 'white',
-            boxShadow: user.isOnline ? '0 0 10px 0 green' : '0 0 10px 0 grey',
-            borderRadius: '50%',
-            border: user.isOnline ? '4px solid green' : '4px solid grey',
+            backgroundColor: "white",
+            boxShadow: user.isOnline ? "0 0 10px 0 green" : "0 0 10px 0 grey",
+            borderRadius: "50%",
+            border: user.isOnline ? "4px solid green" : "4px solid grey",
           }}
         >
-          <Person sx={{ color: 'black', width: size, height: size }} />
+          <Person sx={{ color: "black", width: size, height: size }} />
         </Box>
       )}
       <Box
         sx={{
-          position: 'absolute',
-          top: '-5px',
-          right: '-5px',
-          backgroundColor: user.isOnline ? 'green' : 'grey',
-          // backgroundColor: '#fff',
-          borderRadius: '50%',
-          width: '30px',
-          height: '30px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '4px',
+          position: "absolute",
+          transform: "translate(-20%, -20%)",
+          top: 0,
+          border: user.isOnline ? "4px solid green" : "4px solid grey",
+          backgroundColor: "#fff",
+          borderRadius: "50%",
+          width: "30px",
+          height: "30px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "4px",
+          color: "black",
         }}
       >
-        <Box
-          sx={{
-            // color: user.points > 0 ? 'green' : 'red',
-            color: 'black',
-            background: '#fff',
-            borderRadius: '50%',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontSize: '12px',
-          }}
-        >
-          {user.count}
-        </Box>
+        {user.count}
+      </Box>
+
+      <Box
+        sx={{
+          position: "absolute",
+          transform: "translate(20%, -20%)",
+          top: 0,
+          right: 0,
+          backgroundColor: "black",
+          borderRadius: "50%",
+          width: "30px",
+          height: "30px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          color: "white",
+        }}
+      >
+        <InfoIcon sx={{ width: "30px", height: "30px" }} />
       </Box>
     </Box>
   );

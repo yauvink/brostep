@@ -43,6 +43,8 @@ export interface GameUser {
   isOnline: boolean;
   languageCode: LanguageCode;
   marks: UserMark[];
+  luckyInteractions: number;
+  interactions: number;
 }
 
 interface GameState {
