@@ -42,8 +42,6 @@ function NavBar({ onAddGame }: { onAddGame: () => void }) {
       sx={{
         // border: "1px solid red",
         width: "100%",
-        position: "relative",
-        zIndex: 1000,
         backgroundColor: "rgba(255,255,255,0.4)",
       }}
     >
