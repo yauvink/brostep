@@ -52,6 +52,20 @@ const LVL_NAMES = [
   "Intergalactic",
 ];
 
+const LEVEL_COLORS = [
+  "#9CA3AF", // Beginner - Gray
+  "#10B981", // Noob - Green
+  "#3B82F6", // Rookie - Blue
+  "#8B5CF6", // Veteran - Purple
+  "#F59E0B", // Legendary - Amber
+  "#EF4444", // Savage - Red
+  "#EC4899", // Dominator - Pink
+  "#DC2626", // Maniac - Dark Red
+  "#7C3AED", // Lucky One - Violet
+  "#1F2937", // Immortal - Dark Gray
+  "#FFD700", // Intergalactic - Gold
+];
+
 /**
  * Get user level based on their score
  * @param score - User's score
@@ -76,4 +90,41 @@ export function getLevelNameByLevel(level: number): string {
     return LVL_NAMES[0]; // Return "Beginner" for invalid levels
   }
   return LVL_NAMES[level];
+}
+
+/**
+ * Get level color by user level
+ * @param level - User's level (0-10)
+ * @returns Level color hex string
+ */
+export function getLevelColorByLevel(level: number): string {
+  if (level < 0 || level >= LEVEL_COLORS.length) {
+    return LEVEL_COLORS[0]; // Return beginner color for invalid levels
+  }
+  return LEVEL_COLORS[level];
+}
+
+/**
+ * Calculate percentage progress within current level
+ * @param score - User's current score
+ * @returns Percentage (0-100) of progress within current level
+ */
+export function getCurrentLevelProgress(score: number): number {
+  const currentLevel = getUserLevelByScore(score);
+  const currentLevelScore = LEVEL_MAP[currentLevel as keyof typeof LEVEL_MAP];
+
+  // If user is at max level, return 100%
+  if (currentLevel >= 10) {
+    return 100;
+  }
+
+  const nextLevelScore =
+    LEVEL_MAP[(currentLevel + 1) as keyof typeof LEVEL_MAP];
+  const levelRange = nextLevelScore - currentLevelScore;
+  const progressInLevel = score - currentLevelScore;
+
+  // Calculate percentage, ensuring it doesn't exceed 100%
+  const percentage = Math.min((progressInLevel / levelRange) * 100, 100);
+
+  return Math.max(0, Math.round(percentage));
 }

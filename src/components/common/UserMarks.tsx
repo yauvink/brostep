@@ -18,14 +18,19 @@ function UserMarks({ user }: { user: GameUser }) {
   }, [user]);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-evenly",
+      }}
+    >
       {userShieldMarks.length > 0 && (
         <Box
           sx={{
-            position: "absolute",
-            zIndex: 10000,
-            left: 15,
-            top: -20,
+            // position: "absolute",
+            // zIndex: 10000,
+            // left: 15,
+            // top: -20,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -34,7 +39,7 @@ function UserMarks({ user }: { user: GameUser }) {
             fontWeight: "bold",
           }}
         >
-          <img width={30} src={mark1} alt="mark_1" />
+          <img width={50} src={mark1} alt="mark_1" />
           <Box
             sx={{
               position: "absolute",
@@ -56,10 +61,10 @@ function UserMarks({ user }: { user: GameUser }) {
       {userServerHelperMarks.length > 0 && (
         <Box
           sx={{
-            position: "absolute",
-            zIndex: 10000,
-            left: -15,
-            top: -5,
+            // position: "absolute",
+            // zIndex: 10000,
+            // left: -15,
+            // top: -5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -68,7 +73,7 @@ function UserMarks({ user }: { user: GameUser }) {
             fontWeight: "bold",
           }}
         >
-          <span style={{ fontSize: "30px" }}>🛠️</span>
+          <span style={{ fontSize: "50px" }}>🛠️</span>
           <Typography
             sx={{
               position: "absolute",
@@ -86,7 +91,7 @@ function UserMarks({ user }: { user: GameUser }) {
           </Typography>
         </Box>
       )}
-    </>
+    </Box>
   );
 }
 export default UserMarks;
