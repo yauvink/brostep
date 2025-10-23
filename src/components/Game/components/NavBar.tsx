@@ -1,6 +1,6 @@
-import { Box, Button } from '@mui/material';
-import { useGame } from '../../../providers/GameProvider';
-import { useEffect, useRef, useState } from 'react';
+import { Box, Button } from "@mui/material";
+import { useGame } from "../../../providers/GameProvider";
+import { useEffect, useRef, useState } from "react";
 
 function NavBar({ onAddGame }: { onAddGame: () => void }) {
   const { rooms, setSelectedGameRoom, selectedGameRoom } = useGame();
@@ -15,11 +15,12 @@ function NavBar({ onAddGame }: { onAddGame: () => void }) {
       const buttonRect = roomElement.getBoundingClientRect();
 
       // Calculate the scroll position to center the button
-      const scrollLeft = roomElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
+      const scrollLeft =
+        roomElement.offsetLeft - containerRect.width / 2 + buttonRect.width / 2;
 
       container.scrollTo({
         left: scrollLeft,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
   };
@@ -39,29 +40,32 @@ function NavBar({ onAddGame }: { onAddGame: () => void }) {
   return (
     <Box
       sx={{
-        // border: '1px solid red',
-        width: '100%',
+        // border: "1px solid red",
+        width: "100%",
+        position: "relative",
+        zIndex: 1000,
+        backgroundColor: "rgba(255,255,255,0.4)",
       }}
     >
       <Box
         ref={scrollContainerRef}
         sx={{
-          display: 'flex',
-          gap: '10px',
-          padding: '10px 20px',
-          overflowX: 'auto',
-          transform: 'rotateX(180deg)',
-          '& > *': {
-            transform: 'rotateX(180deg)',
+          display: "flex",
+          gap: "10px",
+          padding: "10px 20px",
+          overflowX: "auto",
+          transform: "rotateX(180deg)",
+          "& > *": {
+            transform: "rotateX(180deg)",
           },
         }}
       >
         <Button
           onClick={onAddGame}
-          variant={'contained'}
+          variant={"contained"}
           sx={{
-            minWidth: 'max-content',
-            backgroundColor: 'green',
+            minWidth: "max-content",
+            backgroundColor: "green",
           }}
         >
           Add +
@@ -70,10 +74,10 @@ function NavBar({ onAddGame }: { onAddGame: () => void }) {
           <Button
             key={room.id}
             id={`room-${room.id}`}
-            variant={selectedGameRoom === room.id ? 'contained' : 'outlined'}
+            variant={selectedGameRoom === room.id ? "contained" : "outlined"}
             onClick={() => handleTabClick(room.id)}
             sx={{
-              minWidth: 'max-content',
+              minWidth: "max-content",
             }}
           >
             {room.chatTitle}

@@ -1,8 +1,9 @@
-import { memo } from 'react';
-import { Box } from '@mui/material';
-import { useApp } from '../providers/AppProvider';
-import AppHeader from './common/AppHeader';
-import Game from './Game/Game';
+import { memo } from "react";
+import { Box } from "@mui/material";
+import { useApp } from "../providers/AppProvider";
+import AppHeader from "./common/AppHeader";
+import Game from "./Game/Game";
+import background from "../assets/bg.jpg";
 
 function Main() {
   const { authState } = useApp();
@@ -16,7 +17,18 @@ function Main() {
   }
 
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        width: "100%",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <AppHeader />
       <Game />
     </Box>
