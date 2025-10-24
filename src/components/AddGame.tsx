@@ -4,7 +4,6 @@ import {
   Toolbar,
   IconButton,
   Paper,
-  Button,
   CircularProgress,
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
@@ -19,6 +18,7 @@ import { createInvoiceLink, PaymentError } from "../services/requests";
 import { openTelegramInvoice } from "../utils/telegram-payment";
 import { UserMark } from "../constants/app.constants";
 import { useGame } from "../providers/GameProvider";
+import AppButton, { AppButtonType } from "./common/AppButton";
 
 function AddGame({
   onClose,
@@ -259,36 +259,27 @@ function AddGame({
                 </Typography>
               </Box>
             </Box>
-            <Button
+            <AppButton
               onClick={handleBuyShield}
               disabled={loading}
-              variant="contained"
-              fullWidth
-              sx={{
-                height: "56px",
-                backgroundColor: "#0088cc",
-                color: "white",
-                textTransform: "none",
-                borderRadius: "8px",
-                padding: "10px 24px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                "&:hover": {
-                  backgroundColor: "#006699",
-                },
-              }}
+              type={AppButtonType.BLUE}
             >
               {loading ? (
                 <CircularProgress size={20} />
               ) : (
-                <>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
                   <img width={20} height={20} src={tgStars} alt="tg_stars" />
                   {t("addGame.shield.price")}
-                </>
+                </Box>
               )}
-            </Button>
+            </AppButton>
           </Paper>
 
           <Paper
@@ -354,36 +345,27 @@ function AddGame({
                 </Typography>
               </Box>
             </Box>
-            <Button
+            <AppButton
               onClick={handleBuyServerHelper}
               disabled={loadingServerHelper}
-              variant="contained"
-              fullWidth
-              sx={{
-                height: "56px",
-                backgroundColor: "#0088cc",
-                color: "white",
-                textTransform: "none",
-                borderRadius: "8px",
-                padding: "10px 24px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                "&:hover": {
-                  backgroundColor: "#006699",
-                },
-              }}
+              type={AppButtonType.BLUE}
             >
               {loadingServerHelper ? (
                 <CircularProgress size={20} />
               ) : (
-                <>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
                   <img width={20} height={20} src={tgStars} alt="tg_stars" />
                   {t("addGame.serverHelper.price")}
-                </>
+                </Box>
               )}
-            </Button>
+            </AppButton>
           </Paper>
 
           <Paper
@@ -449,29 +431,19 @@ function AddGame({
                 </Typography>
               </Box>
             </Box>
-            <Button
-              disabled
-              variant="contained"
-              fullWidth
-              sx={{
-                backgroundColor: "#0088cc",
-                color: "white",
-                height: "56px",
-                textTransform: "none",
-                borderRadius: "8px",
-                padding: "10px 24px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                "&:hover": {
-                  backgroundColor: "#006699",
-                },
-              }}
-            >
-              <img width={20} height={20} src={tgStars} alt="tg_stars" />
-              {t("addGame.customRoom.price")}
-            </Button>
+            <AppButton disabled type={AppButtonType.BLUE} onClick={() => {}}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                }}
+              >
+                <img width={20} height={20} src={tgStars} alt="tg_stars" />
+                {t("addGame.customRoom.price")}
+              </Box>
+            </AppButton>
           </Paper>
         </Box>
       </Box>

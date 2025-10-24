@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 
 import { useTranslation } from "react-i18next";
+import AppButton, { AppButtonType } from "./AppButton";
 
 function SuccessPaymentModal({
   open,
@@ -65,9 +66,9 @@ function SuccessPaymentModal({
         <Typography sx={{ textAlign: "center" }}>
           {t("payment.success")}
         </Typography>
-        <Button variant="contained" onClick={onClose}>
+        <AppButton type={AppButtonType.GREEN} onClick={onClose}>
           {t("payment.close")}
-        </Button>
+        </AppButton>
       </Box>
     </Modal>
   );

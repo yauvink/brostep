@@ -1,7 +1,8 @@
-import { Box, Button, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import LanguageSelect from './common/LanguageSelect';
+import { Box, Typography } from "@mui/material";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import LanguageSelect from "./common/LanguageSelect";
+import AppButton, { AppButtonType } from "./common/AppButton";
 
 function AcceptTerms({ handleAcceptTerms }: { handleAcceptTerms: () => void }) {
   const [isNotAccepted, setIsNotAccepted] = useState(false);
@@ -10,68 +11,53 @@ function AcceptTerms({ handleAcceptTerms }: { handleAcceptTerms: () => void }) {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        width: '100%',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        width: "100%",
       }}
     >
       {isNotAccepted ? (
         <Box>
-          <Typography>{t('terms.haveANiceDay')}</Typography>
+          <Typography>{t("terms.haveANiceDay")}</Typography>
         </Box>
       ) : (
         <Box
           sx={{
-            fontSize: '20px',
-            margin: '30px',
-            textAlign: 'center',
+            fontSize: "20px",
+            margin: "30px",
+            textAlign: "center",
           }}
         >
           <Box
             sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              mb: '30px',
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              mb: "30px",
             }}
           >
             <LanguageSelect />
           </Box>
-          <Typography>{t('terms.terms', { gameName: t('gameName') })}</Typography>
+          <Typography>
+            {t("terms.terms", { gameName: t("gameName") })}
+          </Typography>
           <Box height={30}></Box>
 
-          <Button
-            onClick={handleAcceptTerms}
-            sx={{
-              backgroundColor: 'green',
-              padding: '10px 40px',
-              color: 'white',
-              '&:hover': {
-                backgroundColor: 'green',
-              },
-            }}
-          >
-            {t('terms.accept')}
-          </Button>
+          <AppButton onClick={handleAcceptTerms} type={AppButtonType.GREEN}>
+            {t("terms.accept")}
+          </AppButton>
           <Box height={10}></Box>
-          <Button
+          <AppButton
             onClick={() => {
               setIsNotAccepted(true);
             }}
-            sx={{
-              padding: '10px 40px',
-              backgroundColor: 'red',
-              color: 'white',
-              '&:hover': {
-                backgroundColor: 'red',
-              },
-            }}
+            type={AppButtonType.RED}
           >
-            {t('terms.decline')}
-          </Button>
+            {t("terms.decline")}
+          </AppButton>
         </Box>
       )}
     </Box>
