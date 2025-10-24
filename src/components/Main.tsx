@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { useApp } from "../providers/AppProvider";
 import AppHeader from "./common/AppHeader";
 import Game from "./Game/Game";
-import background from "../assets/bg.jpg";
+import background from "../assets/bg_3.jpg";
 
 function Main() {
   const { authState } = useApp();
