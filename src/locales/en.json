@@ -63,7 +63,7 @@
       "10": "EPIC FAIL! <b>{{userName}}</b> made themselves {{gameName}} with their own hands!",
       "11": "INCREDIBLE! <b>{{userName}}</b> assigned themselves the title of {{gameName}}!",
       "12": "Own goal of the century! <b>{{userName}}</b> became {{gameName}} themselves!",
-      "13": "RESPECT! <b>{{userName}}</b> became {{gameName}} with their own hands!",
+      "13": "RESPECT! <b>{{userName}}</b> became a {{gameName}} with their own hands!",
       "14": "Your own enemy! <b>{{userName}}</b> willingly signed up as {{gameName}}!",
       "15": "MASTERPIECE! <b>{{userName}}</b> personally chose the way of the {{gameName}}!",
       "16": "ARE YOU SERIOUS?! <b>{{userName}}</b> appointed themselves {{gameName}}!",
@@ -83,6 +83,9 @@
       "8": "🎯 <b>{{userName}}</b> is ready for trials",
       "9": "⭐ <b>{{userName}}</b> enters the battle",
       "10": "🔥 <b>{{userName}}</b> steps into the heat"
+    },
+    "levelUp": {
+      "1": "🎉 <b>{{userName}}</b> reached a new level - <b>{{levelNumber}}</b> ({{levelName}})"
     }
   },
   "terms": {

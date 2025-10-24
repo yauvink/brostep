@@ -12,6 +12,8 @@ export enum GameMessageType {
   DETECT_START = "ds",
   DETECT_FINISHED = "df",
   JOIN_GAME = "jg",
+  LEVEL_UP = "lu",
+  UNKNOWN = "unknown",
 }
 
 export enum LanguageCode {
