@@ -1,6 +1,6 @@
 {
   "gameName": "FAGGO̷T",
-  "gameTitle": "In search of a {{gameName}}",
+  "gameTitle": "In search of the {{gameName}}",
   "button": "Search a {{gameName}}",
   "leaderboard": "{{gameName}}board",
   "chatMessages": {
