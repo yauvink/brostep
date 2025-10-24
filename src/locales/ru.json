@@ -1,9 +1,8 @@
 {
   "gameName": "ПИДО̷Р",
-  "gameTitle": "{{gameName}} недели",
-  "button": "НЕ ТРОГАТЬ!",
+  "gameTitle": "В поисках {{gameName}}а",
+  "button": "Искать {{gameName}}а",
   "leaderboard": "{{gameName}}борд",
-  "comeBackTomorrow": "Приходи завтра",
   "chatMessages": {
     "detectStart": {
       "1": "<b>{{userName}}</b> жмет на красную кнопку",

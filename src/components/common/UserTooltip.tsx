@@ -4,6 +4,7 @@ import {
   getCurrentLevelProgress,
   getLevelColorByLevel,
   getLevelNameByLevel,
+  getNextLevelInteractions,
   getUserLevelByScore,
 } from "../../constants/app.constants";
 import UserMarks from "./UserMarks";
@@ -13,7 +14,9 @@ export default function UserTooltip({ user }: { user: GameUser }) {
   const level = getUserLevelByScore(user.interactions);
 
   const levelName = getLevelNameByLevel(level);
+  const nextLevelName = getLevelNameByLevel(level + 1);
   const color = getLevelColorByLevel(level);
+  const nextLevelColor = getLevelColorByLevel(level + 1);
 
   const luckyPercent =
     user.interactions > 0
@@ -23,6 +26,10 @@ export default function UserTooltip({ user }: { user: GameUser }) {
   const progress = useMemo(() => {
     return getCurrentLevelProgress(user.interactions);
   }, [user, level]);
+
+  const nextLevelInteractions = useMemo(() => {
+    return getNextLevelInteractions(level);
+  }, [level]);
 
   return (
     <Box
@@ -63,26 +70,58 @@ export default function UserTooltip({ user }: { user: GameUser }) {
           </Typography>
         </Box>
       </Box>
+
       <Box
         sx={{
           mt: "10px",
-          ".MuiLinearProgress-bar": {
-            backgroundColor: color,
-          },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <LinearProgress
-          variant="determinate"
-          value={progress}
+        <Box
           sx={{
-            color: "green",
-            backgroundColor: `${color}20`,
-            // opacity: 0.5,
-            height: 20,
-            borderRadius: 1,
+            width: "100%",
+            ".MuiLinearProgress-bar": {
+              backgroundColor: color,
+            },
           }}
-        />
+        >
+          <LinearProgress
+            variant="determinate"
+            value={progress}
+            sx={{
+              color: "green",
+              backgroundColor: `${color}20`,
+              // opacity: 0.5,
+              height: 30,
+              borderRadius: 1,
+            }}
+          />
+        </Box>
+        <Typography
+          sx={{
+            position: "absolute",
+            color: "black",
+            fontWeight: 700,
+          }}
+        >
+          {user.interactions}/{nextLevelInteractions}
+        </Typography>
       </Box>
+      <Typography
+        sx={{
+          fontWeight: 700,
+          fontSize: "10px",
+          mb: "0px",
+          width: "100%",
+          textAlign: "right",
+          color: nextLevelColor,
+        }}
+      >
+        Next level: {level + 1} - {nextLevelName}
+      </Typography>
       <Box
         sx={{
           display: "flex",
@@ -95,7 +134,21 @@ export default function UserTooltip({ user }: { user: GameUser }) {
             color: "black",
           }}
         >
-          Score: {user.count}
+          Pidor Score: {user.count}
+        </Typography>
+        <Typography
+          sx={{
+            color: "black",
+          }}
+        >
+          Searches: {user.interactions}
+        </Typography>
+        <Typography
+          sx={{
+            color: "black",
+          }}
+        >
+          Lucky Searches: {user.luckyInteractions}
         </Typography>
         <Typography
           sx={{

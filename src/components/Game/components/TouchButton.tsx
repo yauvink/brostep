@@ -1,9 +1,13 @@
-import { Box, Button } from '@mui/material';
-import { useGame } from '../../../providers/GameProvider';
-import { useEffect, useMemo, useState } from 'react';
-import { useTelegram } from '../../../providers/TelegramProvider/useTelegram';
-import { useTranslation } from 'react-i18next';
-import { formatTimeLeft, getTimeUntilNextDailyReset, isToday } from '../../../utils/date';
+import { Box, Button } from "@mui/material";
+import { useGame } from "../../../providers/GameProvider";
+import { useEffect, useMemo, useState } from "react";
+import { useTelegram } from "../../../providers/TelegramProvider/useTelegram";
+import { useTranslation } from "react-i18next";
+import {
+  formatTimeLeft,
+  getTimeUntilNextDailyReset,
+  isToday,
+} from "../../../utils/date";
 
 function TouchButton() {
   const { telegramUser } = useTelegram();
@@ -11,26 +15,28 @@ function TouchButton() {
   const { t } = useTranslation();
 
   const isDetecting = useMemo(() => {
-    return gameState?.currentState !== 'idle';
+    return gameState?.currentState !== "idle";
   }, [gameState]);
 
   const currentUser = useMemo(() => {
-    return gameState?.users.find((user) => user.telegramId === telegramUser?.id);
+    return gameState?.users.find(
+      (user) => user.telegramId === telegramUser?.id
+    );
   }, [gameState, telegramUser]);
 
   const [isCanTouch, setCanTouch] = useState(true);
-  const [timeLeftString, setTimeLeftString] = useState('');
+  const [timeLeftString, setTimeLeftString] = useState("");
 
   // console.log('currentUser.lastDetectedAt',currentUser?.lastDetectedAt);
   useEffect(() => {
     if (gameState) {
       switch (gameState.gameType) {
-        case 'friendly_fire': {
+        case "friendly_fire": {
           setCanTouch(true);
-          setTimeLeftString('');
+          setTimeLeftString("");
           break;
         }
-        case 'daily': {
+        case "daily": {
           const checkTimeRemaining = () => {
             if (currentUser) {
               if (currentUser.lastDetectedAt) {
@@ -44,12 +50,12 @@ function TouchButton() {
                 } else {
                   // User hasn't touched today, can touch now
                   setCanTouch(true);
-                  setTimeLeftString('');
+                  setTimeLeftString("");
                 }
               } else {
                 // User never touched, can touch now
                 setCanTouch(true);
-                setTimeLeftString('');
+                setTimeLeftString("");
               }
             }
           };
@@ -68,17 +74,17 @@ function TouchButton() {
     return (
       <Button
         sx={{
-          borderRadius: '50%',
-          height: '100px',
-          backgroundColor: 'grey',
-          width: '100px',
+          borderRadius: "50%",
+          height: "100px",
+          backgroundColor: "grey",
+          width: "100px",
           zIndex: 200,
           fontWeight: 900,
           lineHeight: 1.4,
         }}
         variant="contained"
       >
-        {t('button')}
+        🔍 {t("button", { gameName: t("gameName") })}
       </Button>
     );
   }
@@ -87,24 +93,28 @@ function TouchButton() {
     return (
       <Box
         sx={{
-          borderRadius: '50%',
-          height: '100px',
-          width: '100px',
-          backgroundColor: 'grey',
+          borderRadius: "50%",
+          height: "100px",
+          width: "100px",
+          backgroundColor: "grey",
           fontWeight: 900,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white",
           zIndex: 200,
           lineHeight: 1.2,
-          textAlign: 'center',
-          fontSize: '12px',
+          textAlign: "center",
+          fontSize: "12px",
         }}
       >
-        <div>{t('comeBackTomorrow')}</div>
-        {timeLeftString && <div style={{ fontSize: '10px', marginTop: '2px' }}>{timeLeftString}</div>}
+        <span style={{ opacity: 0.5 }}>🔍</span>
+        {timeLeftString && (
+          <div style={{ fontSize: "10px", marginTop: "2px" }}>
+            {timeLeftString}
+          </div>
+        )}
       </Box>
     );
   }
@@ -113,17 +123,18 @@ function TouchButton() {
     <Button
       onClick={touchButton}
       sx={{
-        borderRadius: '50%',
-        height: '100px',
-        width: '100px',
+        borderRadius: "50%",
+        height: "100px",
+        width: "100px",
         zIndex: 200,
-        backgroundColor: 'red',
+        backgroundColor: "red",
         fontWeight: 900,
         lineHeight: 1.4,
       }}
       variant="contained"
     >
-      {t('button')}
+      🔍 <br />
+      {t("button", { gameName: t("gameName") })}
     </Button>
   );
 }

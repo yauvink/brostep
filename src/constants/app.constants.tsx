@@ -130,3 +130,7 @@ export function getCurrentLevelProgress(score: number): number {
 
   return Math.max(0, Math.round(percentage));
 }
+
+export function getNextLevelInteractions(level: number): number {
+  return LEVEL_MAP[(level + 1) as keyof typeof LEVEL_MAP];
+}

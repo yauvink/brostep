@@ -1,9 +1,8 @@
 {
   "gameName": "FAGGO̷T",
-  "gameTitle": "{{gameName}} of the week",
-  "button": "DO NOT TOUCH!",
+  "gameTitle": "In search of a {{gameName}}",
+  "button": "Search a {{gameName}}",
   "leaderboard": "{{gameName}}board",
-  "comeBackTomorrow": "Come back tomorrow",
   "chatMessages": {
     "detectStart": {
       "1": "<b>{{userName}}</b> is pressing the red button",
