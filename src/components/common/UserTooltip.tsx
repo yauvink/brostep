@@ -1,7 +1,6 @@
 import { Box, LinearProgress, Typography } from "@mui/material";
 import type { GameUser } from "../../providers/GameProvider/GameProvider";
 import {
-  getCurrentLevelProgress,
   getLevelColorByLevel,
   getLevelNameByLevel,
   getNextLevelInteractions,
