@@ -6,10 +6,10 @@ import ConnectionOverlay from "./components/ConnectionOverlay";
 import NavBar from "./components/NavBar";
 import AddGame from "../AddGame";
 import { useState, memo } from "react";
-import SpinnerAnimation from "../common/SpinnerAnimation";
 import Leaderboard from "./components/Leaderboard/Leaderboard";
 import Menu from "./components/Menu/Menu";
 import SuccessPaymentModal from "../common/SuccessPaymentModal";
+import SearchAnimationWrapper from "../common/SearchAnimationWrapper";
 
 function Game() {
   const [isAddGameOpen, setIsAddGameOpen] = useState(false);
@@ -51,7 +51,7 @@ function Game() {
           alignItems: "center",
           // justifyContent: 'flex-end',
           justifyContent: "center",
-          padding: "72px 0px 10px",
+          padding: "72px 0px 0px",
           // border: '1px solid blue',
         }}
       >
@@ -73,7 +73,8 @@ function Game() {
           <Menu />
 
           <TouchButton />
-          <SpinnerAnimation />
+
+          <SearchAnimationWrapper />
           <Users />
         </Box>
       </Box>

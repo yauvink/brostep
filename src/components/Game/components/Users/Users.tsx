@@ -1,9 +1,9 @@
-import { Box } from '@mui/material';
-import { useGame } from '../../../../providers/GameProvider';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import User from './components/User';
+import { Box } from "@mui/material";
+import { useGame } from "../../../../providers/GameProvider";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import User from "./components/User";
 // import DetectingAnimation from '../DetectingAnimation';
-import SelectedAnimation from '../../../common/SelectedAnimation';
+import SelectedAnimation from "../../../common/SelectedAnimation";
 
 function Users() {
   const { gameState } = useGame();
@@ -59,18 +59,25 @@ function Users() {
     <Box
       ref={containerRef}
       sx={{
-        position: 'absolute',
+        position: "absolute",
         width: `${width}px`,
-        height: '100%',
-        aspectRatio: '1/1',
+        height: "100%",
+        aspectRatio: "1/1",
         // border: '1px solid blue',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       {gameState?.users?.map((user, i) => {
-        return <User key={i} user={user} x={userPositions?.[i]?.x ?? 0} y={userPositions?.[i]?.y ?? -100} />;
+        return (
+          <User
+            key={i}
+            user={user}
+            x={userPositions?.[i]?.x ?? 0}
+            y={userPositions?.[i]?.y ?? -100}
+          />
+        );
       })}
 
       <SelectedAnimation />

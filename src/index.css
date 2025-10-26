@@ -140,3 +140,12 @@ body {
     transform: scale(1);
   }
 }
+
+@keyframes slideLeftPx {
+  0% {
+    transform: translateX(-1500px);
+  }
+  100% {
+    transform: translateX(-6000px);
+  }
+}
