@@ -1,12 +1,14 @@
-import { memo } from 'react';
-import { AppProvider, useApp } from './providers/AppProvider';
-import { TelegramProvider } from './providers/TelegramProvider/TelegramProvider';
-import { ErrorProvider, useError } from './providers/ErrorProvider';
-import Main from './components/Main';
-import { APP_VIEW } from './constants/app.constants';
-import Profile from './components/Profile';
-import ErrorScreen from './components/ErrorScreen';
-import { GameProvider } from './providers/GameProvider/GameProvider';
+import { memo } from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import { AppProvider, useApp } from "./providers/AppProvider";
+import { TelegramProvider } from "./providers/TelegramProvider/TelegramProvider";
+import { ErrorProvider, useError } from "./providers/ErrorProvider";
+import Main from "./components/Main";
+import { APP_VIEW } from "./constants/app.constants";
+import Profile from "./components/Profile";
+import ErrorScreen from "./components/ErrorScreen";
+import { GameProvider } from "./providers/GameProvider/GameProvider";
+import theme from "./theme";
 
 const View = memo(() => {
   const { appView } = useApp();
@@ -26,15 +28,17 @@ const View = memo(() => {
 
 function App() {
   return (
-    <ErrorProvider>
-      <TelegramProvider>
-        <AppProvider>
-          <GameProvider>
-            <View />
-          </GameProvider>
-        </AppProvider>
-      </TelegramProvider>
-    </ErrorProvider>
+    <ThemeProvider theme={theme}>
+      <ErrorProvider>
+        <TelegramProvider>
+          <AppProvider>
+            <GameProvider>
+              <View />
+            </GameProvider>
+          </AppProvider>
+        </TelegramProvider>
+      </ErrorProvider>
+    </ThemeProvider>
   );
 }
 

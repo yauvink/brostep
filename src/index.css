@@ -5,16 +5,16 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Chiron GoRound TC", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -60,18 +60,30 @@ body {
   }
 } */
 @keyframes spin1 {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes spin2 {
-  from { transform: rotate(360deg); }
-  to   { transform: rotate(720deg); }
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(720deg);
+  }
 }
 
 @keyframes spin3 {
-  from { transform: rotate(720deg); }
-  to   { transform: rotate(1080deg); }
+  from {
+    transform: rotate(720deg);
+  }
+  to {
+    transform: rotate(1080deg);
+  }
 }
 @keyframes spinUp {
   from {
@@ -101,22 +113,17 @@ body {
   }
 }
 
-
 @keyframes push {
-
   0% {
     transform: rotate(90deg) translateY(20px);
-
   }
 
   50% {
     transform: rotate(90deg) translateY(0px);
-
   }
 
   100% {
     transform: rotate(90deg) translateY(20px);
-
   }
 }
 
