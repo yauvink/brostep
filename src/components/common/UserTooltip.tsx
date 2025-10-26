@@ -23,13 +23,13 @@ export default function UserTooltip({ user }: { user: GameUser }) {
       ? Math.round((user.luckyInteractions / user.interactions) * 100)
       : 0;
 
-  const progress = useMemo(() => {
-    return getCurrentLevelProgress(user.interactions);
-  }, [user, level]);
-
   const nextLevelInteractions = useMemo(() => {
     return getNextLevelInteractions(level);
   }, [level]);
+
+  const progress = useMemo(() => {
+    return (user.interactions / nextLevelInteractions) * 100;
+  }, [user, level]);
 
   return (
     <Box
