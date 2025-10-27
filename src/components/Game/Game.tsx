@@ -9,7 +9,7 @@ import { useState, memo } from "react";
 import Leaderboard from "./components/Leaderboard/Leaderboard";
 import Menu from "./components/Menu/Menu";
 import SuccessPaymentModal from "../common/SuccessPaymentModal";
-import SearchAnimationWrapper from "../common/SearchAnimationWrapper";
+import SearchAnimationWrapper from "../common/SearchAnimation/SearchAnimationWrapper";
 
 function Game() {
   const [isAddGameOpen, setIsAddGameOpen] = useState(false);

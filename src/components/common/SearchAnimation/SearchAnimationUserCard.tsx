@@ -1,9 +1,9 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import type { GameUser } from "../../providers/GameProvider/GameProvider";
+import type { GameUser } from "../../../providers/GameProvider/GameProvider";
 import {
   getLevelColorByLevel,
   getUserLevelByScore,
-} from "../../constants/app.constants";
+} from "../../../constants/app.constants";
 
 function SearchAnimationUserCard({
   user,

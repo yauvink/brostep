@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useGame } from "../../providers/GameProvider";
+import { useGame } from "../../../providers/GameProvider";
 import SearchAnimation from "./SearchAnimation";
 
 function SearchAnimationWrapper() {

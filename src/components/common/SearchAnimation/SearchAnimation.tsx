@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useMemo } from "react";
 import SearchAnimationUserCard from "./SearchAnimationUserCard";
-import type { GameUser } from "../../providers/GameProvider/GameProvider";
+import type { GameUser } from "../../../providers/GameProvider/GameProvider";
 
 function SearchAnimation({ usersToSearch }: { usersToSearch: GameUser[] }) {
   const CARD_SIZE = 150;
