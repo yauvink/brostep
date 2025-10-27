@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import UserAvatar from "../../../../common/UserAvatar";
 import type { GameUser } from "../../../../../providers/GameProvider/GameProvider";
-import ScoreChangeAnimation from "./ScoreChangeAnimation";
 import { memo } from "react";
+import ScoreChangeAnimation from "./ScoreChangeAnimation";
 
 function User({ user, x, y }: { user: GameUser; x: number; y: number }) {
   return (

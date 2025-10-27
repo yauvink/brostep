@@ -73,6 +73,8 @@ interface GameContextType {
   joinedGameId: string | null;
   detectedUserId: string | null;
   setDetectedUserId: (userId: string | null) => void;
+  preDetectedUserId: string | null;
+  setPreDetectedUserId: (userId: string | null) => void;
   rooms: Array<{ id: string; chatTitle: string }>;
   setSelectedGameRoom: (gameRoomId: string | null) => void;
   selectedGameRoom: string | null;
@@ -96,6 +98,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [joinedGameId, setJoinedGameId] = useState<string | null>(null);
   const [isCanFetchRooms, setCanFetchRooms] = useState(false);
   const [detectedUserId, setDetectedUserId] = useState<string | null>(null);
+  const [preDetectedUserId, setPreDetectedUserId] = useState<string | null>(
+    null
+  );
   const [rooms, setRooms] = useState<Array<{ id: string; chatTitle: string }>>(
     []
   );
@@ -164,6 +169,11 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         // console.log('detected', data);
         setDetectedUserId(data);
       });
+
+      socketInstance.on("pre_detected", (data: string) => {
+        // console.log("pre_detected", data);
+        setPreDetectedUserId(data);
+      });
     },
     [addChatMessage, setAppError]
   );
@@ -203,6 +213,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       setGameState(null);
       setJoinedGameId(null);
       setDetectedUserId(null);
+      setPreDetectedUserId(null);
       setChatMessages([]);
     }
 
@@ -254,7 +265,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     isSocketConnected,
     joinedGameId,
     detectedUserId,
+    preDetectedUserId,
     setDetectedUserId,
+    setPreDetectedUserId,
     rooms,
     setSelectedGameRoom,
     selectedGameRoom,

@@ -1,22 +1,15 @@
 import { Box } from "@mui/material";
-import { useMemo } from "react";
 import SearchAnimationUserCard from "./SearchAnimationUserCard";
 import type { GameUser } from "../../../providers/GameProvider/GameProvider";
 
-function SearchAnimation({ usersToSearch }: { usersToSearch: GameUser[] }) {
+function SearchAnimation({
+  usersToDisplay,
+  onAnimationEnd,
+}: {
+  usersToDisplay: GameUser[];
+  onAnimationEnd: () => void;
+}) {
   const CARD_SIZE = 150;
-
-  const usersToDisplay = useMemo(() => {
-    if (usersToSearch && usersToSearch.length < 50) {
-      const result = [];
-      for (let i = 0; i < 50; i++) {
-        result.push(usersToSearch[i % usersToSearch.length]);
-      }
-      return result;
-    } else {
-      return usersToSearch.slice(0, 50);
-    }
-  }, [usersToSearch]);
 
   return (
     <Box
@@ -51,11 +44,11 @@ function SearchAnimation({ usersToSearch }: { usersToSearch: GameUser[] }) {
             justifyContent: "center",
             position: "relative",
             height: "200px",
-            width: "300px",
+            width: "150px",
             // border: "1px solid blue",
           }}
         >
-          {/* <Box>
+          <Box>
             <svg
               width="40"
               height="30"
@@ -64,19 +57,19 @@ function SearchAnimation({ usersToSearch }: { usersToSearch: GameUser[] }) {
             >
               <polygon points="20,25 5,5 35,5" fill="red" />
             </svg>
-          </Box> */}
+          </Box>
           <Box
             sx={{
               width: "100%",
               display: "flex",
               alignItems: "center",
-              animation: "slideLeftPx 10s linear infinite",
+              animation:
+                "slideToDetected 7s cubic-bezier(0.1, 0.8, 0.3, 1) forwards",
+              animationFillMode: "forwards",
             }}
-            onAnimationEnd={() => {
-              console.log("animation ended");
-            }}
+            onAnimationEnd={onAnimationEnd}
           >
-            {usersToDisplay?.map((user, i) => (
+            {usersToDisplay.map((user, i) => (
               <SearchAnimationUserCard
                 key={i}
                 user={user}
@@ -84,7 +77,7 @@ function SearchAnimation({ usersToSearch }: { usersToSearch: GameUser[] }) {
               />
             ))}
           </Box>
-          {/* <Box
+          <Box
             sx={{
               transform: "rotate(180deg)",
             }}
@@ -97,7 +90,7 @@ function SearchAnimation({ usersToSearch }: { usersToSearch: GameUser[] }) {
             >
               <polygon points="20,25 5,5 35,5" fill="red" />
             </svg>
-          </Box> */}
+          </Box>
         </Box>
       </Box>
     </Box>
